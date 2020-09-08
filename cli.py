@@ -26,12 +26,25 @@ class CLI:
             { "name": "Display Status",
               "key_bind": "s",
               "action": self.display_status
+              },
+            { "name": "Start Camera",
+              "key_bind": "c",
+              "action": self.toggle_camera
               }
         ]
         self.command_list = []
         for each_command in self.commands:
             self.command_list.append(each_command["key_bind"])
         self.zombie_mode = "active"
+        self.camera = "off"
+
+    def toggle_camera(self):
+        if self.camera == "off":
+            print("  Starting camera ...")
+            self.camera = "on"
+        else:
+            print("  Stopping camera ...")
+            self.camera = "off"
 
     def autonomous_zombie_mode(self):
         self.zombie_mode = "autonomous"
@@ -43,6 +56,7 @@ class CLI:
         print("--------------------------------------------------------------")
         print("- Porch Zombie:") 
         print("  -- Current Zombie Mode: {0}".format(self.zombie_mode))
+        print("  --              Camera: {0}".format(self.camera))
         print("                                              ? - for options ")
         print("--------------------------------------------------------------")
 
