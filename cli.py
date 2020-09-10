@@ -69,6 +69,9 @@ class CLI:
             print("   ({0}) - {1}".format(each_command['key_bind'], each_command["name"]))
 
     def validate_command(self, cmd):
+        if cmd == "":
+            cmd = "?"
+        cmd = cmd.lower()
         if cmd in self.command_list:
             for each_command in self.commands:
                 if cmd == each_command["key_bind"]:
