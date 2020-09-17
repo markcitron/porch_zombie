@@ -9,3 +9,5 @@ This year is the year of the Porch Zombie, a Raspberry Pi controlled automaton. 
 ## Required packages
 - adafruit - `pip3 install adafruit-circuitpython-servokit`, 
 - OpenCv2 (version - whatever you'd like)
+- imutils
+- RPi.GPIO
