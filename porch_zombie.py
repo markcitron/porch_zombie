@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-# import servo_controls
 from cli import CLI
 
 def main():

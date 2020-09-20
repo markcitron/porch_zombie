@@ -25,42 +25,43 @@ class Motor():
                 break
             elif inc < 0 and pos <= new_val:
                 break
-            time.sleep(0.01)
+            time.sleep(0.03)
 
         self.current_val = new_val
 
     def get_pos(self):
         return self.current_val
 
-def main():
-    # setup
-    # Head
-    # s14 = Motor(14, kit, 50)
-    # s15 = Motor(15, kit, 110)
-    # arm
-    # s0 = Motor(0, kit, 90) # Shoulder  
-    s1 = Motor(1, kit, 0) # arm
-    kit.servo[1].angle = 60
-    time.sleep(1)
-    kit.servo[1].angle = 0
+# initialize servos
+# Head
+s14 = Motor(14, kit, 50)
+s15 = Motor(15, kit, 110)
 
-    # test
-    # s14.move_to(10)
-    # s14.move_to(140)
-    # s14.move_to(50)
+# arm
+s0 = Motor(0, kit, 10) # arm 
+s2 = Motor(2, kit, 135) # Shoulder  
 
-    # s15.move_to(30)
-    # s15.move_to(180)
-    # s15.move_to(110)
+def test_upper_arm():
+    s0.move_to(170)
+    s0.move_to(10)
 
-    s1.move_to(0)
-    s1.move_to(180)
-    s1.move_to(0)
+def test_shoulder():
+    s2.move_to(45)
+    s2.move_to(175)
+    s2.move_to(135)
 
-    # s0.move_to(10)
-    # s0.move_to(170)
-    # s0.move_to(90)
+def test_arm():
+    # set threads
+    t1 = threading.Thread(target=test_upper_arm)
+    t2 = threading.Thread(target=test_shoulder)
+    
+    # start threads
+    t1.start()
+    t2.start()
 
+    # join threads
+    t1.join()
+    t2.join()
 
 if __name__ == "__main__":
     main()

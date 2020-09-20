@@ -1,33 +1,12 @@
 #!/usr/bin/python3
 
 import sys
+from servo_controls import *
 
 class CLI:
     def __init__(self, name):
         self.name = name
         self.prompt = "{}-> ".format(self.name)
-        self.servos = [ 
-            {  "name": "rt_upperarm", 
-               "id": "s1", 
-               "min": 0, 
-               "max": 180, 
-               "offset": 0 }, 
-            {  "name": "rt_elbow",
-                "id": "s2",
-                "min": 0,
-                "max": 180,
-                "offset": 0 }, 
-            {  "name": "head_pan",
-                "id": "s3",
-                "min": 0,
-                "max": 180,
-                "offset": 0 }, 
-            {  "name": "head_tile",
-                "id": "s4",
-                "min": 0,
-                "max": 180,
-                "offset": 0 }
-        ]
         self.commands = [
             { "name": "quit",
               "key_bind": "q",
@@ -53,9 +32,9 @@ class CLI:
               "key_bind": "c",
               "action": self.toggle_camera
               },
-            { "name": "Set servo values",
-              "key_bind": "v",
-              "action": self.set_offset
+            { "name": "Test Arm",
+              "key_bind": "t1",
+              "action": test_arm
               }
         ]
         self.command_list = []
@@ -63,24 +42,6 @@ class CLI:
             self.command_list.append(each_command["key_bind"])
         self.zombie_mode = "active"
         self.camera = "off"
-
-    def set_offset(self):
-        servo_list = []
-        for each_servo in self.servos:
-            servo_list.append(each_servo["id"])
-        new_values = {}
-        fields = ["name","min","max","offset"]
-        while True:
-            servo_to_set = input("    |- Servo to set? ") 
-            if servo_to_set in servo_list: 
-                new_values["id"] = servo_to_set 
-                for each_field in fields: 
-                    new_values[each_field] = input("    |- ({0}) {1} ? ".format(servo_to_set, each_field)) 
-            else: 
-                print("    |- servo ids: {0}".format(str(servo_list)))
-            if len(new_values) > 1:
-                break
-        print("new values for {0}: {1}".format(servo_to_set, new_values))
 
     def toggle_camera(self):
         if self.camera == "off":
@@ -101,10 +62,6 @@ class CLI:
         print("- Porch Zombie:") 
         print("  -- Current Zombie Mode: {0}".format(self.zombie_mode))
         print("  -- Camera: {0}".format(self.camera))
-        print("  -- Servos:")
-        # add in servo information
-        for each_servo in self.servos:
-            print("    | ({0}) {1} - min: {2}, max: {3}, offset: {4}".format(each_servo["id"], each_servo["name"], each_servo["min"], each_servo["max"], each_servo["offset"]))
         print("")
         print("                                              ? - for options ")
         print("--------------------------------------------------------------")
@@ -115,7 +72,11 @@ class CLI:
 
     def show_commands(self):
         for each_command in self.commands:
-            print("   ({0}) - {1}".format(each_command['key_bind'], each_command["name"]))
+            padding = ""
+            if len(each_command['key_bind']) == 1:
+                    padding = " "
+            print("   {0}({1}) - {2}".format(padding, each_command['key_bind'], each_command["name"]))
+
 
     def validate_command(self, cmd):
         if cmd == "":
