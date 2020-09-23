@@ -35,6 +35,10 @@ class CLI:
             { "name": "Test Arm",
               "key_bind": "t1",
               "action": test_arm
+              },
+            { "name": "Test Head",
+              "key_bind": "t2",
+              "action": test_head
               }
         ]
         self.command_list = []

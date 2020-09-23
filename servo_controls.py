@@ -63,5 +63,23 @@ def test_arm():
     t1.join()
     t2.join()
 
-if __name__ == "__main__":
-    main()
+def head_side_to_side():
+    s14.move_to(10)
+    s14.move_to(170)
+    s14.move_to(90)
+
+def head_up_and_down():
+    s15.move_to(10)
+    s15.move_to(170)
+    s15.move_to(90)
+
+def test_head():
+    # Set threads
+    t1 = threading.Thread(target=head_side_to_side)
+    t2 = threading.Thread(target=head_up_and_down)
+    # start threads
+    t1.start()
+    t2.start()
+    # joing threads
+    t1.join()
+    t2.join()
