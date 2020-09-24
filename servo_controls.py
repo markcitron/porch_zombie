@@ -34,8 +34,8 @@ class Motor():
 
 # initialize servos
 # Head
-s14 = Motor(14, kit, 50)
-s15 = Motor(15, kit, 110)
+s14 = Motor(14, kit, 115)
+s15 = Motor(15, kit, 40)
 
 # arm
 s0 = Motor(0, kit, 10) # arm 
@@ -64,14 +64,14 @@ def test_arm():
     t2.join()
 
 def head_side_to_side():
-    s14.move_to(10)
-    s14.move_to(170)
-    s14.move_to(90)
+    s14.move_to(20)
+    s14.move_to(180)
+    s14.move_to(115)
 
 def head_up_and_down():
-    s15.move_to(10)
-    s15.move_to(170)
-    s15.move_to(90)
+    s15.move_to(0)
+    s15.move_to(120)
+    s15.move_to(40)
 
 def test_head():
     # Set threads

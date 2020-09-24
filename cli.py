@@ -36,8 +36,16 @@ class CLI:
               "key_bind": "t1",
               "action": test_arm
               },
-            { "name": "Test Head",
+            { "name": "Head - side to side",
               "key_bind": "t2",
+              "action": head_side_to_side 
+              },
+            { "name": "Head - up and down",
+              "key_bind": "t3",
+              "action": head_up_and_down
+              },
+            { "name": "Test Head",
+              "key_bind": "t4",
               "action": test_head
               }
         ]
