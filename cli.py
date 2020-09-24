@@ -18,11 +18,7 @@ class CLI:
               },
             { "name": "Autonomous Zombine Mode",
               "key_bind": "a",
-              "action": self.autonomous_zombie_mode
-              },
-            { "name": "Interactive Zombine Mode",
-              "key_bind": "i",
-              "action": self.interactive_zombie_mode
+              "action": go_go_zombie
               },
             { "name": "Display Status",
               "key_bind": "s",
@@ -47,6 +43,14 @@ class CLI:
             { "name": "Test Head",
               "key_bind": "t4",
               "action": test_head
+              },
+            { "name": "Look right and point",
+              "key_bind": "z1",
+              "action": lrap 
+              },
+            { "name": "Back from LRAP",
+              "key_bind": "z2",
+              "action": blrap 
               }
         ]
         self.command_list = []
@@ -63,17 +67,14 @@ class CLI:
             print("  Stopping camera ...")
             self.camera = "off"
 
-    def autonomous_zombie_mode(self):
-        self.zombie_mode = "autonomous"
-
-    def interactive_zombie_mode(self):
-        self.zombie_mode = "interactive"
-    
     def display_status(self):
         print("--------------------------------------------------------------")
         print("- Porch Zombie:") 
-        print("  -- Current Zombie Mode: {0}".format(self.zombie_mode))
         print("  -- Camera: {0}".format(self.camera))
+        print("")
+        print("                    o     o    O")
+        print("                   <|<   <|-  -O~")
+        print("                   /\     |\  /} ")
         print("")
         print("                                              ? - for options ")
         print("--------------------------------------------------------------")

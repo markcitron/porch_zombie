@@ -35,7 +35,7 @@ class Motor():
 # initialize servos
 # Head
 s14 = Motor(14, kit, 115)
-s15 = Motor(15, kit, 40)
+s15 = Motor(15, kit, 0) # 40 is straight forward
 
 # arm
 s0 = Motor(0, kit, 10) # arm 
@@ -70,8 +70,42 @@ def head_side_to_side():
 
 def head_up_and_down():
     s15.move_to(0)
-    s15.move_to(120)
-    s15.move_to(40)
+    s15.move_to(90)
+    s15.move_to(0)
+
+def lrap():
+    """ Look right and point """
+    t1 = threading.Thread(target=s15.move_to, args=(40,)) 
+    t2 = threading.Thread(target=s14.move_to, args=(20,))
+    t3 = threading.Thread(target=s0.move_to, args=(70,))
+    t4 = threading.Thread(target=s2.move_to, args=(100,))
+
+    t1.start()
+    t2.start()
+    t3.start()
+    t4.start()
+
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
+
+def blrap():
+    """ Back from look right and point """
+    t1 = threading.Thread(target=s15.move_to, args=(0,))  
+    t2 = threading.Thread(target=s14.move_to, args=(115,))
+    t3 = threading.Thread(target=s0.move_to, args=(10,))
+    t4 = threading.Thread(target=s2.move_to, args=(135,))
+
+    t1.start()
+    t2.start()
+    t3.start()
+    t4.start()
+
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
 
 def test_head():
     # Set threads
@@ -83,3 +117,6 @@ def test_head():
     # joing threads
     t1.join()
     t2.join()
+
+def go_go_zombie():
+    pass
