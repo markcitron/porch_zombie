@@ -75,7 +75,7 @@ def head_up_and_down():
 
 def lrap():
     """ Look right and point """
-    t1 = threading.Thread(target=s15.move_to, args=(40,)) 
+    t1 = threading.Thread(target=s15.move_to, args=(60,)) 
     t2 = threading.Thread(target=s14.move_to, args=(20,))
     t3 = threading.Thread(target=s0.move_to, args=(70,))
     t4 = threading.Thread(target=s2.move_to, args=(100,))
