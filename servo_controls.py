@@ -29,6 +29,35 @@ class Motor():
 
         self.current_val = new_val
 
+    def acc_move_to(self, new_val):
+        multiplyer = 1
+        inc = 1
+        if self.current_val > new_val:
+            inc = -1
+        pos = self.current_val
+        while True:
+            kit.servo[self.s_id].angle = pos
+            pos += multiplier*inc
+
+            # break conditions
+            if inc > 0 and pos >= new_val:
+                break
+            elif inc < 0 and pos <= new_val:
+                break
+
+            # set multipyer
+            if inc > 0:
+                if pos - new_val < 20:
+                    multiplyer = 2
+            else:
+                if new_val - pos < 20:
+                    multiplyer = 2
+
+            # rest and go
+            time.sleep(0.03)
+
+        self.current_val = new_val
+
     def get_pos(self):
         return self.current_val
 
@@ -128,10 +157,10 @@ def no_dont_think_so():
     time.sleep(1)
 
     # no, no
-    s14.move_to(115) # right -> left
-    s14.move_to(35) # left -> right
-    s14.move_to(115) # right -> left
-    s14.move_to(35) # left -> right
+    s14.acc_move_to(115) # right -> left
+    s14.acc_move_to(35) # left -> right
+    s14.acc_move_to(115) # right -> left
+    s14.acc_move_to(35) # left -> right
 
     # and back again
     t3 = threading.Thread(target=s15.move_to, args=(0,)) 
