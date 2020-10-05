@@ -107,6 +107,41 @@ def blrap():
     t3.join()
     t4.join()
 
+def no_dont_think_so():
+    """ moving head up, look right and then side to side 
+         |---------------------------------|
+         |  Servo |   Which   |  position  |
+         |---------------------------------|
+         |   s15  |    up     |     60     |
+         |   s15  |   down*   |     0      |
+         |   s14  |  rt side  |     35     |
+         |   s14  |  lt side* |     115    |
+         |---------------------------------|
+                           * Final position """ 
+    # head up and right
+    t1 = threading.Thread(target=s15.move_to, args=(60,)) 
+    t2 = threading.Thread(target=s14.move_to, args=(35,))
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
+    time.sleep(1)
+
+    # no, no
+    s14.move_to(115) # right -> left
+    s14.move_to(35) # left -> right
+    s14.move_to(115) # right -> left
+    s14.move_to(35) # left -> right
+
+    # and back again
+    t3 = threading.Thread(target=s15.move_to, args=(0,)) 
+    t4 = threading.Thread(target=s14.move_to, args=(115,))
+    t3.start()
+    t4.start()
+    t3.join()
+    t4.join()
+
+
 def test_head():
     # Set threads
     t1 = threading.Thread(target=head_side_to_side)

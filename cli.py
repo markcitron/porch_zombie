@@ -48,8 +48,12 @@ class CLI:
               "key_bind": "z1",
               "action": lrap 
               },
-            { "name": "Back from LRAP",
+            { "name": "no dont think so",
               "key_bind": "z2",
+              "action": no_dont_think_so 
+              },
+            { "name": "Back from LRAP",
+              "key_bind": "z3",
               "action": blrap 
               }
         ]
