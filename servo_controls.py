@@ -30,7 +30,7 @@ class Motor():
         self.current_val = new_val
 
     def acc_move_to(self, new_val):
-        multiplyer = 1
+        multiplier = 1
         inc = 1
         if self.current_val > new_val:
             inc = -1
@@ -157,10 +157,10 @@ def no_dont_think_so():
     time.sleep(1)
 
     # no, no
-    s14.acc_move_to(115) # right -> left
-    s14.acc_move_to(35) # left -> right
-    s14.acc_move_to(115) # right -> left
-    s14.acc_move_to(35) # left -> right
+    s14.move_to(115) # right -> left
+    s14.move_to(35) # left -> right
+    s14.move_to(115) # right -> left
+    s14.move_to(35) # left -> right
 
     # and back again
     t3 = threading.Thread(target=s15.move_to, args=(0,)) 
