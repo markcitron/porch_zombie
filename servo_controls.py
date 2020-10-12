@@ -159,8 +159,8 @@ def no_dont_think_so():
     # no, no
     s14.move_to(115) # right -> left
     s14.move_to(35) # left -> right
-    s14.move_to(115) # right -> left
-    s14.move_to(35) # left -> right
+    # s14.move_to(115) # right -> left
+    # s14.move_to(35) # left -> right
 
     # and back again
     t3 = threading.Thread(target=s15.move_to, args=(0,)) 

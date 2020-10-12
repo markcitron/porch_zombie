@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from playsound import playsound
 import sys, time, random, threading
 from servo_controls import *
 from sh import tail
@@ -33,7 +34,7 @@ def zombie_auto_motion():
          at intervals 
         """
     check_interval = 10 # check every 10 seconds
-    motion_change = 10  # 10% change of triggering auto motion
+    motion_chance = 10  # 10% change of triggering auto motion
     motions = [no_dont_think_so]
     seconds = 0 
     while True:
@@ -55,14 +56,6 @@ def zombie_auto_motion():
 
 def main():
     motion_log = "/var/log/motion/motion.log"
-
-    """
-    t1 = threading.Thread(target=tail_motion_log, args=(motion_log,))
-    t2 = threading.Thread(target=zombie_auto_motion)
-
-    t1.start()
-    t2.start()
-    """
 
     Zombie_auto = Thread(zombie_auto_motion)
     zombie_reac = Thread(tail_motion_log, (motion_log,))

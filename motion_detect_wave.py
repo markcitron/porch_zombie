@@ -4,9 +4,9 @@ import sys, time
 from servo_controls import *
 
 def main():
-    lrap() 
+    # lrap() 
     time.sleep(5) 
-    blrap()
+    # blrap()
 
 if __name__ == "__main__":
     main()
