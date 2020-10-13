@@ -35,21 +35,22 @@ def zombie_auto_motion():
         """
     check_interval = 10 # check every 10 seconds
     motion_chance = 10  # 10% change of triggering auto motion
-    motions = [no_dont_think_so]
+    motions = [ no_dont_think_so, 
+                motion_motion ]
     seconds = 0 
     while True:
         if seconds == check_interval:
             if random.random()*100 < motion_chance:
                 with threading.Lock():
                     zombin_in_motion = True
-                    # selected_motion = random.randint(0, len(motions)) 
+                    selected_motion = random.randint(0, len(motions)) 
                     try: 
-                        # motion[selected_motion]() 
-                        no_dont_think_so()
+                        motions[selected_motion]() 
+                        # no_dont_think_so()
                     except Exception as e: 
                         print("Error: Unable to do random motion") 
                         print("Exception: {0}".format(e))
-                    zombin_in_motion = False 
+            seconds = 0
         else: 
             seconds += 1
         time.sleep(1)

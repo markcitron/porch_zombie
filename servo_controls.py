@@ -119,6 +119,12 @@ def lrap():
     t3.join()
     t4.join()
 
+def motion_motion():
+    lrap()
+    time.sleep(5)
+    blrap()
+
+
 def blrap():
     """ Back from look right and point """
     t1 = threading.Thread(target=s15.move_to, args=(0,))  
