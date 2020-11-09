@@ -120,9 +120,11 @@ def lrap():
     t4.join()
 
 def motion_motion():
+    print("running motion_motion")
     lrap()
     time.sleep(5)
     blrap()
+    return True
 
 
 def blrap():
@@ -143,6 +145,7 @@ def blrap():
     t4.join()
 
 def no_dont_think_so():
+    print("running no_dont_think_so")
     """ moving head up, look right and then side to side 
          |---------------------------------|
          |  Servo |   Which   |  position  |
@@ -175,6 +178,8 @@ def no_dont_think_so():
     t4.start()
     t3.join()
     t4.join()
+
+    return True
 
 
 def test_head():
