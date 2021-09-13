@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>Porch Zombie Relay Controller</title>
+		<script type="text/javascript">
+                    function set_status(divname, value) {
+	                var container = document.getElementById(divName);
+			container.innerHTML = value;
+                    }
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td colspan = "2">
+					<h1>Porch Zombie - web based controls</h1>
+				</td>
+			<tr>
+			<tr>
+				<td>Linear Actuator One:</td>
+				<td>
+					<a href="/extend_one/" onClick="set_status('lin1_status','... extending')">Extend</a>&nbsp;
+					<a href="/contract_one/" onClick="set_status('lin1_status', '...contracting')">Contract</a><br>
+					<div id="lin1_status" style="color:red">&nbsp;</div>
+				</td>
+			</tr>
+			<tr>
+				<td>Strobe:</td>
+				<td>
+					<a href="/trigger_strobe/" onclick="set_status('strobe_status', '...triggered')">Trigger</a><br>
+					<div id="strobe_status" style="color:red"></div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
