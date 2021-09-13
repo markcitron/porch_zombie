@@ -9,8 +9,3 @@ Files:
 - templates directory - for the html templates Flash uses
 
 
-
-
-``` sequence
-Alice->Bob: Hello Bob, how are you?
-```
