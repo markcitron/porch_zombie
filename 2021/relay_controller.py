@@ -6,6 +6,7 @@ import time
 
 # set up linear actuator relays
 relay1 = LinArct("LinearActuatorOne", 26)
+relay2 = LinArct("LinearActuatorTwo", 21)
 strobe = LinArct("Strobe", 20)
 
 app = Flask(__name__)
@@ -22,6 +23,16 @@ def extend_one():
 @app.route('/contract_one/')
 def contract_one():
     relay1.contract()
+    return render_template('index.html')
+
+@app.route('/extend_two/')
+def extend_two():
+    relay2.extend()
+    return render_template('index.html')
+
+@app.route('/contract_two/')
+def contract_two():
+    relay2.contract()
     return render_template('index.html')
 
 @app.route('/trigger_strobe/')
