@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Haunted Porch 2021</title>
+    </head>
+    <body>
+        <table width="100%" border="0">
+            <tr>
+                <td colspan="3"> 
+                    <h1>Haunted Porch 2021</h1>
+                </td>
+            </tr>
+            <tr>
+                <td>Actuator Controller</td>
+                <td>
+                    <a href="http://10.10.0.3:5000/trigger_strobe/" target="fake_target">Trigger Strobe</a>
+                </td>
+                <td>
+                    <h2>Current Zombie Eye</h2>
+                    <iframe src="http://10.10.0.18:8081" width=640 height=480></iframe>
+                </td>
+            </tr>
+        </table>
+        <div style="visibility:hide"><iframe name="fake_target" hidden="hidden" src="http://10.10.0.18:5000/empty_page.html"></iframe></div>
+    </body>
+</html>
