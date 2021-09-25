@@ -18,7 +18,7 @@ class LinArct():
         GPIO.output(self.pin_id, GPIO.LOW)
 
         
-def cleanup():
+def gpio_cleanup():
     GPIO.cleanup()
     return True
 
