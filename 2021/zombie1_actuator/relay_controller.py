@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template
 from relays import *
+from zombie_motions import *
 import time
 
 # set up linear actuator relays
@@ -13,6 +14,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
+    return render_template('index.html')
+
+@app.route('/wake/')
+def rise_up():
+    zombie_awake(relay1, relay2);
+    return render_template('index.html')
+
+@app.route('/sleep/')
+def take_a_nap():
+    zombie_sleep(relay1, relay2);
     return render_template('index.html')
 
 @app.route('/extend_one/')
