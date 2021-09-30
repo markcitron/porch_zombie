@@ -3,7 +3,7 @@
 import tailer, os, time
 
 def wrapped_get(url):
-    cmd = "wget {0} | /dev/null".format(url)
+    cmd = "wget -qO {0} &> /dev/null".format(url)
     try: 
         os.system(cmd) 
         return True
