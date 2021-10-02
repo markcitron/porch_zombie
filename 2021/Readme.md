@@ -1,4 +1,5 @@
 # Porch Zombie 2021
+![Zombie image](./zombie.jpg)
 For this years Porch Zombie, I am thinking more of a **Haunted Porch** concept.  To do this, I am planning on having multiple moving ghoulies, controlled by multiple Raspberry Pis.  
 
 ## Relay Controlled Actuators
