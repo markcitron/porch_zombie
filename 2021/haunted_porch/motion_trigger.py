@@ -17,6 +17,8 @@ def main():
     motion_log = "/var/log/motion/motion.log"
     start_trigger = "Motion detected - starting event"
     end_trigger = "End of event"
+    call_status = True
+    call_message = ""
     for line in tailer.follow(open(motion_log)):
         if start_trigger in line:
             print("Motion detected.")
