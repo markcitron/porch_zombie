@@ -17,15 +17,15 @@ import time
             back, 1 seconds
 """
 
-def zombie_awake(relay1, relay2): 
+def zombie_awake(relay1, relay2, strobe): 
     relay1.contract() 
     time.sleep(5)
     relay2.contract()
     time.sleep(10)
-    strobe.contract()
     relay1.extend()
     time.sleep(1)
     relay1.contract()
+    strobe.contract()
     time.sleep(1)
     relay1.extend()
     time.sleep(2)
@@ -34,9 +34,9 @@ def zombie_awake(relay1, relay2):
     relay1.extend()
     time.sleep(1)
     relay1.contract()
+    strobe.contract()
     time.sleep(1)
     relay1.extend()
-    strobe.contract()
     time.sleep(4)
     relay1.contract()
     time.sleep(2)

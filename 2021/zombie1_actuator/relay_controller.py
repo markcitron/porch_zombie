@@ -18,7 +18,7 @@ def hello_world():
 
 @app.route('/wake/')
 def rise_up():
-    zombie_awake(relay1, relay2);
+    zombie_awake(relay1, relay2, strobe);
     return render_template('index.html')
 
 @app.route('/sleep/')
