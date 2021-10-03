@@ -23,7 +23,7 @@ def rise_up():
 
 @app.route('/sleep/')
 def take_a_nap():
-    zombie_sleep(relay1, relay2);
+    zombie_sleep(relay1, relay2, strobe);
     return render_template('index.html')
 
 @app.route('/extend_one/')

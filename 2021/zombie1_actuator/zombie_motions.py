@@ -48,7 +48,8 @@ def zombie_awake(relay1, relay2, strobe):
     time.sleep(2)
     relay1.contract()
 
-def zombie_sleep(relay1, relay2): 
+def zombie_sleep(relay1, relay2, strobe): 
     relay2.extend()
     time.sleep(6)
+    strobe.contract()
     relay1.extend()
