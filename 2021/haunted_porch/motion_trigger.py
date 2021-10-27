@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import tailer, os, time
+import tailer, os, time, threading
 
 def wrapped_wget(url):
     """ wgets passed url
@@ -9,9 +9,8 @@ def wrapped_wget(url):
     cmd = "wget -O/dev/null -q {0}".format(url)
     try: 
         os.system(cmd) 
-        return(True, "Everything is good")
     except Exception as e:
-        return(False, e)
+        print("Encountered error: {}".format(e))
 
 def main():
     motion_log = "/var/log/motion/motion.log"
@@ -23,15 +22,20 @@ def main():
         if start_trigger in line:
             print("Motion detected.")
             # Wake up Zombie1
-            call_status, call_message = wrapped_wget("http://10.10.0.3:5000/wake/")
+            zombie_thread1 = threading.Thread(target=wrapped_wget, args=("http://10.10.0.3:5000/wake/",))
+            # Move Spider back and forth
+            # Start moving hands movers
+            zombie_thread1.start()
+            zombie_thread1.join()
+
             time.sleep(30)
         if end_trigger in line:
             print("No more motion.")
             # Go to sleep Zombie1
-            call_status, call_message = wrapped_wget("http://10.10.0.3:5000/sleep/")
-            time.sleep(30)
-        if not call_status:
-            print("Encountered error: ".format(call_message))
+            zombie_thread1 = threading.Thread(target=wrapped_wget, args=("http://10.10.0.3:5000/sleep/",))
+            zombie_thread1.start()
+            zombie_thread1.join()
+            time.sleep(60)
 
 if __name__ == "__main__":
     main()
