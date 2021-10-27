@@ -18,14 +18,13 @@ try:
 	# '1/16step': A cycle = 200 * 16 steps
 	# '1/32step': A cycle = 200 * 32 steps
 	"""
+        how_far = 240000
+        step_delay = 0.00001
 	Motor1.SetMicroStep('softward','fullstep')
-	Motor1.TurnStep(Dir='backward', steps=20000, stepdelay = 0.00001)
-        """
-	time.sleep(0.5)
-	Motor1.TurnStep(Dir='backward', steps=20000, stepdelay = 0.00001)
-	time.sleep(0.5)
-	Motor1.TurnStep(Dir='forward', steps=10000, stepdelay = 0.00001)
-        """
+        # forward
+	Motor1.TurnStep(Dir='forward', steps=how_far, stepdelay = step_delay)
+        # backward
+	Motor1.TurnStep(Dir='backward', steps=how_far, stepdelay = step_delay)
 
 	Motor1.Stop()
     
