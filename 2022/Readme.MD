@@ -1,6 +1,7 @@
-# Porch Zombi 2022
+# Porch Zombie 2022
 Halloween is coming :-)
 ## Theme
+Taking a slight focus twist this year.  Will be mixing homegrown with triggers to store bought to make things fuller.  
 ## Spirit Helpers
 - Controller - RPi with camera to do motion detection and control of the other spirit helpers.
 - Flexing wooden wall: using the linear actuators to make wall look like it is breathing. Something like the flexing walls in the Haunted Mansion at Disneyland.  It is one of the three best rides there so copying is far game. Can control with a single actualtor and have it look like a ghoul/zombie is trying to come through the break in thge door.
