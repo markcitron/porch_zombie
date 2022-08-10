@@ -10,6 +10,10 @@ This year is the year of the Porch Zombie, a Raspberry Pi controlled automaton. 
 - Camera with OpenCv2  for motion detection, etc.  Could use simple sensor, but I have been working on something that uses histogram deltas to determine motion and think that it might be more fun here.
 - Wooden automaton skeleton (by me) and a custom set of painted freeky masks from my artisic 15 year old son.  This should rock and, even if it doesn't work, will be fun :-)
 
+## Yearly efforts
+- [Servo based zombie - 2020](./2020)
+- [Actuators and Steppers - 2021](./2021)
+- [Work in progress - 2022](./2022)
 
 ## Required packages
 - adafruit - `pip3 install adafruit-circuitpython-servokit`, 
