@@ -9,4 +9,4 @@ Taking a slight focus twist this year.  Will be mixing homegrown with triggers t
 - Moving ghoul/zombie/skeleton along a garage door track.  Spirit on a hanging piece of painted plywood with a strobe angling downward on the travelling arm.
 - Maybe a throwback bench zombie with a disapproving head shake?
 - Maybe a wandering spider?
-![Happy Halloween](./images/zombie.jpg =200x)
+![Happy Halloween](./images/zombie.jpg) { height=200px }
