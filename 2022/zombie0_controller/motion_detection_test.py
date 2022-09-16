@@ -18,7 +18,7 @@ while True:
     Threshold_frame=cv2.dilate(Threshold_frame,None,iterations=2)
     (cntr,_)=cv2.findContours(Threshold_frame.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     for contour in cntr:
-        if cv2.contourArea(contour)<1000:
+        if cv2.contourArea(contour)>900:
             continue
         (x,y,w,h)=cv2.boundingRect(contour)
         cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),3)
