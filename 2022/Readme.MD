@@ -8,5 +8,6 @@ Taking a slight focus twist this year.  Will be mixing homegrown with triggers t
 - Ghoul/zombie/skeleton to swing out over the left side fo the porch via a single actuator swinging in a horizontal arc
 - Moving ghoul/zombie/skeleton along a garage door track.  Spirit on a hanging piece of painted plywood with a strobe angling downward on the travelling arm.
 - Maybe a throwback bench zombie with a disapproving head shake?
+-- Running with this one, though with a scarecrow and a cool animatronics pumpkin head ... no, that isn't cheating, I have only so much time :-)
 - Maybe a wandering spider?
 <img src="./images/zombie.jpg" height=200 align="center"/>
