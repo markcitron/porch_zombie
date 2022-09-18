@@ -5,7 +5,7 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
-class LinArct():
+class LinAct():
     def __init__ (self, name, pin_id):
         self.name = name
         self.pin_id = pin_id
