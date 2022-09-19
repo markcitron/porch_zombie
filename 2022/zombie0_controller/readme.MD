@@ -10,4 +10,4 @@ This pi runs the camera trigger(s) as well as calls the other zombies.  All of t
 ## Scripts
 - main.py - starts up the main flask application
 - motion_trigger.py - script that runs **OpenCV** and calls the other zombies to bring the haunted porch to life
-- zombie.py - takes argument [start|stop] and either starts or stops both the **main.py** and **motion_trigger.py** scripts.  They are launched via **screen** as background tasks.
+- haunted_porch.py - takes argument [start|stop] and either starts or stops both the **main.py** and **motion_trigger.py** scripts.  They are launched via **screen** as background tasks.
