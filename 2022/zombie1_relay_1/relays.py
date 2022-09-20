@@ -1,23 +1,18 @@
 #!/usr/bin/python3
 
-import RPi.GPIO as GPIO
 import time
-
-GPIO.setmode(GPIO.BCM)
+import lib8relind
 
 class LinAct():
-    def __init__ (self, name, pin_id):
+    def __init__ (self, name, relay_id):
         self.name = name
-        self.pin_id = pin_id
-        GPIO.setup(pin_id, GPIO.OUT)
+        self.relay_id = relay_id;
 
     def contract(self):
-        GPIO.output(self.pin_id, GPIO.HIGH)
+        lib8relind.set(0, self.relay_id, 0)
+        return True
 
     def extend(self):
-        GPIO.output(self.pin_id, GPIO.LOW)
-
+        lib8relind.set(0, self.relay_id, 1)
+        return True
         
-def gpio_cleanup():
-    GPIO.cleanup()
-    return True
