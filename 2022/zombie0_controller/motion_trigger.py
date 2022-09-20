@@ -72,7 +72,7 @@ def main():
                 # stopping motion
                 stop_motion_addy = "http://{}:5000/contract_one/".format(get_relay_one_ip())
                 stop_motion_addy = "http://10.10.0.14:5000/contract_one/"
-                x = requests.get("http://10.10.0.14/contract_one/")
+                x = requests.get("http://10.10.0.14:5000/contract_one/")
                 print("Stopping motion: {0}".format(current_timestamp))
 
 if __name__ == "__main__":
