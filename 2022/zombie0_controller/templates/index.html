@@ -4,19 +4,23 @@
 		<script text="text/javascript">
 		</script>
 	</head>
-	<body>
-        <h2>Welcome to the Haunted Porch 2022 :-)</h2>
-        <table border="0" cellpadding="0" cellspacing="0" style="width:100%"> 
+    <body background="{{ url_for('static', filename='halloween_background.png') }} ">
+        <table style="height:100%;width:100%"><tr><td width="100%" height="100%" align="center" valign="center">
+        <table border="0" cellpadding="3" cellspacing="0" bgcolor="#d3d4d5"> 
             <tr>
-                <td colspan="2">&nbsp;&nbsp;Motion Trigger Script</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&nbsp;</td>
-                <td valign="top">
-                    <iframe id="motion_status" src="/motion_status/" frameborder="no" border="0"></frame>
+                <td>
+                    <h2>Welcome to the Haunted Porch 2022 :-)</h2> 
+                    <b>Motion Trigger Script:</b><br>
+                    <table>
+                        <tr>
+                            <td>&nbsp;&nbsp;</td>
+                            <td><iframe id="motion_status" src="/motion_status/" frameborder="no" border="0"></frame></td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
+        </td></tr></table>
 	</body>
 </html>
 
