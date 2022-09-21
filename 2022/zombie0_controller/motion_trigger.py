@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from datetime import timedelta
-import requests
+import requests, time
 import configparser
 
 # import the opencv module
@@ -15,6 +15,16 @@ def get_relay_one_ip():
     config = configparser.ConfigParser() 
     config.read("../hp.cnf")
     return(config['zombie1_relay_one']['ip'])
+
+def trigger_pumpkin(): 
+    try: 
+        x = requests.get("http://10.10.0.14:5000/extend_two/") 
+        time.sleep(.5) 
+        x = requests.get("http://10.10.0.14:5000/contract_two/") 
+        return True
+    except:
+        return False
+
 
 def main(): 
     # detection vars
@@ -57,7 +67,7 @@ def main():
                 motiontrue_timestamp = current_timestamp
 
         # if not motion in specifiied interval toggle motion var
-        if current_timestamp > motiontrue_timestamp + timedelta(seconds=30):
+        if current_timestamp > motiontrue_timestamp + timedelta(seconds=180):
             movement = False
 
         # do something
@@ -66,16 +76,15 @@ def main():
                 # starting motion
                 start_motion_addy = "http://{}:5000/extend_one/".format(get_relay_one_ip())
                 start_mitoin_addy = "http://10.10.0.14:5000/extend_one/"
-                x = requests.get("http://10.10.0.14:5000/extend_one/")
+                # x = requests.get("http://10.10.0.14:5000/extend_one/")
+                trigger_pumpkin()
                 print("Starting motion: {0}".format(current_timestamp))
             else:
                 # stopping motion
                 stop_motion_addy = "http://{}:5000/contract_one/".format(get_relay_one_ip())
                 stop_motion_addy = "http://10.10.0.14:5000/contract_one/"
-                x = requests.get("http://10.10.0.14:5000/contract_one/")
+                # x = requests.get("http://10.10.0.14:5000/contract_one/")
                 print("Stopping motion: {0}".format(current_timestamp))
 
 if __name__ == "__main__":
     main()
-#!/usr/bin/python3
-

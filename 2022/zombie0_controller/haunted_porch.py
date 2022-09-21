@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import argparse
+import argparse, psutil, subprocess
 
 def make_parser():
     """ Create an argument parser """
@@ -21,6 +21,10 @@ def check_args(args):
 def start_script(script_name):
     try: 
         print("  | starting {0}".format(script_name))
+        current_path = "/home/pi/my_repos/porch_zombie/2022/zombie0_controller/"
+        command_to_run = "screen -dm {0}{1}".format(current_path, script_name)
+        print(command_to_run)
+        # subprocess.Popen(command_to_run, shell=False) 
         return True
     except:
         print("  | ERROR: unable to start {0}".format(script_name))
