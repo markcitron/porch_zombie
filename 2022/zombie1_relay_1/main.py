@@ -33,7 +33,7 @@ def get_latest_relay_status():
 @app.route('/')
 def relay_mainpage():
     get_latest_relay_status()
-    return render_template('index.html')
+    return render_template('index.html', current_status=relay_status)
 
 @app.route('/extend_one/')
 def extend_one():
@@ -76,6 +76,10 @@ def contract_three():
     relay3.contract()
     relay_status['relay_three'] = "0"
     return render_template("index.html", current_status=relay_status)
+
+@app.errorhandler(Exception)
+def basic_error(e):
+    return "an error occurred: " + str(e)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
