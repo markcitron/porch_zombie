@@ -9,11 +9,11 @@ import lib8relind
 relay1 = LinAct("Scarecrow_head_tilt", 1)
 relay2 = LinAct("Scarecrow_torso_twist", 2)
 relay3 = LinAct("Scarecrow_trigger_voice", 3)
-# relay4 = LinAct("", 4)
-# relay5 = LinAct("", 5)
-# relay6 = LinAct("", 6)
-# relay7 = LinAct("", 7)
-# relay8 = LinAct("", 8)
+relay4 = LinAct("", 4)
+relay5 = LinAct("", 5)
+relay6 = LinAct("", 6)
+relay7 = LinAct("", 7)
+relay8 = LinAct("", 8)
 
 app = Flask(__name__)
 
@@ -21,13 +21,23 @@ app = Flask(__name__)
 relay_status = {
         "relay_one": "0",
         "relay_two": "0",
-        "relay_three": "0"
+        "relay_three": "0",
+        "relay_four": "0",
+        "relay_five": "0",
+        "relay_six": "0",
+        "relay_seven": "0",
+        "relay_eight": "0"
         }
 
 def get_latest_relay_status():
     relay_status["relay_one"] = lib8relind.get(0, 1)
     relay_status["relay_two"] = lib8relind.get(0, 2)
     relay_status["relay_three"] = lib8relind.get(0, 3)
+    relay_status["relay_four"] = lib8relind.get(0, 4)
+    relay_status["relay_five"] = lib8relind.get(0, 5)
+    relay_status["relay_six"] = lib8relind.get(0, 6)
+    relay_status["relay_seven"] = lib8relind.get(0, 7)
+    relay_status["relay_eight"] = lib8relind.get(0, 8)
     return True
 
 @app.route('/')
@@ -75,6 +85,76 @@ def contract_three():
     get_latest_relay_status()
     relay3.contract()
     relay_status['relay_three'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/extend_four/')
+def extend_four():
+    get_latest_relay_status()
+    relay4.extend()
+    relay_status['relay_four'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_four/')
+def contract_four():
+    get_latest_relay_status()
+    relay4.contract()
+    relay_status['relay_four'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/extend_five/')
+def extend_five():
+    get_latest_relay_status()
+    relay5.extend()
+    relay_status['relay_five'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_five/')
+def contract_five():
+    get_latest_relay_status()
+    relay5.contract()
+    relay_status['relay_five'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/extend_six/')
+def extend_six():
+    get_latest_relay_status()
+    relay6.extend()
+    relay_status['relay_six'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_six/')
+def contract_six():
+    get_latest_relay_status()
+    relay6.contract()
+    relay_status['relay_six'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/extend_seven/')
+def extend_seven():
+    get_latest_relay_status()
+    relay7.extend()
+    relay_status['relay_seven'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_seven/')
+def contract_seven():
+    get_latest_relay_status()
+    relay7.contract()
+    relay_status['relay_seven'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/extend_eight/')
+def extend_eight():
+    get_latest_relay_status()
+    relay8.extend()
+    relay_status['relay_eight'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_eight/')
+def contract_eight():
+    get_latest_relay_status()
+    relay8.contract()
+    relay_status['relay_eight'] = "0"
     return render_template("index.html", current_status=relay_status)
 
 @app.errorhandler(Exception)
