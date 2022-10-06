@@ -1,5 +1,6 @@
 # Relay controller
 Using 8 challen relay controller instead of the 3 channel ones from last year.  
+uses: [8relind-rpi](https://github.com/SequentMicrosystems/8relind-rpi) from Github.com
 
 ## Wiring diagram
 **Includes:**

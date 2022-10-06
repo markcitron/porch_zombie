@@ -40,6 +40,11 @@ def get_latest_relay_status():
     relay_status["relay_eight"] = lib8relind.get(0, 8)
     return True
 
+def set_all_relay_statuses(value):
+    for each_relay in relay_status:
+        relay_status[each_relay] = value
+    return True
+
 @app.route('/')
 def relay_mainpage():
     get_latest_relay_status()
@@ -155,6 +160,20 @@ def contract_eight():
     get_latest_relay_status()
     relay8.contract()
     relay_status['relay_eight'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/turn_all_on/')
+def turn_all_relays_on():
+    get_latest_relay_status()
+    lib8relind.set_all(0,255)
+    set_all_relay_statuses("1")
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/turn_all_off/')
+def turn_all_relays_off():
+    get_latest_relay_status()
+    lib8relind.set_all(0,0)
+    set_all_relay_statuses("0")
     return render_template("index.html", current_status=relay_status)
 
 @app.errorhandler(Exception)
