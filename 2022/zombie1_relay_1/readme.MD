@@ -7,6 +7,6 @@ Using 8 challen relay controller instead of the 3 channel ones from last year.
 - 12 volt power supply
 - 12 -> 3 volt converter
 - Actuator switch controls
-<img src="./static/hp_2022_.png" width="600" alt="Schematic for the relay circuit"></img>
-<br></br>
-<img src="./static/pic_relay_setup.jpg" width="600" alt="Relay board in progress"></img>
+
+<div align="center"><img src="./static/hp_2022_.png" width="600" alt="Schematic for the relay circuit"></img></div>
+<div align="center"><img src="./static/pic_relay_setup.jpg" width="600" alt="Relay board in progress"></img></div>
