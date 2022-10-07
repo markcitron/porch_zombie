@@ -18,9 +18,9 @@ def get_relay_one_ip():
 
 def trigger_pumpkin(): 
     try: 
-        x = requests.get("http://10.10.0.14:5000/extend_two/") 
+        x = requests.get("http://10.10.0.14:5000/extend_one/") 
         time.sleep(.5) 
-        x = requests.get("http://10.10.0.14:5000/contract_two/") 
+        x = requests.get("http://10.10.0.14:5000/contract_one/") 
         return True
     except:
         return False
