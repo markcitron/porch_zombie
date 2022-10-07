@@ -11,10 +11,18 @@
 					<h2>Porch Zombie - relay 1 - web based controls</h2>
 				</td>
 			</tr>
+
+
+			<!-- Relay Controls -->
+			<tr>
+				<td bgcolor="darkgray" colspan="3">
+					Relay Controls
+				</td>
+			</tr>
 			<tr>
 				<td><b>Relay</b></td>
 				<td><b>Actions</b></td>
-				<td><b>current Status</b></td>
+				<td><b>Current Status</b></td>
 			</tr>
 			<tr>
 				<td>Relay One:</td>
@@ -94,6 +102,32 @@
 				</td>
 				<td>
 					{{ current_status['relay_eight'] }} 
+				</td>
+			</tr>
+			<tr><td colspan="3">&nbsp;</td></tr><!-- spacer -->
+
+			<!-- Automation - links to starting/stopping automated relay combinations -->
+			<tr>
+				<td colspan="3" bgcolor="darkgray">
+					Bring it to life!
+				</td>
+			</tr>
+			<tr>
+				<td>Automation One</td>
+				<td>
+					<a href="/automation_one_on/">Turn On</a>&nbsp;
+					<a href="/automation_one_off/">Turn off</a>
+				</td>
+				<td>
+					{{ current_status['automation_one'] }}
+				</td>
+			</tr>
+			<tr><td colspan="3">&nbsp;</td></tr><!-- spacer -->
+
+			<!-- Testing - links to tests -->
+			<tr>
+				<td colspan="3" bgcolor="darkgray">
+					Testing
 				</td>
 			</tr>
 			<tr>
