@@ -20,6 +20,10 @@ def motion_status():
             motion_pid = p.pid
     return render_template('motion_status.html', script_name=motion_script, script_id=motion_pid)
 
+@app.errorhandler(Exception)
+def basic_error(e):
+    return "An error occurred: " + str(e)
+
 def main():
     app.run(host='0.0.0.0')
 
