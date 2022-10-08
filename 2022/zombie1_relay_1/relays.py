@@ -9,10 +9,10 @@ class LinAct():
         self.relay_id = relay_id;
 
     def contract(self):
-        lib8relind.set(0, self.relay_id, 0)
+        lib8relind.set(0, self.relay_id, 1)
         return True
 
     def extend(self):
-        lib8relind.set(0, self.relay_id, 1)
+        lib8relind.set(0, self.relay_id, 0)
         return True
         
