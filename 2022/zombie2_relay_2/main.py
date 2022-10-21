@@ -6,8 +6,8 @@ import time
 
 # set up linear actuator relays
 relay1 = LinAct("LinearActuatorOne", 26)
-relay2 = LinAct("LinearActuatorTwo", 21)
-relay3 = LinAct("LinearActuatorThree", 20)
+relay2 = LinAct("LinearActuatorTwo", 20)
+relay3 = LinAct("LinearActuatorThree", 21)
 
 app = Flask(__name__)
 
