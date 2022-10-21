@@ -50,7 +50,7 @@ def extend_all():
     relay1.extend()
     relay2.extend()
     relay3.extend()
-    return render_tamplate('index.html')
+    return render_template('index.html')
 
 @app.route('/contract_all/')
 def contract_all():
