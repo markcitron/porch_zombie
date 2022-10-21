@@ -191,6 +191,26 @@ def contract_eight():
         relay_status['relay_eight'] = "0"
     return render_template("index.html", current_status=relay_status)
 
+@app.route('/extend_right_arm/')
+def extend_right_arm():
+    get_latest_relay_status()
+    if ok_for_direct_relay_control():
+        relay1.extend()
+        relay2.extend()
+        relay_status['relay_one'] = "1"
+        relay_status['relay_two'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/contract_right_arm/')
+def contract_right_arm():
+    get_latest_relay_status()
+    if ok_for_direct_relay_control():
+        relay1.contract()
+        relay2.contract()
+        relay_status['relay_one'] = "0"
+        relay_status['relay_two'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
 @app.route('/turn_all_on/')
 def turn_all_relays_on():
     get_latest_relay_status()
