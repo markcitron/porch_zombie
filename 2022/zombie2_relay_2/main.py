@@ -45,6 +45,20 @@ def contract_three():
     relay3.contract()
     return render_template('index.html')
 
+@app.route('/extend_all/')
+def extend_all():
+    relay1.extend()
+    relay2.extend()
+    relay3.extend()
+    return render_tamplate('index.html')
+
+@app.route('/contract_all/')
+def contract_all():
+    relay1.contract()
+    relay2.contract()
+    relay3.contract()
+    return render_template('index.html')
+
 @app.errorhandler(Exception)
 def basic_error(e):
     return "an error occurred: " + str(e)
