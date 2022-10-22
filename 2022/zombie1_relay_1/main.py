@@ -6,14 +6,14 @@ import time
 import lib8relind
 
 # set up linear actuator relays
-relay1 = LinAct("Scarecrow_head_tilt", 1)
-relay2 = LinAct("Scarecrow_torso_twist", 2)
-relay3 = LinAct("Scarecrow_trigger_voice", 3)
-relay4 = LinAct("", 4)
-relay5 = LinAct("", 5)
+relay1 = LinAct("sc outside arm", 1)
+relay2 = LinAct("sc inside arm", 2)
+relay3 = LinAct("Electrocution box", 3)
+relay4 = LinAct("pumpkin voice", 4)
+relay5 = LinAct("hanging ghost trigger", 5)
 relay6 = LinAct("", 6)
-relay7 = LinAct("", 7)
-relay8 = LinAct("", 8)
+relay7 = LinAct("sc head tilt", 7)
+relay8 = LinAct("sc torso twist", 8)
 
 app = Flask(__name__)
 
@@ -62,6 +62,61 @@ def ok_for_direct_relay_control():
 def relay_mainpage():
     get_latest_relay_status()
     return render_template('index.html', current_status=relay_status)
+
+@app.route('/someone_is_here/')
+def someone_is_here():
+    get_latst_relay_status()
+    if ok_for_direct-relay_control():
+        # motions
+        relay3.extend() # trigger electrocution
+        relay3.contract() # reset electrocution
+        time.sleep(1)
+        relay8.extend() # torso swist
+        time.sleep(.5)
+        relay7.extend() # raise head
+        time.sleep(.5)
+        relay1.extend() # extend right arm
+        relay2.extend() # extend right arm
+        time.sleep(.5)
+        relay4.extend() # scarecrow says hi
+        relay4.contract() # reset scarecrow voice
+        relay5.extend() # trigger ghost
+        relay5.contract() # reset ghost trigger
+
+        # second motion
+        time.sleep(.5)
+        relay8.contract() # torso twist
+        relay1.contract() # rt arm down
+        relay2.contract() # rt arm down
+        time.sleep(.5)
+        relay8.extend() # torso twise
+        relay1.extend() # rt arm up
+        relay2.extend() # rt arm up
+        relay4.extend() # sc voice trigger #2
+        relay4.contract() # sc voice trigger reset
+
+
+        # set relay statues
+        relay_status['relay_one'] = "1"
+        relay_status['relay_two'] = "1"
+        relay_status['relay_seven'] = "1"
+        relay_status['relay_eight'] = "1"
+    return render_template("index.html", current_status=relay_status)
+
+@app.route('/they_are_gone/')
+def they_are_gone():
+    get_latst_relay_status()
+    if ok_for_direct-relay_control():
+        relay1.contract()
+        relay2.contract()
+        relay7.contract()
+        relay8.contract()
+        relay_status['relay_one'] = "0"
+        relay_status['relay_two'] = "0"
+        relay_status['relay_seven'] = "0"
+        relay_status['relay_eight'] = "0"
+    return render_template("index.html", current_status=relay_status)
+
 
 @app.route('/extend_one/')
 def extend_one():
