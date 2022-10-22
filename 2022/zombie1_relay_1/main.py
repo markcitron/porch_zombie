@@ -65,8 +65,8 @@ def relay_mainpage():
 
 @app.route('/someone_is_here/')
 def someone_is_here():
-    get_latst_relay_status()
-    if ok_for_direct-relay_control():
+    get_latest_relay_status()
+    if ok_for_direct_relay_control():
         # motions
         relay3.extend() # trigger electrocution
         relay3.contract() # reset electrocution
@@ -105,8 +105,8 @@ def someone_is_here():
 
 @app.route('/they_are_gone/')
 def they_are_gone():
-    get_latst_relay_status()
-    if ok_for_direct-relay_control():
+    get_latest_relay_status()
+    if ok_for_direct_relay_control():
         relay1.contract()
         relay2.contract()
         relay7.contract()
