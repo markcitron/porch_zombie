@@ -11,24 +11,23 @@ import cv2
 def get_datetime():
     return datetime.now()
 
-def get_relay_one_ip():
-    config = configparser.ConfigParser() 
-    config.read("../hp.cnf")
-    return(config['zombie1_relay_one']['ip'])
-
-def trigger_pumpkin(): 
-    try: 
-        x = requests.get("http://10.10.0.14:5000/extend_one/") 
-        time.sleep(.5) 
-        x = requests.get("http://10.10.0.14:5000/contract_one/") 
-        return True
-    except:
-        return False
-
+def motion_trigger(m_state, current_timestamp): 
+    # start_motion_addy = "http://10.10.0.14:5000/turn_all_off/" 
+    # x = requests.get(start_motion_addy)
+    if m_state: 
+        print("Starting motion: {0}".format(current_timestamp))
+    else: 
+        print("Stopping motion: {0}".format(current_timestamp))
 
 def main(): 
     # detection vars
     movement = False
+
+    # load hanuted porch config
+    config = configparser.ConfigParser() 
+    config.read("../hp.cnf")
+    # sample: config['zombie1_relay_one']['ip'])
+
 
     # datetime vars for motion detection
     motiontrue_timestamp = get_datetime()
@@ -67,24 +66,18 @@ def main():
                 motiontrue_timestamp = current_timestamp
 
         # if not motion in specifiied interval toggle motion var
-        if current_timestamp > motiontrue_timestamp + timedelta(seconds=180):
+        if current_timestamp > motiontrue_timestamp + timedelta(seconds=60):
             movement = False
 
         # do something
         if not movement == prev_movement:
             if movement:
-                # starting motion
-                start_motion_addy = "http://{}:5000/extend_one/".format(get_relay_one_ip())
-                start_mitoin_addy = "http://10.10.0.14:5000/extend_one/"
-                # x = requests.get("http://10.10.0.14:5000/extend_one/")
-                trigger_pumpkin()
-                print("Starting motion: {0}".format(current_timestamp))
+                # Starting motion
+                motion_trigger(True, current_timestamp)
             else:
                 # stopping motion
-                stop_motion_addy = "http://{}:5000/contract_one/".format(get_relay_one_ip())
-                stop_motion_addy = "http://10.10.0.14:5000/contract_one/"
-                # x = requests.get("http://10.10.0.14:5000/contract_one/")
-                print("Stopping motion: {0}".format(current_timestamp))
+                motion_trigger(False, current_timestamp)
+
 
 if __name__ == "__main__":
     main()
