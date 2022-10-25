@@ -67,33 +67,48 @@ def relay_mainpage():
 def someone_is_here():
     get_latest_relay_status()
     if ok_for_direct_relay_control():
+        print("Someone is here!!!")
         # motions
-        relay3.extend() # trigger electrocution
-        relay3.contract() # reset electrocution
         time.sleep(1)
+        relay3.contract() # reset electrocution
+        relay3.extend() # trigger electrocution
+        time.sleep(2)
         relay8.extend() # torso swist
-        time.sleep(.5)
+        time.sleep(1)
         relay7.extend() # raise head
-        time.sleep(.5)
+        time.sleep(1)
         relay1.extend() # extend right arm
         relay2.extend() # extend right arm
-        time.sleep(.5)
-        relay4.extend() # scarecrow says hi
+        time.sleep(1)
         relay4.contract() # reset scarecrow voice
-        relay5.extend() # trigger ghost
+        relay4.extend() # scarecrow says hi
+        time.sleep(.1)
         relay5.contract() # reset ghost trigger
+        relay5.extend() # trigger ghost
+        time.sleep(2)
+        relay7.contract()
+        time.sleep(1)
+        relay7.extend()
+        relay1.contract()
+        relay2.contract()
+        time.sleep(2)
+        relay1.extend()
+        relay2.extend()
+        relay7.contract()
+        time.sleep(1)
+        relay7.extend()
 
         # second motion
-        time.sleep(.5)
+        time.sleep(4)
         relay8.contract() # torso twist
         relay1.contract() # rt arm down
         relay2.contract() # rt arm down
-        time.sleep(.5)
+        time.sleep(1)
         relay8.extend() # torso twise
         relay1.extend() # rt arm up
         relay2.extend() # rt arm up
-        relay4.extend() # sc voice trigger #2
         relay4.contract() # sc voice trigger reset
+        relay4.extend() # sc voice trigger #2
 
 
         # set relay statues
@@ -107,6 +122,9 @@ def someone_is_here():
 def they_are_gone():
     get_latest_relay_status()
     if ok_for_direct_relay_control():
+        print("They're gone, bye bye.")
+        relay3.extend()
+        relay3.contract()
         relay1.contract()
         relay2.contract()
         relay7.contract()
@@ -115,6 +133,9 @@ def they_are_gone():
         relay_status['relay_two'] = "0"
         relay_status['relay_seven'] = "0"
         relay_status['relay_eight'] = "0"
+        time.sleep(1)
+        relay3.extend()
+        relay3.contract()
     return render_template("index.html", current_status=relay_status)
 
 
