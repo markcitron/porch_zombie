@@ -15,12 +15,16 @@ def motion_trigger(m_state, current_timestamp):
     # start_motion_addy = "http://10.10.0.14:5000/turn_all_off/" 
     # x = requests.get(start_motion_addy)
     if m_state: 
-        print("Starting motion: {0}".format(current_timestamp))
-        y = requests.get('http://10.10.0.83:5000/extend_all/')
-        time.sleep(.1)
-        x = requests.get('http://10.10.0.14:5000/someone_is_here/')
-        time.sleep(7)
-        z = requests.get('http://10.10.0.83:5000/contract_all/')
+        try: 
+            print("Starting motion: {0}".format(current_timestamp)) 
+            y = requests.get('http://10.10.0.83:5000/extend_all/') 
+            time.sleep(.1) 
+            x = requests.get('http://10.10.0.14:5000/someone_is_here/') 
+            time.sleep(7) 
+            z = requests.get('http://10.10.0.83:5000/contract_all/')
+        except Exception as e:
+            print("ERROR - {0} - encountered exception when trying to trigger motion: {1}".format(current_timestamp, e))
+
     else: 
         print("Stopping motion: {0}".format(current_timestamp))
         x = requests.get('http://10.10.0.14:5000/they_are_gone/')
