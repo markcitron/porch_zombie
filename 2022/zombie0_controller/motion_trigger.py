@@ -16,8 +16,14 @@ def motion_trigger(m_state, current_timestamp):
     # x = requests.get(start_motion_addy)
     if m_state: 
         print("Starting motion: {0}".format(current_timestamp))
+        y = requests.get('http://10.10.0.83:5000/extend_all/')
+        time.sleep(.1)
+        x = requests.get('http://10.10.0.14:5000/someone_is_here/')
+        time.sleep(7)
+        z = requests.get('http://10.10.0.83:5000/contract_all/')
     else: 
         print("Stopping motion: {0}".format(current_timestamp))
+        x = requests.get('http://10.10.0.14:5000/they_are_gone/')
 
 def main(): 
     # detection vars
