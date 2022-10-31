@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import requests, time
+import requests, time, random
 from relays import *
 from datetime import datetime
 import lib8relind
@@ -54,7 +54,7 @@ def torso(rightleft):
         return False
 
 def audio_trigger(which):
-    target_relay = relay4
+    target_relay = relay4 # default to the scarecrow
     if which == "ghost":
         target_relay = relay5
     elif which == "box":
@@ -63,7 +63,7 @@ def audio_trigger(which):
         target_relay.contract()
         time.sleep(.1)
         target_relay.extend()
-        time.sleep(.1.)
+        time.sleep(.1)
         target_relay.contract()
         return True
     except Exception as e:
@@ -86,31 +86,88 @@ def check_for_motion():
     # motion detection is running on 10.10.0.148
     # need to pull data from 148, something should be running there and returning if it is seeing motion or not.
     # can probably just use the
+    pass
+
+def porch_motion(which):
+    print("{0} - Running: {1}".format(get_datetime(), which))
+    if which == "reset": 
+        head("down") 
+        torso("left") 
+        arm("down") 
+        ghost_cabinet("close")
+    elif which == "the_works":
+        pass
+    elif which == "a_little_head_nod":
+        torso("right")
+        time.sleep(.5)
+        head("up")
+        time.sleep(1)
+        audio_trigger("sc")
+        time.sleep(4)
+        head("down")
+        time.sleep(1)
+        head("Up")
+        time.sleep(1)
+        torso("left")
+        time.sleep(2)
+        head("down")
+    elif which == "ghost_cabinet":
+        ghost_cabinet("open")
+        time.sleep(1)
+        audio_trigger("box")
+        time.sleep(4)
+        audio_trigger("box")
+        time.sleep(1)
+        audio_trigger("ghost")
+        time.sleep(15)
+        ghost_cabinet("close")
+        pass
+    elif which == "scare_crow":
+        torso("right")
+        time.sleep(.5)
+        head("up")
+        time.sleep(2)
+        audio_trigger("sc")
+        time.sleep(3)
+        arm("up")
+        head("down")
+        time.sleep(1)
+        arm("down")
+        head("up")
+        audio_trigger("sc")
+        time.sleep(4)
+        torso("left")
+        time.sleep(1)
+        arm("down")
+        torso("right")
+        time.sleep(1)
+        arm("up")
+        time.sleep(1)
+        audio_trigger("sc")
+        time.sleep(4)
+        torso("left")
+        time.sleep(2)
+        arm("down")
+        head("down")
+        pass
 
 def main():
-    """
-        Component calls:
-
-        head(up|down)
-        torso(right|left)
-        arm(up|down)
-        audio_trigger(sc|ghost|box)
-        ghost_cabinet(open|close)
-        """
     # main loop condition
     haunted_porch = True
+    loop_waits = [30, 45, 60, 90]
+    possible_motions = ["the_works", "a_little_head_nod", "ghost_cabinet", "scare_crow"]
 
     # reset everything
-    head("down")
-    torso("left")
-    arm("down")
-    ghost_cabinet("close")
+    porch_motion("reset")
+    time.sleep(60)
 
     # main loop
-    options = [1, 2, 3, 4, 5, 6]
-    #random.choice(options)
     while haunted_porch:
-        pass
+        # run a motion
+        porch_motion(random.choice(possible_motions))
+
+        # variable wait between loops
+        time.sleep(random.choice(loop_waits))
 
 if __name__ == "__main__":
     main()
