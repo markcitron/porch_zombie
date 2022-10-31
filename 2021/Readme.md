@@ -12,3 +12,8 @@ digraph G {
 }
 ```
 
+```sequence {theme="hand"}
+  one->two: Says Hello
+  two->one: right back at you
+```
+

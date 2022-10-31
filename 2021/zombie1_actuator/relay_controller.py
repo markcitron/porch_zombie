@@ -6,9 +6,9 @@ from zombie_motions import *
 import time
 
 # set up linear actuator relays
-relay1 = LinArct("LinearActuatorOne", 26)
-relay2 = LinArct("LinearActuatorTwo", 21)
-strobe = LinArct("Strobe", 20)
+relay1 = LinAct("LinearActuatorOne", 26)
+relay2 = LinAct("LinearActuatorTwo", 21)
+strobe = LinAct("Strobe", 20)
 
 app = Flask(__name__)
 
