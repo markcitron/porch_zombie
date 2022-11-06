@@ -187,9 +187,12 @@ def main():
     while haunted_porch:
         # run a motion
         porch_motion(random.choice(possible_motions))
+        porch_motion("scare_crom")
+        time.sleep(1)
+        porch_motion("the_works")
+        time.sleep(30)
+        haunted_porch = False
 
-        # variable wait between loops
-        time.sleep(random.choice(loop_waits))
 
 if __name__ == "__main__":
     main()
