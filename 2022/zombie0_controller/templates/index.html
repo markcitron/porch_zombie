@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title></title>
+		<script text="text/javascript">
+		</script>
+	</head>
+    <body background="{{ url_for('static', filename='halloween_background.png') }} ">
+        <table style="height:100%;width:100%"><tr><td width="100%" height="100%" align="center" valign="center">
+        <table border="0" cellpadding="3" cellspacing="0" bgcolor="#d3d4d5"> 
+            <tr>
+                <td>
+                    <h2>Welcome to the <a href="/">Haunted Porch 2022 :-)</a></h2> 
+                    <b>Visitor scripts</b><br>
+                    &nbsp;&nbsp;<a href="/someone_is_here/">Someone is here</a><br> 
+                    &nbsp;&nbsp;<a href="/they_are_gone/">They are gone</a><br>
+                    <br><hr>
+                    <b>Motion Trigger Script:</b><br>
+                    <table>
+                        <tr>
+                            <td>&nbsp;&nbsp;</td>
+                            <td><iframe id="motion_status" src="/motion_status/" frameborder="no" border="0"></frame></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        </td></tr></table>
+	</body>
+</html>
+

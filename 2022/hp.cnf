@@ -1,0 +1,4 @@
+[zombie1_relay_one]
+name = "zombie_relay_1"
+note = "8 Relay Controller"
+ip = "10.10.0.14"
