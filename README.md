@@ -13,7 +13,8 @@ This year is the year of the Porch Zombie, a Raspberry Pi controlled automaton. 
 ## Yearly efforts
 - [Servo based zombie - 2020](./2020) - Simple zombie frame powered by 22kg capactiy servo motor to move the parts around.  Was awesome until it caught fire :-)
 - [Actuators and Steppers - 2021](./2021) - Uses Flask based API for main controller, **Haunted Porch** to control the other raspberry pis
-- [Work in progress - 2022](./2022)
+- [External controller - 2022](./2022)
+- 2023 - a more wholistic approach to building this repo.  No breakdowns by year, just code designed to be easily leveragable.
 
 ## Required packages
 - adafruit - `pip3 install adafruit-circuitpython-servokit`, 
