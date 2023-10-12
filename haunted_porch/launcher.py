@@ -34,6 +34,8 @@ def main():
         # do something
 
         # case for breaking loop
+        # if ______:
+            # shouldRun = False
 
         pass
 
