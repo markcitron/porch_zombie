@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 import argparse
+from gpiozero import MotionSensor
+from signal import pause
+import time
 
 def make_parser():
     """ Create an argument parser """
@@ -10,12 +13,17 @@ def make_parser():
 
 def check_args(args):
     """ eval passed arguments """
-    allowable_vlaues = ["start", "stop"]
+    allowable_vlaues = ["auto", "remote"]
     while args.action not in allowable_vlaues:
-        args.action = input(" | Missing requrie param: action. Valid options are 'start|stop', Action=? ")
+        args.action = input(" | Missing requrie param: action. Valid options are 'auto|remote', Action=? ")
         if args.action not in allowable_vlaues:
             args.action = ""
         return args
+
+def someone_is_here():
+    print("-------------------------------Motion detected------------------------------")
+    time.sleep(1)
+    return True
 
 def main():
     # Intro
@@ -28,17 +36,15 @@ def main():
     args = check_args(passed_args)
     print("  | Going to {0} the Haunted Porch".format(args.action))
 
-    # start things up
-    shoudRun = True
-    while shoudRun:
-        # do something
+    # start things up 
+    pir = MotionSensor(18) # bind motion sensor to GPIO pin 18
+    while args.action == "auto":
+        pir.when_motion = someone_is_here
+        time.sleep(1)
 
-        # case for breaking loop
-        # if ______:
-            # shouldRun = False
-
-        pass
-
+    # if no motion
+    # pir.when_no_motion = no_motion_function
 
 if __name__ == "__main__":
     main()
+
