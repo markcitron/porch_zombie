@@ -1,28 +1,24 @@
 #!/usr/bin/python3
 
-import argparse
 from gpiozero import MotionSensor
 from signal import pause
-import time
+import time, requests
 
-def make_parser():
-    """ Create an argument parser """
-    p = argparse.ArgumentParser(description="")
-    p.add_argument("--action", "-a", help="Start or stop the Haunted Porch. Expects start|stop")
-    return p
-
-def check_args(args):
-    """ eval passed arguments """
-    allowable_vlaues = ["auto", "remote"]
-    while args.action not in allowable_vlaues:
-        args.action = input(" | Missing requrie param: action. Valid options are 'auto|remote', Action=? ")
-        if args.action not in allowable_vlaues:
-            args.action = ""
-        return args
+# globals
+working = False
+relay2_addr = "http://10.10.0.83:5000/"
+pir = MotionSensor(18) # bind motion sensor to GPIO pin 18
 
 def someone_is_here():
-    print("-------------------------------Motion detected------------------------------")
-    time.sleep(1)
+    print("------------------------------- Someone is here ------------------------------")
+    try: 
+        print("Baby box ...") 
+        x = requests.get(relay2_addr+'extend_two/') 
+        time.sleep(10) 
+        y = requests.get(relay2_addr+'contract_two/') 
+        time.sleep(10)
+    except Exception as e:
+        print("Error encountered calling {0}, encountered exception: {1}".format(relay2_addr, e))
     return True
 
 def main():
@@ -31,14 +27,9 @@ def main():
     print("              Haunted Porch")
     print("-------------------------------------------------")
 
-    # passed arguments
-    passed_args = make_parser().parse_args()
-    args = check_args(passed_args)
-    print("  | Going to {0} the Haunted Porch".format(args.action))
-
     # start things up 
-    pir = MotionSensor(18) # bind motion sensor to GPIO pin 18
-    while args.action == "auto":
+
+    while True:
         pir.when_motion = someone_is_here
         time.sleep(1)
 
