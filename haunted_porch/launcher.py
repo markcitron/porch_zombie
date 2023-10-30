@@ -12,11 +12,18 @@ pir = MotionSensor(18) # bind motion sensor to GPIO pin 18
 def someone_is_here():
     print("------------------------------- Someone is here ------------------------------")
     try: 
-        print("Baby box ...") 
+        print("Alien tilt out ...") 
+        a = requests.get(relay2_addr+'extend_three/') 
+        time.sleep(5) 
+        print("Baby box opening ...") 
         x = requests.get(relay2_addr+'extend_two/') 
-        time.sleep(10) 
+        time.sleep(5)
+        print("Alien tilt back...") 
+        b = requests.get(relay2_addr+'contract_three/') 
+        time.sleep(5) 
+        print("Baby box closing ...") 
         y = requests.get(relay2_addr+'contract_two/') 
-        time.sleep(10)
+        time.sleep(5)
     except Exception as e:
         print("Error encountered calling {0}, encountered exception: {1}".format(relay2_addr, e))
     return True
