@@ -24,6 +24,7 @@ def someone_is_here():
     print("------------------------------- Someone is here ------------------------------")
     try: 
         # for demo testing
+        """
         print("Alien tilt out ...") 
         a = requests.get(relay2_addr+'extend_three/') 
         time.sleep(5) 
@@ -36,6 +37,7 @@ def someone_is_here():
         print("Baby box closing ...") 
         y = requests.get(relay2_addr+'contract_two/') 
         time.sleep(5)
+        """
 
         # Plague doctor
         call_remote_addy(pz1, "contract_two/")
@@ -45,30 +47,32 @@ def someone_is_here():
 
         # Tilting Freddy
         # .. tilt down
-        call_remote_addy(pz1, "extend_one/")
+        call_remote_addy(pz1, "extend_three/")
         time.sleep(5)
         # .. tilt back up
-        call_remote_addy(pz1, "contract_one/")
+        call_remote_addy(pz1, "contract_three/")
         time.sleep(1)
 
         # Crow
-        call_remote_addy(pz3, "contract_seven/")
-        time.sleep(1)
         call_remote_addy(pz3, "extend_seven/")
+        time.sleep(1)
+        call_remote_addy(pz3, "contract_seven/")
 
         # Baby box
         # .. open
         time.sleep(10)
         call_remote_addy(pz2, "extend_one/")
-        # .. close
         time.sleep(1)
+        # .. close
+        time.sleep(10)
         call_remote_addy(pz2, "contract_one/")
 
         # Electric box
         time.sleep(1)
+        call_remote_addy(pz3, "contract_six/")
+        time.sleep(1)
         call_remote_addy(pz3, "extend_six/")
         time.sleep(1)
-        call_remote_addy(pz3, "contract_six/")
 
         # Ghost box open
         # .. open left door
@@ -76,19 +80,18 @@ def someone_is_here():
         time.sleep(1)
         # .. open right door
         call_remote_addy(pz2, "extened_three/")
-        time.sleep(20)
+        time.sleep(15)
 
         # Boxed ghost
-        time.sleep(30)
-        call_remote_addy(pz3, "contract_/")
-        time.sleep(1)
         call_remote_addy(pz3, "extend_/")
         time.sleep(1)
+        call_remote_addy(pz3, "contract_/")
+        time.sleep(20)
 
-        # Crow
-        call_remote_addy(pz3, "contract_seven/")
+        # Evil Cherub
+        call_remote_addy(pz3, "extend_five/")
         time.sleep(1)
-        call_remote_addy(pz3, "extend_seven/")
+        call_remote_addy(pz3, "contract_five/")
         time.sleep(1)
 
         # Ghost box close
@@ -100,12 +103,15 @@ def someone_is_here():
         time.sleep(10)
 
         # Jack-o-lantern
-        call_remote_addy(pz3, "contract_/")
+        call_remote_addy(pz3, "contract_one/")
         time.sleep(1)
-        call_remote_addy(pz3, "extend_/")
+        call_remote_addy(pz3, "extend_one/")
         time.sleep(1)
 
+        # final pause
         time.sleep(20)
+
+        # all done.
 
     except Exception as e:
         print("ERROR: encountered error {0} while trying to process a new viitor".format(e))
