@@ -1,3 +1,5 @@
+![Holidy Porch 2023](./images/little_snowman.png)
+
 # Holiday Porch 2023
 Why should we only have an interesting Halloween Porch and ignore Xmas you ask?
 
