@@ -1,4 +1,4 @@
-![Holidy Porch 2023](./images/little_snowman.png)
+<img src="./images/little_snoman.jpg" width=150 align=right alt="Holiday Porch 2023">
 
 # Holiday Porch 2023
 Why should we only have an interesting Halloween Porch and ignore Xmas you ask?
