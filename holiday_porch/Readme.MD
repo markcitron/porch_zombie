@@ -1,5 +1,5 @@
 
-<img src="https://github.com/markcitron/porch_zombie/blob/holidayporch_2023/holiday_porch/images/little_snowman.png" width="150" align="right">
+<img src="https://github.com/markcitron/porch_zombie/blob/holidayporch_2023/holiday_porch/images/little_snowman.png" width="200" align="left">
 
 
 # Holiday Porch 2023
