@@ -1,0 +1,111 @@
+<!doctyhpe html>
+<html>
+	<head>
+		<title>Porch Zombie Relay Controller</title>
+	</head>
+	<body background="{{ url_for('static', filename='halloween_background.png') }}" style="filter:alpha(opacity=80);">
+		<table style="width:100%;height:100%" border="0" cellpadding="3" cellspacing="0"><tr><td width="100%" height="100%" valign="center" align="center">
+		<table bgcolor="#d3d4d5">
+			<tr>
+				<td colspan = "3">
+					<h2><a href="/">Porch Zombie - relay 3</a></h2>
+				</td>
+			</tr>
+
+
+			<!-- Relay Controls -->
+			<tr>
+				<td bgcolor="darkgray" colspan="3">
+					Relay Controls
+				</td>
+			</tr>
+			<tr>
+				<td><b>Relay</b></td>
+				<td><b>Actions</b></td>
+				<td><b>Current Status</b></td>
+			</tr>
+			<tr>
+				<td>Relay One:</td>
+				<td>
+					<a href="/extend_one/">Extend</a>&nbsp;
+					<a href="/contract_one/">Contract</a>&nbsp;<br>
+				</td>
+				<td>
+					{{ current_status['relay_one'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Two:</td>
+				<td>
+					<a href="/extend_two/">Extend</a>&nbsp;
+					<a href="/contract_two/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_two'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Three:</td>
+				<td>
+					<a href="/extend_three/">Extend</a>&nbsp;
+					<a href="/contract_three/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_three'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Four:</td>
+				<td>
+					<a href="/extend_four/">Extend</a>&nbsp;
+					<a href="/contract_four/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_four'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Five:</td>
+				<td>
+					<a href="/extend_five/">Extend</a>&nbsp;
+					<a href="/contract_five/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_five'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Six:</td>
+				<td>
+					<a href="/extend_six/">Extend</a>&nbsp;
+					<a href="/contract_six/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_six'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Seven:</td>
+				<td>
+					<a href="/extend_seven/">Extend</a>&nbsp;
+					<a href="/contract_seven/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_seven'] }} 
+				</td>
+			</tr>
+			<tr>
+				<td>Relay Eight:</td>
+				<td>
+					<a href="/extend_eight/">Extend</a>&nbsp;
+					<a href="/contract_eight/">Contract</a><br>
+				</td>
+				<td>
+					{{ current_status['relay_eight'] }} 
+				</td>
+			</tr>
+			<tr><td colspan="3">&nbsp;</td></tr><!-- spacer -->
+		</table>
+		</td></tr></table>
+	</body>
+</html>
