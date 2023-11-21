@@ -12,20 +12,20 @@ Going to have three controlled components (all controlled by a single 8 relay Pi
 - Wrapped with a box that has embedded Xmas lights aroud the permiter
 - a simple motor with a rotating bow in the center of the box
 - Control(s) required: 
-  -- single relay, without switch, to trigger motor
+  - - single relay, without switch, to trigger motor
 
 ### Tilting Snowman
 - Using the tilting alien base from halloween (removed the Alien - he'll be back next year with a paint touch up and varnishing ala Tate the artist).  
 - This consists of a simple hinge pivot on a heavy base and controlled via a linear actuator.
 - Control(s) required:
-  -- single relay, with switch, to tilt snowman
+  - - single relay, with switch, to tilt snowman
 
 ### Opening present
 - opening/closing box, wrapped like present with a animated singing stuffy inside (choosing one of the many that we have)
 - rewire push started to connect to relay
 - Control(s) required:
-  -- single relay, with switch, to open/close box
-  -- single relay, without switch, to trigger the singing stuffy
+  - - single relay, with switch, to open/close box
+  - - single relay, without switch, to trigger the singing stuffy
 
 ### Detector / Controller
 - has a single motion detection input and triggers the timing sequence when someone comes onto the porch
