@@ -27,10 +27,10 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
   - IR Sensor
 
 ## What is running where
-| Device      | description     |    Player     |
+| Device      | Description     |    Player     |
 |-------------|-----------------|---------------|
 | pz_0        | Main controller | Motion Sensor |
-| pz_1        | Heavy Relay (3) |               |
+| pz_1        | Heavy Relay (3) |  Ghost cabinet             |
 | pz_2        | Light Relay (8) |               |
 | pz_3        | Light Relay (8) |               |
 
