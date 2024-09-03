@@ -9,7 +9,7 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
 ## Porch Players
 #### RPi controlled ghosts, goblins, etc.
 - Skull Picture - tile actuator, rotation (actuator?)
-- Jumping Spider - trigger only
+- Jumping Spider (Spirit of Halloween) - trigger only
 - Tilting Alien - tilt actuator
 - Pumpkin Bench
 - Cherub - trigger only
@@ -19,6 +19,7 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
 #### Non-controlled elements
 - Haunted Castle
 - Mister (water vapor based)
+- Popup Pumpkin (Sprit of Halloweed) - Can either use the basic motion detection or wire the trigger like we do with the **Jumping Spider**.
 
 ## RPis, how many, who is residing where, etc.
 - Haunted Porch (main controller)
