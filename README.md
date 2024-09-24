@@ -30,8 +30,8 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
 | Device      | Description     |    Player     |
 |-------------|-----------------|---------------|
 | pz_0        | Main controller | Motion Sensor |
-| pz_1        | Heavy Relay (3) |  Ghost cabinet             |
-| pz_2        | Light Relay (8) |               |
+| pz_1        | Heavy Relay (3) | Ghost cabinet [2], Cherub [1]             |
+| pz_2        | Light Relay (8) | Skull picture [1], Tilting Alien [1], Breathing Scarecrow [1], (Shaking something in Alien window) [1], Jumping spider (maybe) [1], Gourdo (maybe) [1]             |
 | pz_3        | Light Relay (8) |               |
 
 
