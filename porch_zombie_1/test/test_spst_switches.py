@@ -16,7 +16,9 @@ relay_8 = LED(26)
 
 def main():
     delay = .1
-    while True:
+    runs = 5
+    current_count = 1
+    while current_count < runs + 1:
         relay_1.on()
         sleep(delay)
         relay_2.on()
@@ -51,6 +53,8 @@ def main():
         sleep(delay)
         relay_8.off()
         sleep(delay)
+
+        current_count = current_count + 1
     return True
 
 if __name__ == "__main__":
