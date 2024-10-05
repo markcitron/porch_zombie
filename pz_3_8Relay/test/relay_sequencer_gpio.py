@@ -11,7 +11,7 @@ def toggle(pin, on_off):
 
 def main():
     # reset
-    delay = .1
+    delay = .5
     lib8relind.set_all(0, 0)
 
     for i in range(8):
