@@ -2,7 +2,8 @@
 
 from flask import Flask, render_template
 import psutil
-import requests, time
+import requests 
+from time import sleep
 
 # set global flask app
 app = Flask(__name__)
@@ -38,6 +39,16 @@ def relay_1_off():
     except Exception as e:
         print("Error occured trying to turn relay_1 off: {0}".format(e))
     return True
+@app.route('relay_1_trigger')
+def relay_1_trigger():
+    try:
+        relay_1_on()
+        sleep(1)
+        relay_1_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_1: {0}".format(e))
+    return True
 
 # Relay 2
 @app.route('relay_2_on')
@@ -53,6 +64,16 @@ def relay_2_off():
         relay_1.off()
     except Exception as e:
         print("Error occured trying to turn relay_2 off: {0}".format(e))
+    return True
+@app.route('relay_2_trigger')
+def relay_1_trigger():
+    try:
+        relay_2_on()
+        sleep(1)
+        relay_2_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_2: {0}".format(e))
     return True
 
 # Relay 3
@@ -70,6 +91,16 @@ def relay_3_off():
     except Exception as e:
         print("Error occured trying to turn relay_3 off: {0}".format(e))
     return True
+@app.route('relay_3_trigger')
+def relay_3_trigger():
+    try:
+        relay_3_on()
+        sleep(1)
+        relay_3_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_3: {0}".format(e))
+    return True
 
 # Relay 4
 @app.route('relay_4_on')
@@ -85,6 +116,16 @@ def relay_4_off():
         relay_4.off()
     except Exception as e:
         print("Error occured trying to turn relay_4 off: {0}".format(e))
+    return True
+@app.route('relay_4_trigger')
+def relay_4_trigger():
+    try:
+        relay_4_on()
+        sleep(1)
+        relay_4_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_4: {0}".format(e))
     return True
 
 # Relay 5
@@ -102,6 +143,16 @@ def relay_5_off():
     except Exception as e:
         print("Error occured trying to turn relay_5 off: {0}".format(e))
     return True
+@app.route('relay_5_trigger')
+def relay_1_trigger():
+    try:
+        relay_5_on()
+        sleep(1)
+        relay_5_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_5: {0}".format(e))
+    return True
 
 # Relay 6
 @app.route('relay_6_on')
@@ -117,6 +168,16 @@ def relay_6_off():
         relay_6.off()
     except Exception as e:
         print("Error occured trying to turn relay_6 off: {0}".format(e))
+    return True
+@app.route('relay_6_trigger')
+def relay_6_trigger():
+    try:
+        relay_6_on()
+        sleep(1)
+        relay_6_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_6: {0}".format(e))
     return True
 
 # Relay 7
@@ -134,6 +195,16 @@ def relay_7_off():
     except Exception as e:
         print("Error occured trying to turn relay_7 off: {0}".format(e))
     return True
+@app.route('relay_7_trigger')
+def relay_7_trigger():
+    try:
+        relay_7_on()
+        sleep(1)
+        relay_7_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_7: {0}".format(e))
+    return True
 
 # Relay 8
 @app.route('relay_8_on')
@@ -150,6 +221,16 @@ def relay_8_off():
     except Exception as e:
         print("Error occured trying to turn relay_8 off: {0}".format(e))
     return True
+@app.route('relay_8_trigger')
+def relay_8_trigger():
+    try:
+        relay_8_on()
+        sleep(1)
+        relay_8_off()
+        sleep(1)
+    except Exception as e:
+        print("Error occered when trying to trigger ralay_8: {0}".format(e))
+    return True
 
 @app.route('/launcher_status/')
 def launcher_status():
@@ -157,7 +238,7 @@ def launcher_status():
     launcher_pid = 0
     launcher_running = "No"
     for p in psutil.process_iter():
-        if "launcher" in p.name():
+        if "watchful_zombie" in p.name():
             launcher_script = p.name();
             launcher_pid = p.pid
             launcher_running = "Yes"

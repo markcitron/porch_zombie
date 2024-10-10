@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import requests
-from gpiozero import MotionSensor
+from gpiozero import MotionSensor, LED
 import RPi.GPIO as GPIO
 from time import sleep
 GPIO.setmode(GPIO.BCM)
@@ -70,7 +70,7 @@ def someone_is_here():
 def main():
     print("-------------------------------------------------")
     print("              Haunted Porch")
-    print("                  pz_1_spst_relay")
+    print("                  pz_0_spst_relay")
     print("-------------------------------------------------")
     while True:
         motion.when_motion = someone_is_here
