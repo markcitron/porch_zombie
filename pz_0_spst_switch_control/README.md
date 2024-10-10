@@ -4,9 +4,12 @@ This is a Single Pull Single Throw (SPST) relay hat sitting on top of a Raspberr
  relay_x = LED(pin)
  relay_x.on() or relay_x.off()`
 Because this is simple pin mapping hat, you can still use the other pins for things like a motion sensor.  For the motion sensor:
+
 `from gpiozero import MotionSensor
+
  ms = MotionSensor(pin)
- ms.when_motion = function_to_call
+
+ ms.when_motion = function_to_call`
 
 ## Triggers
 - IR Sensor - simple sensor to fire when someone is walking along the path up to the porch, just past the garage door
