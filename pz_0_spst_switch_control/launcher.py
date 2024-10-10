@@ -6,10 +6,11 @@ import time, requests
 
 # globals
 working = False
+pz0_addr = "http://10.10.0.14:5000/"
 pz1_addr = "http://10.10.0.253:5000/"
 pz2_addr = "http://10.10.0.83:5000/"
 pz3_addr = "http://10.10.0.188:5000/"
-pir = MotionSensor(18) # bind motion sensor to GPIO pin 18
+pir = MotionSensor(17) # bind motion sensor to GPIO pin 18
 
 def call_remote_addy(base_addy, action):
     try:
