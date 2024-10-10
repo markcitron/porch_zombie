@@ -4,13 +4,152 @@ from flask import Flask, render_template
 import psutil
 import requests, time
 
+# set global flask app
 app = Flask(__name__)
+
+# set componant locations
+relay_1 = LED(5)
+relay_2 = LED(6)
+relay_3 = LED(13)
+relay_4 = LED(16)
+relay_5 = LED(19)
+relay_6 = LED(20)
+relay_7 = LED(21)
+relay_8 = LED(26)
 
 """ Flask web endpoints """
 @app.route('/')
 def hello():
     return render_template('index.html')
     # return render_template('index.html', param1=value1, param2=value2)
+
+# Relay 1
+@app.route('relay_1_on')
+def relay_1_on():
+    try: 
+        relay_1.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_1 on: {0}".format(e))
+    return True
+@app.route('relay_1_off')
+def relay_1_off():
+    try:
+        relay_1.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_1 off: {0}".format(e))
+    return True
+
+# Relay 2
+@app.route('relay_2_on')
+def relay_2_on():
+    try: 
+        relay_2.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_2 on: {0}".format(e))
+    return True
+@app.route('relay_2_off')
+def relay_2_off():
+    try:
+        relay_1.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_2 off: {0}".format(e))
+    return True
+
+# Relay 3
+@app.route('relay_3_on')
+def relay_3_on():
+    try: 
+        relay_3.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_3 on: {0}".format(e))
+    return True
+@app.route('relay_3_off')
+def relay_3_off():
+    try:
+        relay_3.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_3 off: {0}".format(e))
+    return True
+
+# Relay 4
+@app.route('relay_4_on')
+def relay_4_on():
+    try: 
+        relay_4.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_4 on: {0}".format(e))
+    return True
+@app.route('relay_4_off')
+def relay_4_off():
+    try:
+        relay_4.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_4 off: {0}".format(e))
+    return True
+
+# Relay 5
+@app.route('relay_5_on')
+def relay_5_on():
+    try: 
+        relay_5.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_5 on: {0}".format(e))
+    return True
+@app.route('relay_5_off')
+def relay_5_off():
+    try:
+        relay_5.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_5 off: {0}".format(e))
+    return True
+
+# Relay 6
+@app.route('relay_6_on')
+def relay_6_on():
+    try: 
+        relay_6.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_6 on: {0}".format(e))
+    return True
+@app.route('relay_6_off')
+def relay_6_off():
+    try:
+        relay_6.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_6 off: {0}".format(e))
+    return True
+
+# Relay 7
+@app.route('relay_7_on')
+def relay_7_on():
+    try: 
+        relay_7.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_7 on: {0}".format(e))
+    return True
+@app.route('relay_7_off')
+def relay_7_off():
+    try:
+        relay_7.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_7 off: {0}".format(e))
+    return True
+
+# Relay 8
+@app.route('relay_8_on')
+def relay_8_on():
+    try: 
+        relay_8.on()
+    except Exception as e:
+        print("Error occured trying to turn relay_8 on: {0}".format(e))
+    return True
+@app.route('relay_8_off')
+def relay_8_off():
+    try:
+        relay_8.off()
+    except Exception as e:
+        print("Error occured trying to turn relay_8 off: {0}".format(e))
+    return True
 
 @app.route('/launcher_status/')
 def launcher_status():
@@ -26,7 +165,7 @@ def launcher_status():
 
 @app.errorhandler(Exception)
 def basic_error(e):
-    return("an error occurred: " + str(e))
+    return("An error occurred: " + str(e))
 
 def main():
     app.run(host='0.0.0.0')
