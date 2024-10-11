@@ -29,23 +29,22 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
 ## What is running where
 | Device      | Description     |    Player     |
 |-------------|-----------------|---------------|
-| pz_0        | Main controller | Motion Sensor |
-| pz_1        | Heavy Relay (3) | Ghost cabinet [2], Cherub [1]             |
-| pz_2        | Light Relay (8) | Skull picture [1], Tilting Alien [1], Breathing Scarecrow [1], (Shaking something in Alien window) [1], Jumping spider (maybe) [1], Gourdo (maybe) [1]             |
-| pz_3        | Light Relay (8) |               |
+| pz_0        | SPST Relay, with Motion Sensor| Motion sensor and simple triggers near Ghost Cabinet: Raven, Cherub, Electricution Box, Gourdo, Ghost |
+| pz_1        | SPST Relay, with Motion Sensor | Motion sensor and simple triggers near Tilting Alien: Jumping Spider, Plague Doctor, Jack-o-lantern |
+| pz_2        | Heavy Relay (3) | Ghost Cabinet Left door, Ghost Cabinet Right door, Baby head in a box|
+| pz_3        | Light Relay (8) | Tilting Alien, Skull Picture|
 
 
 ---
 ## Required packages
-- adafruit - `pip3 install adafruit-circuitpython-servokit`, 
-- OpenCv2 (version - whatever you'd like)
-- imutils
 - RPi.GPIO
-- motion
+- gpiozero (using LED and Motion Sensor
 
 ---
 ## Motion
-I have triggered motion in the past bye using the Pi Camera and/or USB camer and runniong the motion service and then trailing the application log file and looking for **motion_detected** events.
+I have triggered motion in the past bye using the Pi Camera and/or USB camera and runniong the motion service and then trailing the application log file and looking for **motion_detected** events.
+
+For this year, just using IR sensor attached to the two SPST relay bots, PZ_0 and Pz_1
 
 
 ---
