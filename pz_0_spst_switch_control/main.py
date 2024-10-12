@@ -3,6 +3,7 @@
 from flask import Flask, render_template
 import psutil
 import requests 
+from gpiozero import LED
 from time import sleep
 
 # set global flask app
@@ -25,212 +26,212 @@ def hello():
     # return render_template('index.html', param1=value1, param2=value2)
 
 # Relay 1
-@app.route('relay_1_on')
+@app.route('/relay_1_on/')
 def relay_1_on():
     try: 
         relay_1.on()
     except Exception as e:
         print("Error occured trying to turn relay_1 on: {0}".format(e))
-    return True
-@app.route('relay_1_off')
+    return render_template('index.html')
+@app.route('/relay_1_off/')
 def relay_1_off():
     try:
         relay_1.off()
     except Exception as e:
         print("Error occured trying to turn relay_1 off: {0}".format(e))
-    return True
-@app.route('relay_1_trigger')
+    return render_template('index.html')
+@app.route('/relay_1_trigger/')
 def relay_1_trigger():
     try:
-        relay_1_on()
+        relay_1.on()
         sleep(1)
-        relay_1_off()
+        relay_1.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_1: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 2
-@app.route('relay_2_on')
+@app.route('/relay_2_on/')
 def relay_2_on():
     try: 
         relay_2.on()
     except Exception as e:
         print("Error occured trying to turn relay_2 on: {0}".format(e))
-    return True
-@app.route('relay_2_off')
+    return render_template('index.html')
+@app.route('/relay_2_off/')
 def relay_2_off():
     try:
-        relay_1.off()
+        relay_2.off()
     except Exception as e:
         print("Error occured trying to turn relay_2 off: {0}".format(e))
-    return True
-@app.route('relay_2_trigger')
-def relay_1_trigger():
+    return render_template('index.html')
+@app.route('/relay_2_trigger/')
+def relay_2_trigger():
     try:
-        relay_2_on()
+        relay_2.on()
         sleep(1)
-        relay_2_off()
+        relay_2.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_2: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 3
-@app.route('relay_3_on')
+@app.route('/relay_3_on/')
 def relay_3_on():
     try: 
         relay_3.on()
     except Exception as e:
         print("Error occured trying to turn relay_3 on: {0}".format(e))
-    return True
-@app.route('relay_3_off')
+    return render_template('index.html')
+@app.route('/relay_3_off/')
 def relay_3_off():
     try:
         relay_3.off()
     except Exception as e:
         print("Error occured trying to turn relay_3 off: {0}".format(e))
-    return True
-@app.route('relay_3_trigger')
+    return render_template('index.html')
+@app.route('/relay_3_trigger/')
 def relay_3_trigger():
     try:
-        relay_3_on()
+        relay_3.on()
         sleep(1)
-        relay_3_off()
+        relay_3.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_3: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 4
-@app.route('relay_4_on')
+@app.route('/relay_4_on/')
 def relay_4_on():
     try: 
         relay_4.on()
     except Exception as e:
         print("Error occured trying to turn relay_4 on: {0}".format(e))
-    return True
-@app.route('relay_4_off')
+    return render_template('index.html')
+@app.route('/relay_4_off/')
 def relay_4_off():
     try:
         relay_4.off()
     except Exception as e:
         print("Error occured trying to turn relay_4 off: {0}".format(e))
-    return True
-@app.route('relay_4_trigger')
+    return render_template('index.html')
+@app.route('/relay_4_trigger/')
 def relay_4_trigger():
     try:
-        relay_4_on()
+        relay_4.on()
         sleep(1)
-        relay_4_off()
+        relay_4.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_4: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 5
-@app.route('relay_5_on')
+@app.route('/relay_5_on/')
 def relay_5_on():
     try: 
         relay_5.on()
     except Exception as e:
         print("Error occured trying to turn relay_5 on: {0}".format(e))
-    return True
-@app.route('relay_5_off')
+    return render_template('index.html')
+@app.route('/relay_5_off/')
 def relay_5_off():
     try:
         relay_5.off()
     except Exception as e:
         print("Error occured trying to turn relay_5 off: {0}".format(e))
-    return True
-@app.route('relay_5_trigger')
-def relay_1_trigger():
+    return render_template('index.html')
+@app.route('/relay_5_trigger/')
+def relay_5_trigger():
     try:
-        relay_5_on()
+        relay_5.on()
         sleep(1)
-        relay_5_off()
+        relay_5.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_5: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 6
-@app.route('relay_6_on')
+@app.route('/relay_6_on/')
 def relay_6_on():
     try: 
         relay_6.on()
     except Exception as e:
         print("Error occured trying to turn relay_6 on: {0}".format(e))
-    return True
-@app.route('relay_6_off')
+    return render_template('index.html')
+@app.route('/relay_6_off/')
 def relay_6_off():
     try:
         relay_6.off()
     except Exception as e:
         print("Error occured trying to turn relay_6 off: {0}".format(e))
-    return True
-@app.route('relay_6_trigger')
+    return render_template('index.html')
+@app.route('/relay_6_trigger/')
 def relay_6_trigger():
     try:
-        relay_6_on()
+        relay_6.on()
         sleep(1)
-        relay_6_off()
+        relay_6.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_6: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 7
-@app.route('relay_7_on')
+@app.route('/relay_7_on/')
 def relay_7_on():
     try: 
         relay_7.on()
     except Exception as e:
         print("Error occured trying to turn relay_7 on: {0}".format(e))
-    return True
-@app.route('relay_7_off')
+    return render_template('index.html')
+@app.route('/relay_7_off/')
 def relay_7_off():
     try:
         relay_7.off()
     except Exception as e:
         print("Error occured trying to turn relay_7 off: {0}".format(e))
-    return True
-@app.route('relay_7_trigger')
+    return render_template('index.html')
+@app.route('/relay_7_trigger/')
 def relay_7_trigger():
     try:
-        relay_7_on()
+        relay_7.on()
         sleep(1)
-        relay_7_off()
+        relay_7.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_7: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 # Relay 8
-@app.route('relay_8_on')
+@app.route('/relay_8_on/')
 def relay_8_on():
     try: 
         relay_8.on()
     except Exception as e:
         print("Error occured trying to turn relay_8 on: {0}".format(e))
-    return True
-@app.route('relay_8_off')
+    return render_template('index.html')
+@app.route('/relay_8_off/')
 def relay_8_off():
     try:
         relay_8.off()
     except Exception as e:
         print("Error occured trying to turn relay_8 off: {0}".format(e))
-    return True
-@app.route('relay_8_trigger')
+    return render_template('index.html')
+@app.route('/relay_8_trigger/')
 def relay_8_trigger():
     try:
-        relay_8_on()
+        relay_8.on()
         sleep(1)
-        relay_8_off()
+        relay_8.off()
         sleep(1)
     except Exception as e:
         print("Error occered when trying to trigger ralay_8: {0}".format(e))
-    return True
+    return render_template('index.html')
 
 @app.route('/launcher_status/')
 def launcher_status():
