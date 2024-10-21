@@ -38,7 +38,8 @@ Every year I try to build something cool, funny challenging to celebrate Hallowe
 ---
 ## Required packages
 - RPi.GPIO
-- gpiozero (using LED and Motion Sensor
+- gpiozero (using LED and Motion Sensor)
+- lib8relind
 
 ---
 ## Motion
