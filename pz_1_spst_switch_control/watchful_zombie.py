@@ -53,6 +53,7 @@ def someone_is_here():
         print("Welcome to our house!!!")
         # Skull peek a boo
         #
+        print("skull peak a boo")
         call_remote_addy(pz3, "extend_two/")
         sleep(3)
         call_remote_addy(pz3, "contract_two/")
@@ -60,16 +61,19 @@ def someone_is_here():
 
         # wake the raven
         #
+        print("wake the raven")
         call_remote_addy(pz0, "relay_3_trigger/")
         sleep(2)
 
         # open baby box
         #
+        print("Open baby box.")
         call_remote_addy(pz2, "contract_one/")
         sleep(1)
 
         # hello plague doctor
         #
+        print("Hello, plague doctor")
         relay_2.on()
         sleep(1)
         relay_2.off()
@@ -77,11 +81,13 @@ def someone_is_here():
 
         ## close baby box
         #
+        print("Closing baby box")
         call_remote_addy(pz2, "extend_one/")
         sleep(4)
 
         # hello pumpkin
         #
+        print("Hello jack o lantern")
         relay_1.on()
         sleep(1)
         relay_2.off()
@@ -89,23 +95,27 @@ def someone_is_here():
 
         # tilt alien - into view
         #
+        print("tilt alien - hello")
         call_remote_addy(pz3, "extend_four/")
         sleep(1)
 
         # raise sad little skull
         #
+        print("Hello sad little skull")
         call_remote_addy(pz3, "contract_eight/")
         sleep(3)
         call_remote_addy(pz3, "extend_eight/")
         sleep(3)
 
-        # tile alien - time to hide
+        # tilt alien - time to hide
         #
+        print("tile alien - goodbye")
         call_remote_addy(pz3, "contract_four/")
         sleep(1)
 
         # open ghost cabinet
         #
+        print("Opening ghost cabinet")
         call_remote_addy(pz2, "extend_two/")
         sleep(.5)
         call_remote_addy(pz2, "extend_three/")
@@ -113,23 +123,54 @@ def someone_is_here():
 
         # wake the ghost
         #
+        print("wake the ghost")
         call_remote_addy(pz0, "relay_1_trigger/")
         sleep(15)
 
         # close the ghost cabinet
+        print("close the ghost cabinet")
         call_remote_addy(pz2, "contract_two/")
         sleep(.5)
         call_remote_addy(pz2, "contract_three/")
         sleep(3)
 
-        # wake the ghost
+        # wake the ghost (rinse and repeat)
         #
+        print("retrigger ghost")
         call_remote_addy(pz0, "relay_1_trigger/")
+        sleep(1)
+
+        # wake the raven
+        #
+        print("retrigger the raven")
+        call_remote_addy(pz0, "relay_3_trigger/")
+        sleep(2)
+
+        # tilt alien - into view
+        #
+        print("tilt alien - hello again")
+        call_remote_addy(pz3, "extend_four/")
+        sleep(1)
+
+        # raise sad little skull
+        #
+        print("sad little skull ...")
+        call_remote_addy(pz3, "contract_eight/")
+        sleep(3)
+        call_remote_addy(pz3, "extend_eight/")
+        sleep(3)
+
+        # tilt alien - time to hide
+        #
+        print("tilt alien = goodbye again")
+        call_remote_addy(pz3, "contract_four/")
         sleep(1)
 
         # Wait to reset
         #
-        sleep(20)
+        print("resetting ....")
+        sleep(30)
+        print("and ready for the next visitor")
 
     except Exception as e:
         print("ERROR: encountered error {0} while trying to process a new viitor".format(e))
