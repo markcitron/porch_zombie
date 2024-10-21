@@ -77,7 +77,7 @@ def someone_is_here():
         relay_2.on()
         sleep(1)
         relay_2.off()
-        sleep(10)
+        sleep(9)
 
         ## close baby box
         #
@@ -90,7 +90,7 @@ def someone_is_here():
         print("Hello jack o lantern")
         relay_1.on()
         sleep(1)
-        relay_2.off()
+        relay_1.off()
         sleep(1)
 
         # tilt alien - into view
