@@ -46,6 +46,35 @@ I have triggered motion in the past bye using the Pi Camera and/or USB camera an
 
 For this year, just using IR sensor attached to the two SPST relay bots, PZ_0 and Pz_1
 
+## Sequencing
+| Activity | Action | Wait before next call |
+|----------|--------|-----------------------|
+| Skull peak a boo | extend | 2|
+| Skull peak a boo | contract | 5 |
+| Wake the raven | trigger | 2 |
+| Open Baby Box | contract | 1 |
+| Plague Dr. | Relay.on() | 1 |
+| Plague Dr. | Relay.off() | 9 |
+| Close Baby Box | extend | 4 |
+| Hello Pumpkin | on | 1 |
+| Hello Puppkin | off | 1 |
+| Tilt Alien | extend | 1 |
+| Sad Little Skull | contract | 3 |
+| Sad Little Skull | extend | 3 |
+| Tilt Alien Back | contract | 1 |
+| Ghost Cabinet (open) | extend 2 | .5 |
+| Ghost Cabinet (open) | extend 3 | 3 |
+| Wake Ghost | trigger | 15 |
+| Ghost Cabinet (close) | contract 2 | .5 |
+| Ghost Cabinet (close) | contract 3 | 3 |
+| Wake Ghost | trigger | 1 |
+| Wake Raven | trigger | 2 |
+| Tile Alien (hello) | extend | 1 |
+| Sad Little Skull | contract | 3 |
+| Sad Little Skull | extend | 3 |
+| Tile Alien (bye) | contract | 1 |
+| ... Wait to reset ... | ... do nothing ... | 30 |
+
 
 ---
 ## Yearly efforts - archives
