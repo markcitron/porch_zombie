@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import requests
-from gpiozero import MotionSensor
+from gpiozero import MotionSensor, LED
 import RPi.GPIO as GPIO
 from time import sleep
 GPIO.setmode(GPIO.BCM)
@@ -51,16 +51,85 @@ def someone_is_here():
     print("------------------------------- Someone is here ------------------------------")
     try: 
         print("Welcome to our house!!!")
-        # Open/close the Baby Box
+        # Skull peek a boo
+        #
+        call_remote_addy(pz3, "extend_two/")
+        sleep(3)
+        call_remote_addy(pz3, "contract_two/")
+        sleep(5)
+
+        # wake the raven
+        #
+        call_remote_addy(pz0, "relay_3_trigger/")
+        sleep(2)
+
+        # open baby box
         #
         call_remote_addy(pz2, "contract_one/")
-        sleep(10)
-        call_remote_addy(pz2, "extend_one/")
-        sleep(20)
+        sleep(1)
 
-        # to call any of the local switches, use the following format:
-        #     relay_#.[on|off]() to turn then on or off respectively.
+        # hello plague doctor
         #
+        relay_2.on()
+        sleep(1)
+        relay_2.off()
+        sleep(10)
+
+        ## close baby box
+        #
+        call_remote_addy(pz2, "extend_one/")
+        sleep(4)
+
+        # hello pumpkin
+        #
+        relay_1.on()
+        sleep(1)
+        relay_2.off()
+        sleep(1)
+
+        # tilt alien - into view
+        #
+        call_remote_addy(pz3, "extend_four/")
+        sleep(1)
+
+        # raise sad little skull
+        #
+        call_remote_addy(pz3, "contract_eight/")
+        sleep(3)
+        call_remote_addy(pz3, "extend_eight/")
+        sleep(3)
+
+        # tile alien - time to hide
+        #
+        call_remote_addy(pz3, "contract_four/")
+        sleep(1)
+
+        # open ghost cabinet
+        #
+        call_remote_addy(pz2, "extend_two/")
+        sleep(.5)
+        call_remote_addy(pz2, "extend_three/")
+        sleep(3)
+
+        # wake the ghost
+        #
+        call_remote_addy(pz0, "relay_1_trigger/")
+        sleep(15)
+
+        # close the ghost cabinet
+        call_remote_addy(pz2, "contract_two/")
+        sleep(.5)
+        call_remote_addy(pz2, "contract_three/")
+        sleep(3)
+
+        # wake the ghost
+        #
+        call_remote_addy(pz0, "relay_1_trigger/")
+        sleep(1)
+
+        # Wait to reset
+        #
+        sleep(20)
 
     except Exception as e:
         print("ERROR: encountered error {0} while trying to process a new viitor".format(e))
