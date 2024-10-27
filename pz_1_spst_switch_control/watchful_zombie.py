@@ -113,6 +113,26 @@ def someone_is_here():
         call_remote_addy(pz3, "contract_four/")
         sleep(1)
 
+        # raise sad little skull
+        #
+        print("Hello sad little skull")
+        call_remote_addy(pz3, "contract_eight/")
+        sleep(1)
+
+        ## open baby box
+        #
+        print("Opening baby box")
+        call_remote_addy(pz2, "contract_one/")
+        sleep(1)
+
+        ## Trigger evil little cherub
+        #
+        print("Triggering the evil little cherub")
+        relay_3.on()
+        sleep(1)
+        relay_3.off()
+        sleep (8)
+
         # open ghost cabinet
         #
         print("Opening ghost cabinet")
@@ -120,6 +140,18 @@ def someone_is_here():
         sleep(.5)
         call_remote_addy(pz2, "extend_three/")
         sleep(3)
+
+        # lower sad little skull
+        #
+        print("Lowering the little skull")
+        call_remote_addy(pz3, "extend_eight/")
+        sleep(1)
+
+        ## close baby box
+        #
+        print("Closing baby box")
+        call_remote_addy(pz2, "extend_one/")
+        sleep(1)
 
         # wake the ghost
         #
@@ -140,10 +172,13 @@ def someone_is_here():
         call_remote_addy(pz0, "relay_1_trigger/")
         sleep(1)
 
-        # wake the raven
+        # trigger electrobox
+        # (electrobox runs pretty long, so cutting after 3 seconds)
         #
-        print("retrigger the raven")
-        call_remote_addy(pz0, "relay_3_trigger/")
+        print("trigger the electrobox")
+        call_remote_addy(pz0, "relay_2_trigger/")
+        sleep(3)
+        call_remote_addy(pz0, "relay_2_trigger/")
         sleep(2)
 
         # tilt alien - into view
@@ -157,14 +192,18 @@ def someone_is_here():
         print("sad little skull ...")
         call_remote_addy(pz3, "contract_eight/")
         sleep(3)
-        call_remote_addy(pz3, "extend_eight/")
-        sleep(3)
 
         # tilt alien - time to hide
         #
         print("tilt alien = goodbye again")
         call_remote_addy(pz3, "contract_four/")
         sleep(1)
+
+        # lower sad little skull
+        #
+        print("Lower the little skull")
+        call_remote_addy(pz3, "extend_eight/")
+        sleep(3)
 
         # Wait to reset
         #
