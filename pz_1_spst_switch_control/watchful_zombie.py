@@ -131,7 +131,7 @@ def someone_is_here():
         relay_3.on()
         sleep(1)
         relay_3.off()
-        sleep (8)
+        sleep (10)
 
         # open ghost cabinet
         #
