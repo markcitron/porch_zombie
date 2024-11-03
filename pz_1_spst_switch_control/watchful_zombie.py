@@ -208,7 +208,7 @@ def someone_is_here():
         # Wait to reset
         #
         print("resetting ....")
-        sleep(30)
+        sleep(15)
         print("and ready for the next visitor")
 
     except Exception as e:
