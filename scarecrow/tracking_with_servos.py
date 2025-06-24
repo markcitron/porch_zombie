@@ -15,12 +15,12 @@ adc3 = ADC(3)
 adc4 = ADC(4)
 
 # Initialize servos
-pan_servo = Servo(8)
-tilt_servo = Servo(7)
+pan_servo = Servo(8)   # Horizontal movement
+tilt_servo = Servo(7)  # Vertical movement
 
 # Servo angle limits
 SERVO_MIN = -45
-SERVO_MAX = 45
+SERVO_MAX = 45 
 
 # Frame dimensions (adjust if needed)
 FRAME_WIDTH = 640
@@ -49,20 +49,30 @@ while True:
         face_center_y = y + h // 2
 
         # Map face position to servo angles
-        pan_angle = map_range(face_center_x, 0, FRAME_WIDTH, SERVO_MIN, SERVO_MAX)
-        tilt_angle = map_range(face_center_y, 0, FRAME_HEIGHT, SERVO_MAX, SERVO_MIN)  # Invert Y for natural tilt
+        # Pan: left (0) → +90, right (640) → -90 (counter-clockwise is positive)
+        pan_angle = map_range(face_center_x, 0, FRAME_WIDTH, 45, -45)
+
+        # Tilt: top (0) → -90, bottom (480) → +90 (up is negative)
+        tilt_angle = map_range(face_center_y, 0, FRAME_HEIGHT, -45, 45)
 
         # Set servo angles
-        pan_servo.angle = pan_angle
-        tilt_servo.angle = tilt_angle
+        Servo(8).angle(int(pan_angle))
+        # pan_servo.angle = pan_angle
+        Servo(7).angle(int(tilt_angle))
+        # tilt_servo.angle = tilt_angle
+
+        """
+        print("Moving to:")
+        print("      pan: {}".format(pan_angle))
+        print("     tilt: {}".format(tilt_angle))
+        """
 
         # Draw rectangle
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    cv2.imshow('Face Tracking', frame)
+    # cv2.imshow('Face Tracking', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 cap.release()
 cv2.destroyAllWindows()
-
