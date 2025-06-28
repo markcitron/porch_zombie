@@ -16,7 +16,9 @@ adc4 = ADC(4)
 
 # Initialize servos
 pan_servo = Servo(8)   # Horizontal movement
+pan_servo.angle(0)
 tilt_servo = Servo(7)  # Vertical movement
+tilt_servo.angle(0)
 
 # Servo angle limits
 SERVO_MIN = -45
@@ -68,7 +70,7 @@ while True:
         """
 
         # Draw rectangle
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # cv2.imshow('Face Tracking', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
