@@ -20,5 +20,5 @@ if __name__ == '__main__':
         if which_servo == "q":
             print("Thanks for playing :-)")
             break
-        servo_moveto = input("Angel? ")
+        servo_moveto = input("Angle? ")
         Servo(int(which_servo)).angle(int(servo_moveto))
