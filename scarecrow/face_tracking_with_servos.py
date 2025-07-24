@@ -59,9 +59,9 @@ while True:
 
         # Set servo angles
         Servo(8).angle(int(pan_angle))
-        # pan_servo.angle = pan_angle
+        pan_servo.angle = pan_angle
         Servo(7).angle(int(tilt_angle))
-        # tilt_servo.angle = tilt_angle
+        tilt_servo.angle = tilt_angle
 
         """
         print("Moving to:")
@@ -70,7 +70,7 @@ while True:
         """
 
         # Draw rectangle
-        # cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # cv2.imshow('Face Tracking', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
