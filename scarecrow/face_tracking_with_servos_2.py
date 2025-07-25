@@ -1,28 +1,23 @@
 #!/usr/bin/python3
 
 import cv2
-from robot_hat import Servo, ADC
+from robot_hat import Servo
 from robot_hat.utils import reset_mcu
 from time import sleep
 
-reset_mcu()
-sleep(1)
-
-adc0 = ADC(0)
-adc1 = ADC(1)
-adc2 = ADC(2)
-adc3 = ADC(3)
-adc4 = ADC(4)
-
 # Initialize servos
 pan_servo = Servo(8)   # Horizontal movement
-pan_servo.angle(0)
 tilt_servo = Servo(7)  # Vertical movement
-tilt_servo.angle(0)
+
+# initialize servos
+pan_servo = Servo(8) # horizontal movement
+#pan_servo.angle(0)
+tilt_servo = Servo(7) # vertical movememtn
+#tilt_servo.angle(0)
 
 # Servo angle limits
 SERVO_MIN = -45
-SERVO_MAX = 45 
+SERVO_MAX = 45
 
 # Frame dimensions (adjust if needed)
 FRAME_WIDTH = 640
@@ -54,14 +49,14 @@ while True:
         # Pan: left (0) → +90, right (640) → -90 (counter-clockwise is positive)
         pan_angle = map_range(face_center_x, 0, FRAME_WIDTH, 45, -45)
 
-        # Tilt: top (0) → -90, bottom (480) → +90 (up is negative)
-        tilt_angle = map_range(face_center_y, 0, FRAME_HEIGHT, -45, 45)
+        # Tilt: top (0) → +90, bottom (480) → -90 (up is negative)
+        tilt_angle = map_range(face_center_y, 0, FRAME_HEIGHT, 45, -45)
 
         # Set servo angles
-        Servo(8).angle(int(pan_angle))
-        pan_servo.angle = pan_angle
-        Servo(7).angle(int(tilt_angle))
-        tilt_servo.angle = tilt_angle
+        """
+        pan_servo.angle(int(pan_angle))
+        tilt_servo.angle(int(tilt_angle))
+        """
 
         # Draw rectangle
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
