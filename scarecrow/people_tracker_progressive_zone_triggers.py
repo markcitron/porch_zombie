@@ -39,10 +39,12 @@ motion_timeout = 3
 last_motion_time = time.time()
 
 # 🔊 Multi-Zone Sounds
+"""
 pygame.mixer.init()
 left_sound = pygame.mixer.Sound("growl.wav")
 center_sound = pygame.mixer.Sound("laugh.wav")
 right_sound = pygame.mixer.Sound("chains.wav")
+"""
 
 # 🔧 Mapping and Easing
 def map_range(value, in_min, in_max, out_min, out_max):
@@ -53,6 +55,7 @@ def ease_angle(current, target, factor):
     return current + factor * (target - current)
 
 # 🧠 Zone Detection
+"""
 def trigger_sound_by_zone(cx):
     if cx < FRAME_WIDTH // 3:
         left_sound.play()
@@ -60,6 +63,7 @@ def trigger_sound_by_zone(cx):
         center_sound.play()
     else:
         right_sound.play()
+"""
 
 # 🎥 Video Stream
 cap = cv2.VideoCapture(0)
@@ -112,7 +116,7 @@ while True:
         tilt_servo.angle(current_tilt)
 
         # 🔊 Trigger zone-based sound
-        trigger_sound_by_zone(cx)
+        # trigger_sound_by_zone(cx)
 
     else:
         idle_duration = time.time() - last_motion_time
@@ -130,7 +134,8 @@ while True:
             pan_servo.angle(patrol_angle)
             tilt_servo.angle(0)
 
-    cv2.imshow("Scarecrow Tracker", frame)
+    # hiding show to run headless
+    # cv2.imshow("Scarecrow Tracker", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

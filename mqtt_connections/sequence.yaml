@@ -1,0 +1,10 @@
+sequences:
+  entry:
+    - bot: "ghostbox"
+      delay: 0
+    - bot: "spider"
+      delay: 2
+    - bot: "alienpeek"
+      delay: 4
+    - bot: "coffin"
+      delay: 6
