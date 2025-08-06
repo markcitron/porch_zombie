@@ -1,19 +1,4 @@
-#!/usr/bin/python3 
-
-"""
-Sound is currently commented out as it isn't working
-Can tweak 
-    ease_angle 
-        0.01 - very slow & smooth, gentle drifting, food for ghost-like/stealthy
-        0.05 - moderate - natural tracking that's not twitchy
-        0.1  - quick but less smooth - snappier, alert - snapping to motion
-    
-    patrol_step 
-        1 - gentle sweep - slowly scans the porch, like it's thorghtfully observing
-        3-5 - lively scan - more aggressife side -to-side - a little rebotic
-        7+ - rapic search
-for different movement styles
-"""
+#!/usr/bin/python3
 
 import cv2
 import imutils
@@ -22,52 +7,63 @@ import random
 import pygame
 from robot_hat import Servo
 
-# Initialize servos
-pan_servo = Servo(8)
-pan_servo.angle(0)
-tilt_servo = Servo(7)
-tilt_servo.angle(0)
+# 🛠️ Servo Setup
+pan_servo = Servo(8)   # Pan: left/right
+tilt_servo = Servo(7)  # Tilt: up/down
 
-time.sleep(5)
+# 🎚️ Servo Angle Limits
+PAN_MIN = -90
+PAN_MAX = 90
+TILT_MIN = -45
+TILT_MAX = 45
 
-# Servo angle limits
-ANGLE_MIN = -45
-ANGLE_MAX = 45
-
-# Frame dimensions
+# 📐 Frame Dimensions (camera-dependent)
 FRAME_WIDTH = 640
 FRAME_HEIGHT = 480
 
-# Smoothing
-current_pan = 0
-current_tilt = 0
-
-# Motion filtering
+# 🕵️ Motion Filtering Parameters
 MIN_AREA = 3000
 ASPECT_RATIO_MIN = 0.3
 ASPECT_RATIO_MAX = 1.5
 
-# Patrol mode
-patrol_angle = ANGLE_MIN
-patrol_direction = 1
-patrol_step = 2
-last_motion_time = time.time()
-motion_timeout = 3  # seconds
+# 🎛️ Smoothing Variables
+current_pan = 0
+current_tilt = 0
 
-# Sound setup
+# 👁️ Patrol Mode Variables
+patrol_angle = PAN_MIN
+patrol_direction = 1
+motion_timeout = 3
+last_motion_time = time.time()
+
+# 🔊 Multi-Zone Sounds
 """
 pygame.mixer.init()
-pygame.mixer.music.load("scare_sound.mp3")  # Replace with your sound file
+left_sound = pygame.mixer.Sound("growl.wav")
+center_sound = pygame.mixer.Sound("laugh.wav")
+right_sound = pygame.mixer.Sound("chains.wav")
 """
 
-# Helper functions
+# 🔧 Mapping and Easing
 def map_range(value, in_min, in_max, out_min, out_max):
     value = max(min(value, in_max), in_min)
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-def ease_angle(current, target, factor=0.05):
+def ease_angle(current, target, factor):
     return current + factor * (target - current)
 
+# 🧠 Zone Detection
+"""
+def trigger_sound_by_zone(cx):
+    if cx < FRAME_WIDTH // 3:
+        left_sound.play()
+    elif cx < 2 * FRAME_WIDTH // 3:
+        center_sound.play()
+    else:
+        right_sound.play()
+"""
+
+# 🎥 Video Stream
 cap = cv2.VideoCapture(0)
 avg = None
 
@@ -88,8 +84,8 @@ while True:
     frame_delta = cv2.absdiff(gray, cv2.convertScaleAbs(avg))
     thresh = cv2.threshold(frame_delta, 25, 255, cv2.THRESH_BINARY)[1]
     thresh = cv2.dilate(thresh, None, iterations=2)
-
     contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
+
     motion_center = None
 
     for contour in contours:
@@ -108,37 +104,39 @@ while True:
         last_motion_time = time.time()
         cx, cy = motion_center
 
-        target_pan = map_range(cx, 0, FRAME_WIDTH, ANGLE_MAX, ANGLE_MIN)
-        target_tilt = map_range(cy, 0, FRAME_HEIGHT, ANGLE_MIN, ANGLE_MAX)
+        target_pan = map_range(cx, 0, FRAME_WIDTH, PAN_MAX, PAN_MIN)
+        target_tilt = map_range(cy, 0, FRAME_HEIGHT, TILT_MIN, TILT_MAX)
 
-        current_pan = ease_angle(current_pan, target_pan)
-        current_tilt = ease_angle(current_tilt, target_tilt)
+        current_pan = ease_angle(current_pan, target_pan, factor=0.1)
+        current_tilt = ease_angle(current_tilt, target_tilt, factor=0.1)
 
         pan_servo.angle(current_pan)
         tilt_servo.angle(current_tilt)
 
-        # Play sound if not already playing
-        """
-        if not pygame.mixer.music.get_busy():
-            pygame.mixer.music.play()
-        """
+        # commenting out sound for now, it isn't working, need to reinstall the pygame module
+        # trigger_sound_by_zone(cx)
 
     else:
-        if time.time() - last_motion_time > motion_timeout:
+        idle_duration = time.time() - last_motion_time
+        if idle_duration > motion_timeout:
+            patrol_step = 1 if idle_duration > 10 else 3
+
             if random.random() < 0.02:
-                time.sleep(random.uniform(0.5, 1.5))  # Random pause
+                time.sleep(random.uniform(0.5, 1.5))
 
             patrol_angle += patrol_direction * patrol_step
-            if patrol_angle >= ANGLE_MAX or patrol_angle <= ANGLE_MIN:
+            if patrol_angle >= PAN_MAX or patrol_angle <= PAN_MIN:
                 patrol_direction *= -1
-                patrol_angle = max(min(patrol_angle, ANGLE_MAX), ANGLE_MIN)
+                patrol_angle = max(min(patrol_angle, PAN_MAX), PAN_MIN)
 
             pan_servo.angle(patrol_angle)
             tilt_servo.angle(0)
 
-    cv2.imshow("Scarecrow Tracker", frame)
+    # headless running
+    # cv2.imshow("Scarecrow Tracker", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+# 🧹 Shutdown
 cap.release()
 cv2.destroyAllWindows()
