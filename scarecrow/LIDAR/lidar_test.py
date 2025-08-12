@@ -1,40 +1,28 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
+from ydlidar import CYdLidar, LaserScan
+import ydlidar
 import time
-from ydlidar import YDLidarX4
 
-# Set your serial port and baud rate
-PORT = "/dev/ttyUSB0"
-BAUDRATE = 115200
+lidar = CYdLidar()
+lidar.setlidaropt(ydlidar.LidarPropSerialPort, "/dev/ttyUSB0")
+lidar.setlidaropt(ydlidar.LidarPropSerialBaudrate, 230400)  # Try 230400
+lidar.setlidaropt(ydlidar.LidarPropDeviceType, ydlidar.YDLIDAR_TYPE_SERIAL)
+lidar.setlidaropt(ydlidar.LidarPropLidarType, ydlidar.TYPE_TOF)
+lidar.setlidaropt(ydlidar.LidarPropIntenstiy, True)
 
-def run():
-    lidar = YDLidarX4(port=PORT, baudrate=BAUDRATE)
-    
-    if not lidar.connect():
-        print("❌ Failed to connect to YDLidar X4.")
-        return
+if not lidar.initialize() or not lidar.turnOn():
+    print("❌ LIDAR failed to start")
+    exit(1)
 
-    print("✅ Connected to YDLidar X4.")
-    
-    lidar.start_scan()
-    print("🔄 Scanning... Press Ctrl+C to stop.")
+scan = LaserScan()
 
-    try:
-        while True:
-            scan = lidar.get_scan()
-            if scan:
-                print("Scan:")
-                for point in scan:
-                    angle = point.angle
-                    distance = point.distance
-                    print(f"  Angle: {angle:.2f}°, Distance: {distance:.2f} mm")
-            time.sleep(0.1)
-    except KeyboardInterrupt:
-        print("🛑 Stopping scan...")
-    finally:
-        lidar.stop()
-        lidar.disconnect()
-        print("✅ LIDAR disconnected.")
+try:
+    while True:
+        if lidar.doProcessSimple(scan):
+            print(f"Scan received: {len(scan.points)} points")
+        time.sleep(0.1)
 
-if __name__ == "__main__":
-    run()
+except KeyboardInterrupt:
+    lidar.turnOff()
+    lidar.disconnecting()
