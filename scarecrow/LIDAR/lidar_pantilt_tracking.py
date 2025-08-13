@@ -6,32 +6,32 @@ from robot_hat import Servo
 from ydlidar import CYdLidar, LaserScan  
 import ydlidar
 
-# 🛠️ Servo Setup
+# Servo Setup
 pan_servo = Servo(8)   # Pan: left/right
 tilt_servo = Servo(7)  # Tilt: up/down
 
-# 🎚️ Servo Angle Limits
+# Servo Angle Limits
 PAN_MIN = -90
 PAN_MAX = 90
 TILT_MIN = -45
 TILT_MAX = 45
 
-# 🧭 LIDAR Tracking Zone
+# LIDAR Tracking Zone
 FRONT_ARC_MIN = 120
 FRONT_ARC_MAX = 240
 MIN_RANGE = 0.1  # meters
 
-# 🎛️ Smoothing Variables
+# Smoothing Variables
 current_pan = 0
 current_tilt = 0
 
-# 👁️ Patrol Mode Variables
+# Patrol Mode Variables
 patrol_angle = PAN_MIN
 patrol_direction = 1
 motion_timeout = 3
 last_motion_time = time.time()
 
-# 🔧 Mapping and Easing
+# Mapping and Easing
 def map_range(value, in_min, in_max, out_min, out_max):
     value = max(min(value, in_max), in_min)
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -39,7 +39,7 @@ def map_range(value, in_min, in_max, out_min, out_max):
 def ease_angle(current, target, factor):
     return current + factor * (target - current)
 
-# 🧠 LIDAR Setup
+# LIDAR Setup
 lidar = CYdLidar()
 lidar.setlidaropt(ydlidar.LidarPropSerialPort, "/dev/ttyUSB0")
 lidar.setlidaropt(ydlidar.LidarPropSerialBaudrate, 115200)
