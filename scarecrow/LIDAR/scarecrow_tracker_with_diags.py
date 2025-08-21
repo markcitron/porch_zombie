@@ -20,7 +20,7 @@ ANGLE_TOLERANCE = 0.2  # Radians ± around target
 
 # --- Servo Setup ---
 pan_servo = Servo(8)   # moves up/down
-tilt_servo = Servo(7)  # moves left/right 
+tilt_servo = Servo(7)  # moves left/right
 
 def set_pan(angle_deg):
     # Positive = left, Negative = right
@@ -47,12 +47,20 @@ lidar.setlidaropt(ydlidar.LidarPropLidarType, ydlidar.TYPE_TRIANGLE)
 lidar.setlidaropt(ydlidar.LidarPropIntenstiy, True)
 
 if not lidar.initialize():
-    print(" Failed to initialize LIDAR")
+    print("❌ Failed to initialize LIDAR")
     exit(1)
 
+# Diagnostic Patch #1: Check health status
+health = lidar.getHealth()
+print(f"🩺 LIDAR health status: {health.status}, error code: {health.error_code}")
+
 if not lidar.turnOn():
-    print(" Failed to start LIDAR scanning")
+    print("⚠️ Failed to start LIDAR scanning — possible health issue")
+    lidar.turnOff()
+    lidar.disconnecting()
     exit(1)
+else:
+    print("✅ LIDAR scanning started")
 
 scan = ydlidar.LaserScan()
 
@@ -68,7 +76,7 @@ def deg_to_rad(deg):
 
 # --- Main Loop ---
 try:
-    print(" Scarecrow tracking system active...")
+    print("🧟 Scarecrow tracking system active...")
     sweeping_forward = True
     pan_angle = PAN_MIN
 
@@ -77,17 +85,25 @@ try:
         set_tilt(0)  # Neutral tilt
 
         if lidar.doProcessSimple(scan):
+            if not scan.points:
+                print("⚠️ Empty scan received")
+                continue
+
             target_rad = deg_to_rad(pan_angle)
-            distance = get_distance_at_angle(scan, target_rad)
+            try:
+                distance = get_distance_at_angle(scan, target_rad)
+            except Exception as e:
+                print(f"⚠️ Error processing scan: {e}")
+                continue
 
             if distance and 0.2 < distance < 3.0:
-                print(f" Motion detected at {pan_angle}°, {distance:.2f}m")
+                print(f"🎯 Motion detected at {pan_angle}°, {distance:.2f}m")
                 set_pan(pan_angle)
                 tilt_angle = compute_tilt_from_distance(distance)
                 set_tilt(tilt_angle)
                 time.sleep(TRACK_HOLD_TIME)
             else:
-                print(f" Scanning at {pan_angle}°... No motion")
+                print(f"🔍 Scanning at {pan_angle}°... No motion")
 
         # Sweep logic
         if sweeping_forward:
@@ -103,7 +119,7 @@ try:
         time.sleep(SCAN_INTERVAL + random.uniform(-0.05, 0.1))
 
 except KeyboardInterrupt:
-    print(" Shutting down scarecrow...")
+    print("🛑 Shutting down scarecrow...")
 
 finally:
     lidar.turnOff()
