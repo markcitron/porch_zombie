@@ -55,14 +55,14 @@ def look_up_down():
 
 # --- Main Loop ---
 try:
-    print("🧟 Smooth scarecrow idle motion active...")
+    print("🧟 Smooth floating skull idle motion active...")
     while True:
         look_around()
         look_up_down()
         time.sleep(random.uniform(1.0, 2.0))
 
 except KeyboardInterrupt:
-    print("🛑 Shutting down scarecrow motion...")
+    print("🛑 Shutting down floating skull motion...")
 
 finally:
     pan_servo.release()
