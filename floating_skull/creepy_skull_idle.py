@@ -17,11 +17,15 @@ TILT_NEUTRAL = 0
 pan_servo = Servo(8)   # left/right
 tilt_servo = Servo(7)  # up/down
 
+last_pan = PAN_NEUTRAL  # Tracks current pan position
+
 def set_pan(angle_deg):
+    global last_pan
     clamped = max(PAN_MIN, min(PAN_MAX, angle_deg))
     if angle_deg != clamped:
         print(f"⚠️ Pan angle {angle_deg:.2f} clamped to {clamped:.2f}")
     pan_servo.angle(clamped)
+    last_pan = clamped
 
 def set_tilt(angle_deg):
     clamped = max(TILT_MIN, min(TILT_MAX, angle_deg))
@@ -66,8 +70,15 @@ def eerie_idle_motion():
         if abs(target - last_pan) < 10:
             continue
 
+        # Safe reset if jump is too large
+        if abs(target - last_pan) > 60:
+            print("🛑 Large pan jump detected. Resetting to neutral.")
+            print("     setting to:{}".format(PAN_NEUTRAL))
+            set_pan(PAN_NEUTRAL)
+            time.sleep(0.5)
+            last_pan = PAN_NEUTRAL
+
         smooth_move_servo(set_pan, last_pan, target, profile.pan_step, profile.delay, profile.drift)
-        last_pan = target
         time.sleep(random.uniform(0.3, 0.6))
 
         if random.random() < 0.4:
@@ -79,8 +90,6 @@ def eerie_idle_motion():
             time.sleep(random.uniform(0.2, 0.4))
 
 # --- Main Loop ---
-last_pan = PAN_NEUTRAL
-
 try:
     print("💀 Creepy skull idle motion active...")
     set_pan(PAN_NEUTRAL)
