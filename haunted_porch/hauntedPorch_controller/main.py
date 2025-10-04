@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 import paho.mqtt.client as mqtt
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # MQTT setup
 
@@ -12,7 +14,8 @@ mqtt_topic = "hauntedporch/control"
 client = mqtt.Client()
 broker_connected = False
 try:
-	client.connect(mqtt_broker, mqtt_port)
+	client.connect(mqtt_broker, mqtt_port, keepalive=60)
+	client.loop_start()  # Start network loop for keepalive and auto-reconnect
 	broker_connected = True
 except Exception as e:
 	print(f"Warning: Could not connect to MQTT broker at {mqtt_broker}:{mqtt_port}. Error: {e}")
@@ -78,11 +81,22 @@ def read_root():
 @app.post("/trigger")
 def trigger(device: str = Form(...)):
 	# Publish MQTT message
+	global broker_connected
 	if broker_connected:
 		try:
-			client.publish(mqtt_topic, device)
+			result = client.publish(mqtt_topic, device)
+			if result.rc != mqtt.MQTT_ERR_SUCCESS:
+				print(f"Publish failed with code {result.rc}, attempting reconnect...")
+				client.reconnect()
+				client.publish(mqtt_topic, device)
 		except Exception as e:
-			print(f"Error publishing to MQTT: {e}")
+			print(f"Error publishing to MQTT: {e}. Attempting reconnect...")
+			try:
+				client.reconnect()
+				client.publish(mqtt_topic, device)
+			except Exception as e2:
+				print(f"Reconnect failed: {e2}")
+				broker_connected = False
 	else:
 		print("MQTT broker not connected. Message not sent.")
 	return RedirectResponse("/", status_code=303)
