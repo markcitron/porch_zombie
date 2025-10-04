@@ -67,7 +67,7 @@ def on_message(client, userdata, msg):
     if payload == TRIGGER_KEYWORD:
         threading.Thread(target=active_motion).start()
 
-client = mqtt.Client()
+client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
 client.connect(MQTT_BROKER, MQTT_PORT)
 client.subscribe(MQTT_TOPIC)
