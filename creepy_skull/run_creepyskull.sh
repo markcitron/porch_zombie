@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # --- Configuration ---
-SCRIPT="creepy_skull_idle.py"
-LOGFILE="creepy_skull_idle.log"
+SCRIPT="creepy_skull_triggered.py"
+LOGFILE="creepy_skull_triggered.log"
 PYTHON=$(which python3)
 
 echo "🔧 Launching Floating Skull..."
