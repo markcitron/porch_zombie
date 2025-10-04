@@ -17,7 +17,7 @@ servo_8 = Servo(8)
 servo_7 = Servo(7)
 
 # MQTT setup
-MQTT_BROKER = "localhost"  # Change for production
+MQTT_BROKER = "10.10.0.170"  # Change for production (currently my windows box)
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD = "creepy_skull"
