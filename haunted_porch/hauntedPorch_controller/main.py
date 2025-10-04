@@ -6,7 +6,7 @@ app = FastAPI()
 
 # MQTT setup
 
-mqtt_broker = "localhost"  # Change to your broker address
+mqtt_broker = "10.10.0.170"  # Change to your broker address
 mqtt_port = 1883
 mqtt_topic = "hauntedporch/control"
 client = mqtt.Client()
