@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # --- Configuration ---
-SCRIPT="creepy_skull_triggered.py"
-LOGFILE="creepy_skull_triggered.log"
+SCRIPT="mqtt_skull_motion.py"
+LOGFILE="mqtt_skull_motion.log"
 PYTHON=$(which python3)
 
 echo "🔧 Launching Floating Skull..."
