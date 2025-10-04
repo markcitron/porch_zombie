@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import time
 import paho.mqtt.client as mqtt
 from robot_hat import Servo
