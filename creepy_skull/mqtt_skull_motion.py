@@ -74,9 +74,25 @@ def on_message(client, userdata, msg):
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
+
+# Add disconnect handler for auto-reconnect
+def on_disconnect(client, userdata, rc):
+    print(f"MQTT disconnected with code {rc}. Attempting reconnect...")
+    while rc != 0:
+        try:
+            rc = client.reconnect()
+            if rc == 0:
+                print("MQTT reconnected successfully.")
+        except Exception as e:
+            print(f"Reconnect failed: {e}")
+        time.sleep(5)
+client.on_disconnect = on_disconnect
+
 client.connect(MQTT_BROKER, MQTT_PORT)
 client.subscribe(MQTT_TOPIC)
 
 print("Creepy Skull MQTT motion listener active. Waiting for trigger...")
 idle_position()
-client.loop_forever()
+client.loop_start()
+while True:
+    time.sleep(1)

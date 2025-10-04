@@ -9,15 +9,19 @@ This is a simple FastAPI-based controller app for my haunted porch Halloween pro
    pip install -r requirements.txt
    ```
 
-2. Start the FastAPI server:
+2. Start the FastAPI server (accessible from other devices):
    ```powershell
-   uvicorn main:app --reload
+   uvicorn main:app --reload --host 0.0.0.0
    ```
    (Run this command from the `hauntedPorch_controller` directory)
 
 3. Open your browser and go to:
    ```
-   http://localhost:8000/
+   http://<controller_ip>:8000/
+   ```
+   For example, if your controller is at `10.10.0.170`, use:
+   ```
+   http://10.10.0.170:8000/
    ```
    Use the web UI to trigger device actions.
 
