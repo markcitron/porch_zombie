@@ -93,6 +93,4 @@ client.subscribe(MQTT_TOPIC)
 
 print("Creepy Skull MQTT motion listener active. Waiting for trigger...")
 idle_position()
-client.loop_start()
-while True:
-    time.sleep(1)
+client.loop_forever()
