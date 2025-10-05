@@ -88,7 +88,7 @@ def on_disconnect(client, userdata, rc):
         time.sleep(5)
 client.on_disconnect = on_disconnect
 
-client.connect(MQTT_BROKER, MQTT_PORT)
+client.connect(MQTT_BROKER, MQTT_PORT, keepalive=120)
 client.subscribe(MQTT_TOPIC)
 
 print("Creepy Skull MQTT motion listener active. Waiting for trigger...")
