@@ -66,11 +66,12 @@ def read_root():
 			<h1>👻 Haunted Porch Controller 👻</h1>
 			<img src="/static/ghost.png" alt="Creepy Ghost" style="width:150px;float:right;margin:0 0 2em 2em;filter:drop-shadow(0 0 10px #fff);">
 			<form action="/trigger" method="post">
-				<label>Device:</label>
-				<select name="device">
-					<option value="zombie_eyes">Zombie Eyes</option>
+				<label style="font-size:1.5em;padding-right:0.5em;">Device:</label>
+				<select name="device" style="font-size:1.3em;padding:0.4em 1em;min-width:160px;">
+					<option value="skeleton_coffin">Skeleton Coffin</option>
 					<option value="creepy_skull">Creepy Skull</option>
-					<option value="servo">Servo</option>
+					<option value="scarecrow">Scarecrow</option>
+					<option value="electro_closet">Electro Closet</option>
 				</select>
 				<button type="submit">Trigger</button>
 			</form>
