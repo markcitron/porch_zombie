@@ -43,10 +43,10 @@ def contract_then_extend_relay(relay_num, contract_time=1, extend_time=1):
     relays = [relay1, relay2, relay3, relay4, relay5, relay6, relay7, relay8]
     if 1 <= relay_num <= 8:
         relay = relays[relay_num - 1]
-        print(f"Contracting relay {relay_num}...")
+        print("Contracting relay {}...".format(relay_num))
         relay.contract()
         time.sleep(contract_time)
-        print(f"Extending relay {relay_num}...")
+        print("Extending relay {}...".format(relay_num))
         relay.extend()
         time.sleep(extend_time)
         return True
@@ -62,7 +62,7 @@ def main():
         print("2: Contract all relays")
         print("3: Contract then extend a single relay")
         print("q: Quit")
-        choice = input("Select test to run: ").strip().lower()
+        choice = str(input("Select test to run: ")).lower()
         if choice == '1':
             extend_all_relays()
         elif choice == '2':
