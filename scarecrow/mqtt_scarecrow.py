@@ -3,6 +3,7 @@
 import time
 import paho.mqtt.client as mqtt
 import threading
+import lib8relind
 
 # Lock to prevent overlapping motions
 motion_lock = threading.Lock()
