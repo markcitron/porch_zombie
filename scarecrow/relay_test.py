@@ -2,6 +2,7 @@
 
 import time
 import lib8relind
+from relays import *
 
 # set up linear actuator relays
 relay1 = LinAct("", 1)
@@ -13,26 +14,29 @@ relay6 = LinAct("", 6)
 relay7 = LinAct("", 7)
 relay8 = LinAct("", 8)
 
-def trigger_relay(relay):
-    print(f"Extending relay {relay}!")
-    relay.extend()
-    time.sleep(1)
-    print(f"Contracting relay {relay}!")
-    relay.contract()
-    time.sleep(1)
+def extend_all_relays():
+    realy1.extend()
+    realy2.extend()
+    realy3.extend()
+    realy4.extend()
+    realy5.extend()
+    realy6.extend()
+    realy7.extend()
+    realy8.extend()
+    return True
+
+def contract_all_relays():
+    realy1.contract()
+    realy2.contract()
+    realy3.contract()
+    realy4.contract()
+    realy5.contract()
+    realy6.contract()
+    realy7.contract()
+    realy8.contract()
     return True
 
 def main():
-    print("Testing scarecrow relays...")
-    trigger_relay(relay1)
-    trigger_relay(relay2)
-    trigger_relay(relay3)
-    trigger_relay(relay4)
-    trigger_relay(relay5)
-    trigger_relay(relay6)
-    trigger_relay(relay7)
-    trigger_relay(relay8)
-    return True
 
 if __name__ == "__main__":
     main()
