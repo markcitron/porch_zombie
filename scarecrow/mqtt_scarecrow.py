@@ -44,7 +44,7 @@ def someone_is_here():
 	time.sleep(5)
 	relay1.contract()
 	time.sleep(3)
-	relay1.contract() 
+	relay1.extend()
 	return True
 
 def active_motion():
