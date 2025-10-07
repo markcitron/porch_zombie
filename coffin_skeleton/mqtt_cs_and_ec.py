@@ -41,15 +41,6 @@ def idle_position():
 
 def someone_is_here():
 	print("Someone is here!")
-	relay6.contract() 
-	time.sleep(3) 
-	relay1.contract() 
-	time.sleep(3)
-	relay1.extend() 
-	time.sleep(5)
-	relay1.contract()
-	time.sleep(3)
-	relay1.extend()
 	return True
 
 def active_motion():
@@ -63,12 +54,34 @@ def active_motion():
 	finally:
 		motion_lock.release()
 
+
+def coffin_skeleton():
+	print("Coffin Skeleton activated!")
+	relay1.extend()  # Raise coffin
+	time.sleep(10)   # Keep it up for 10 seconds
+	relay1.contract()  # Lower coffin
+	return True
+
+def electro_closet():
+	print("Electro Closet activated!")
+	relay2.extend()  # Open left door
+	time.sleep(.1)
+	relay3.extend()  # Open right door
+	time.sleep(10)   # Keep doors open for 10 seconds
+	relay2.contract()  # Close left door
+	time.sleep(.1)
+	relay3.contract()  # Close right door
+	return True
+
 # MQTT callback
 def on_message(client, userdata, msg):
 	payload = msg.payload.decode()
 	print("Received MQTT: {}".format(payload))
-	if payload == TRIGGER_KEYWORD:
-		active_motion()
+	if payload == TRIGGER_KEYWORD1:
+		coffin_skeleton()
+	elif payload == TRIGGER_KEYWORD2:
+		electro_closet()
+
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
