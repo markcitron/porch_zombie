@@ -14,33 +14,39 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD = "scarecrow"
 
+# set up linear actuator relays
+relay1 = LinAct("", 1)
+relay2 = LinAct("", 2)
+relay3 = LinAct("", 3)
+relay4 = LinAct("", 4)
+relay5 = LinAct("", 5)
+relay6 = LinAct("", 6)
+relay7 = LinAct("", 7)
+relay8 = LinAct("", 8)
+
 # Placeholder functions for linear actuators
 def idle_position():
 	# Set both actuators to idle position
 	print("Setting actuators to idle position.")
-	# actuator_1_idle()
-	# actuator_2_idle()
+	relay1.extend()
+	time.sleep(.1)
+	relay6.extent()
+	return True
 
-def activate_actuator_1():
-	print("Activating actuator 1!")
-	# TODO: Add code to trigger actuator 1
-
-def activate_actuator_2():
-	print("Activating actuator 2!")
-	# TODO: Add code to trigger actuator 2
+def someone_is_here():
+	print("Someone is here!")
+	relay6.contact()
+	time.sleep(15)
+	relay1.contract()
+	return True
 
 def active_motion():
 	if not motion_lock.acquire(blocking=False):
 		print("Motion already active, ignoring trigger.")
 		return
 	try:
-		# Example sequence: activate both actuators
-		activate_actuator_1()
-		time.sleep(1)
-		activate_actuator_2()
-		time.sleep(1)
-		# Hold active for demonstration
-		time.sleep(5)
+		someone_is_here()
+		time.sleep(30)
 		idle_position()
 	finally:
 		motion_lock.release()
@@ -48,7 +54,7 @@ def active_motion():
 # MQTT callback
 def on_message(client, userdata, msg):
 	payload = msg.payload.decode()
-	print(f"Received MQTT: {payload}")
+	print("Received MQTT: {}".format(payload))
 	if payload == TRIGGER_KEYWORD:
 		active_motion()
 
@@ -64,7 +70,7 @@ def on_disconnect(client, userdata, rc):
 			if rc == 0:
 				print("MQTT reconnected successfully.")
 		except Exception as e:
-			print(f"Reconnect failed: {e}")
+			print("Reconnect failed: {}".format(e))
 		time.sleep(5)
 client.on_disconnect = on_disconnect
 
