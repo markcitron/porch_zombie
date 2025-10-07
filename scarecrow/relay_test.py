@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import time
 import lib8relind
@@ -62,7 +62,7 @@ def main():
         print("2: Contract all relays")
         print("3: Contract then extend a single relay")
         print("q: Quit")
-        choice = str(input("Select test to run: "))()
+        choice = str(input("Select test to run: "))
         if choice == '1':
             extend_all_relays()
         elif choice == '2':
