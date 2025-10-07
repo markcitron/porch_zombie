@@ -62,7 +62,7 @@ def main():
         print("2: Contract all relays")
         print("3: Contract then extend a single relay")
         print("q: Quit")
-        choice = str(input("Select test to run: ")).lower()
+        choice = str(input("Select test to run: "))()
         if choice == '1':
             extend_all_relays()
         elif choice == '2':
