@@ -4,6 +4,7 @@ import time
 import paho.mqtt.client as mqtt
 import threading
 import lib8relind
+from relays import *
 
 # Lock to prevent overlapping motions
 motion_lock = threading.Lock()
@@ -30,7 +31,7 @@ def idle_position():
 	print("Setting actuators to idle position.")
 	relay1.extend()
 	time.sleep(.1)
-	relay6.extent()
+	relay6.extend()
 	return True
 
 def someone_is_here():
@@ -63,7 +64,7 @@ client.on_message = on_message
 
 # Add disconnect handler for auto-reconnect
 def on_disconnect(client, userdata, rc):
-	print(f"MQTT disconnected with code {rc}. Attempting reconnect...")
+	print("MQTT disconnected with code {}. Attempting reconnect...".format(rc))
 	while rc != 0:
 		try:
 			rc = client.reconnect()
