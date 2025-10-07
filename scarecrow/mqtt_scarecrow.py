@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import time
 import paho.mqtt.client as mqtt
@@ -36,8 +36,8 @@ def idle_position():
 
 def someone_is_here():
 	print("Someone is here!")
-	relay6.contact()
-	time.sleep(15)
+	relay6.contract()
+	time.sleep(10)
 	relay1.contract()
 	return True
 
