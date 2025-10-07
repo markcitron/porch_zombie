@@ -14,7 +14,8 @@ import threading
 from relays import *
 
 # Lock to prevent overlapping motions
-motion_lock = threading.Lock()
+coffin_lock = threading.Lock()
+electro_lock = threading.Lock()
 
 # MQTT setup
 MQTT_BROKER = "10.10.0.170"  # Change for production
@@ -39,39 +40,35 @@ def idle_position():
 	time.sleep(.1)
 	return True
 
-def someone_is_here():
-	print("Someone is here!")
-	return True
-
-def active_motion():
-	if not motion_lock.acquire(blocking=False):
-		print("Motion already active, ignoring trigger.")
-		return
-	try:
-		someone_is_here()
-		time.sleep(30)
-		idle_position()
-	finally:
-		motion_lock.release()
-
-
 def coffin_skeleton():
-	print("Coffin Skeleton activated!")
-	relay1.extend()  # Raise coffin
-	time.sleep(10)   # Keep it up for 10 seconds
-	relay1.contract()  # Lower coffin
-	return True
+	if not coffin_lock.acquire(blocking=False):
+		print("Coffin Skeleton motion already active, ignoring trigger.")
+		return False
+	try:
+		print("Coffin Skeleton activated!")
+		relay1.extend()  # Raise coffin
+		time.sleep(10)   # Keep it up for 10 seconds
+		relay1.contract()  # Lower coffin
+		return True
+	finally:
+		coffin_lock.release()
 
 def electro_closet():
-	print("Electro Closet activated!")
-	relay2.extend()  # Open left door
-	time.sleep(.1)
-	relay3.extend()  # Open right door
-	time.sleep(10)   # Keep doors open for 10 seconds
-	relay2.contract()  # Close left door
-	time.sleep(.1)
-	relay3.contract()  # Close right door
-	return True
+	if not electro_lock.acquire(blocking=False):
+		print("Electro Closet motion already active, ignoring trigger.")
+		return False
+	try:
+		print("Electro Closet activated!")
+		relay2.extend()  # Open left door
+		time.sleep(.1)
+		relay3.extend()  # Open right door
+		time.sleep(10)   # Keep doors open for 10 seconds
+		relay2.contract()  # Close left door
+		time.sleep(.1)
+		relay3.contract()  # Close right door
+		return True
+	finally:
+		electro_lock.release()
 
 # MQTT callback
 def on_message(client, userdata, msg):
