@@ -36,12 +36,12 @@ def idle_position():
 
 def someone_is_here():
 	print("Someone is here!")
-	relay6.contract()
-	time.sleep(8)
-	relay1.contract()
-        time.sleep(3)
-	relay1.extend()
-        time.sleep(5)
+	relay6.contract() 
+	time.sleep(8) 
+	relay1.contract() 
+	time.sleep(3)
+	relay1.extend() 
+	time.sleep(5)
 	relay1.contract()
 	return True
 
