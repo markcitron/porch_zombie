@@ -8,17 +8,17 @@ from gpiozero import LED, MotionSensor
 MQTT_BROKER = "10.10.0.170"  # Change for production
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
-TRIGGER_KEYWORD = "scarecrow"
+TRIGGER_KEYWORD = "crypt_keeper"
 
 # set up spst switches 
 relay_1 = LED(5)
 relay_2 = LED(6)
 relay_3 = LED(13)
-relay_4 = LED(19)
-relay_5 = LED(26)
-relay_6 = LED(21)
-relay_7 = LED(20)
-relay_8 = LED(16)
+relay_4 = LED(16)
+relay_5 = LED(19)
+relay_6 = LED(20)
+relay_7 = LED(21)
+relay_8 = LED(26)
 # motion = MotionSensor(17)
 
 # Placeholder functions for linear actuators
@@ -37,11 +37,20 @@ def idle_position():
 
 def someone_is_here():
 	print("Someone is here!")
+	relay_1.on()
+	relay_2.on()
+	relay_3.on()
+	relay_4.on()
+	relay_5.on()
+	relay_6.on()
+	relay_7.on()
+	relay_8.on()
+	time.sleep(1)
 	return True
 
 def active_motion():
 	someone_is_here()
-	time.sleep(30)
+	time.sleep(5)
 	idle_position()
 
 # MQTT callback
