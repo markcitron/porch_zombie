@@ -6,23 +6,23 @@ from gpiozero import LED
 relay_1 = LED(5)
 relay_2 = LED(6)
 relay_3 = LED(13)
-relay_4 = LED(19)
-relay_5 = LED(26)
-relay_6 = LED(21)
-relay_7 = LED(20)
-relay_8 = LED(16)
+relay_4 = LED(16)
+relay_5 = LED(19)
+relay_6 = LED(20)
+relay_7 = LED(21)
+relay_8 = LED(26)
 
 relays = [relay_1, relay_2, relay_3, relay_4, relay_5, relay_6, relay_7, relay_8]
 
-WAIT = 0.5  # seconds between actions
+WAIT = 0.2  # seconds between actions
 
 # turn them on one at a time
 def test_individual_relays():
     for idx, relay in enumerate(relays, 1):
-        print(f"Relay {idx} ON (extend)")
+        print("Relay {} ON ".format(id))
         relay.on()
         time.sleep(WAIT)
-        print(f"Relay {idx} OFF (contract)")
+        print("Relay {} OFF ".format(idx))
         relay.off()
         time.sleep(WAIT)
 
@@ -31,12 +31,12 @@ def test_all_on():
     print("All relays ON (extend)")
     for relay in relays:
         relay.on()
-    time.sleep(WAIT)
+    time.sleep(WAIT*5)
 
     print("All relays OFF (contract)")
     for relay in relays:
         relay.off()
-    time.sleep(WAIT)
+    time.sleep(WAIT*5)
 
 def main():
     test_individual_relays()
