@@ -23,7 +23,7 @@ def extend_all_relays():
     relay5.extend()
     relay6.extend()
     relay7.extend()
-    relay8.extend()
+    relay8.contract()
     return True
 
 
@@ -35,7 +35,7 @@ def contract_all_relays():
     relay5.contract()
     relay6.contract()
     relay7.contract()
-    relay8.contract()
+    relay8.extend()
     return True
 
 # Contract then extend a single relay by number (1-8)

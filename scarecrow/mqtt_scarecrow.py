@@ -16,14 +16,14 @@ MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD = "scarecrow"
 
 # set up linear actuator relays
-relay1 = LinAct("", 1)
+relay1 = LinAct("Face", 1)
 relay2 = LinAct("", 2)
 relay3 = LinAct("", 3)
 relay4 = LinAct("", 4)
 relay5 = LinAct("", 5)
-relay6 = LinAct("", 6)
+relay6 = LinAct("Pivot", 6)
 relay7 = LinAct("", 7)
-relay8 = LinAct("", 8)
+relay8 = LinAct("Arms", 8)
 
 # Placeholder functions for linear actuators
 def idle_position():
@@ -32,6 +32,8 @@ def idle_position():
 	relay1.extend()
 	time.sleep(.1)
 	relay6.extend()
+	time.sleep(.1.)
+	relay8.contract()
 	return True
 
 def someone_is_here():
@@ -41,6 +43,8 @@ def someone_is_here():
 	relay1.contract() 
 	time.sleep(3)
 	relay1.extend() 
+	time.sleep(1)
+	relay8.extend()
 	time.sleep(5)
 	relay1.contract()
 	time.sleep(3)
