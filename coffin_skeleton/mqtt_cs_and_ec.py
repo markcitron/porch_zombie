@@ -70,12 +70,12 @@ def electro_closet():
 
 # MQTT callback
 def on_message(client, userdata, msg):
-	payload = msg.payload.decode()
-	print("Received MQTT: {}".format(payload))
-	if payload == TRIGGER_KEYWORD1:
-		coffin_skeleton()
-	elif payload == TRIGGER_KEYWORD2:
-		electro_closet()
+    payload = msg.payload.decode()
+    print("Received MQTT: {}".format(payload))
+    if payload == TRIGGER_KEYWORD1:
+        threading.Thread(target=coffin_skeleton).start()
+    elif payload == TRIGGER_KEYWORD2:
+        threading.Thread(target=electro_closet).start()
 
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)

@@ -68,7 +68,7 @@ def read_root():
 			<form action="/trigger" method="post">
 				<label style="font-size:1.5em;padding-right:0.5em;">Device:</label>
 				<select name="device" style="font-size:1.3em;padding:0.4em 1em;min-width:160px;">
-					<option value="skeleton_coffin">Skeleton Coffin</option>
+					<option value="coffin_skeleton">Skeleton Coffin</option>
 					<option value="creepy_skull">Creepy Skull</option>
 					<option value="scarecrow">Scarecrow</option>
 					<option value="electro_closet">Electro Closet</option>
