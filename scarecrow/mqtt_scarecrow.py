@@ -32,7 +32,7 @@ def idle_position():
 	relay1.extend()
 	time.sleep(.1)
 	relay6.extend()
-	time.sleep(.1.)
+	time.sleep(.1)
 	relay8.contract()
 	return True
 
