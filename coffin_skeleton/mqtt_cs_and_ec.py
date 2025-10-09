@@ -60,11 +60,9 @@ def electro_closet():
 	try:
 		print("Electro Closet activated!")
 		relay2.extend()  # Open left door
-		time.sleep(.1)
 		relay3.extend()  # Open right door
-		time.sleep(10)   # Keep doors open for 10 seconds
+		time.sleep(15)   # Keep doors open for 10 seconds
 		relay2.contract()  # Close left door
-		time.sleep(.1)
 		relay3.contract()  # Close right door
 		return True
 	finally:
