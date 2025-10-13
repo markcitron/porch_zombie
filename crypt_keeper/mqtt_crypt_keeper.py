@@ -49,7 +49,7 @@ def someone_is_here():
 	relay_6.on()
 	relay_7.on()
 	relay_8.on()
-	time.sleep(1)
+	time.sleep(.1)
 	return True
 
 def active_motion():

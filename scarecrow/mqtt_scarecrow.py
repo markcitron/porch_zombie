@@ -46,6 +46,8 @@ def someone_is_here():
 	time.sleep(1)
 	relay8.extend()
 	time.sleep(5)
+	relay8.contract()
+	time.sleep(1)
 	relay1.contract()
 	time.sleep(3)
 	relay1.extend()
