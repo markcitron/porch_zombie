@@ -3,6 +3,7 @@
 import time
 import paho.mqtt.client as mqtt
 from gpiozero import LED, MotionSensor
+import threading
 
 # MQTT setup
 MQTT_BROKER = "10.10.0.170"  # Change for production
@@ -20,6 +21,9 @@ relay_6 = LED(20)
 relay_7 = LED(21)
 relay_8 = LED(26)
 # motion = MotionSensor(17)
+
+# Add lock to prevent overlapping switch actions
+motion_lock = threading.Lock()
 
 # Placeholder functions for linear actuators
 def idle_position():
@@ -49,9 +53,15 @@ def someone_is_here():
 	return True
 
 def active_motion():
-	someone_is_here()
-	time.sleep(5)
-	idle_position()
+	if not motion_lock.acquire(blocking=False):
+		print("Motion already active, ignoring trigger.")
+		return
+	try:
+		someone_is_here()
+		time.sleep(5)
+		idle_position()
+	finally:
+		motion_lock.release()
 
 # MQTT callback
 def on_message(client, userdata, msg):

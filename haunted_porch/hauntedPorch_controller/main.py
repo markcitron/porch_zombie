@@ -73,6 +73,7 @@ def read_root():
 					<option value="crypt_keeper">Crypt Keeper</option>
 					<option value="scarecrow">Scarecrow</option>
 					<option value="electro_closet">Electro Closet</option>
+					<option value="tilting_alien">Tilting Alien</option>
 				</select>
 				<button type="submit">Trigger</button>
 			</form>

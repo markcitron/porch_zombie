@@ -16,6 +16,7 @@ from relays import *
 # Lock to prevent overlapping motions
 coffin_lock = threading.Lock()
 electro_lock = threading.Lock()
+alien_lock = threading.Lock()
 
 # MQTT setup
 MQTT_BROKER = "10.10.0.170"  # Change for production
@@ -23,11 +24,12 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD1 = "coffin_skeleton"
 TRIGGER_KEYWORD2 = "electro_closet"
+TRIGGER_KEYWORD3 = "tilting_alien"
 
 # set up linear actuator relays
 relay1 = LinAct("Coffin Skeleton", 26)  # Coffin Skeleton
-relay2 = LinAct("Electro Closet", 20)  # Electro Closet - left door
-relay3 = LinAct("Electro Closet", 21)  # Electro Closet - Right door
+relay2 = LinAct("Electro Closet", 20)  # Electro Closet - left & right door
+relay3 = LinAct("Tilting Alien", 21)  # Electro Closet - Right door
 
 def idle_position():
 	# Set actuators to idle position
@@ -60,23 +62,35 @@ def electro_closet():
 	try:
 		print("Electro Closet activated!")
 		relay2.extend()  # Open left door
-		relay3.extend()  # Open right door
 		time.sleep(15)   # Keep doors open for 10 seconds
 		relay2.contract()  # Close left door
-		relay3.contract()  # Close right door
 		return True
 	finally:
 		electro_lock.release()
 
+def tilting_alien():
+	if not alien_lock.acquire(blocking=False):
+		print("Tilting Alien motion already active, ignoring trigger.")
+		return False
+	try:
+		print("Tilting Alien activated!")
+		relay3.extend()  # Tilt alien
+		time.sleep(10)   # Keep it tilted for 10 seconds
+		relay3.contract()  # Reset alien
+		return True
+	finally:
+		alien_lock.release()
+
 # MQTT callback
 def on_message(client, userdata, msg):
-    payload = msg.payload.decode()
-    print("Received MQTT: {}".format(payload))
-    if payload == TRIGGER_KEYWORD1:
-        threading.Thread(target=coffin_skeleton).start()
-    elif payload == TRIGGER_KEYWORD2:
-        threading.Thread(target=electro_closet).start()
-
+	payload = msg.payload.decode()
+	print("Received MQTT: {}".format(payload))
+	if payload == TRIGGER_KEYWORD1:
+		coffin_skeleton()
+	elif payload == TRIGGER_KEYWORD2:
+		electro_closet()
+	elif payload == TRIGGER_KEYWORD3:
+		tilting_alien()
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
