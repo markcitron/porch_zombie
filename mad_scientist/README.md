@@ -12,8 +12,12 @@ Install the required Python packages on the main trigger Pi:
 
 ```bash
 sudo apt update
-sudo apt install -y python3-pip python3-gpiozero
-pip3 install paho-mqtt fastapi uvicorn
+sudo apt install -y python3-venv python3-pip python3-gpiozero
+cd /home/pi/Development/porch_zombie
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install paho-mqtt fastapi uvicorn
 ```
 
 Note: If you prefer to avoid installing the UI dependencies on the trigger Pi, you can run `ui.py` on a separate machine that can reach the MQTT broker.
@@ -39,7 +43,13 @@ The `mqtt_main_trigger.py` script will prefer the JSON file if present; otherwis
 Start the motion trigger (connects to broker at `10.10.0.175` by default):
 
 ```bash
+source /home/pi/Development/porch_zombie/venv/bin/activate
 python3 mqtt_main_trigger.py
+```
+
+Or run directly with the venv python:
+```bash
+/home/pi/Development/porch_zombie/venv/bin/python3 mqtt_main_trigger.py
 ```
 
 The script will:
@@ -51,7 +61,13 @@ The script will:
 Start the UI server (separate process):
 
 ```bash
+source /home/pi/Development/porch_zombie/venv/bin/activate
 uvicorn mad_scientist.ui:app --host 0.0.0.0 --port 8080
+```
+
+Or run directly with the venv uvicorn:
+```bash
+/home/pi/Development/porch_zombie/venv/bin/uvicorn mad_scientist.ui:app --host 0.0.0.0 --port 8080
 ```
 
 Open in a browser:
@@ -67,8 +83,8 @@ UI features:
 ## Logs
 The script writes `trigger_status.log` in the same directory. It uses a rotating logger (2MB per file, 3 backups) and also prints to console.
 
-## Systemd Service (optional)
-Create a systemd unit to run the trigger script at boot:
+## Systemd Service (with venv)
+If you are using a Python virtual environment (recommended), your systemd service should use the venv's Python or uvicorn executable.
 
 Create `/etc/systemd/system/porch-trigger.service` with:
 
@@ -80,7 +96,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/pi/Development/porch_zombie/mad_scientist
-ExecStart=/usr/bin/python3 mqtt_main_trigger.py
+ExecStart=/home/pi/Development/porch_zombie/venv/bin/python3 mqtt_main_trigger.py
 Restart=on-failure
 User=pi
 
@@ -106,7 +122,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/pi/Development/porch_zombie/mad_scientist
-ExecStart=/usr/local/bin/uvicorn mad_scientist.ui:app --host 0.0.0.0 --port 8080
+ExecStart=/home/pi/Development/porch_zombie/venv/bin/uvicorn mad_scientist.ui:app --host 0.0.0.0 --port 8080
 Restart=on-failure
 User=pi
 
@@ -115,7 +131,7 @@ WantedBy=multi-user.target
 ```
 
 ## Notes & Troubleshooting
-- Ensure GPIO pin 17 is wired to your PIR sensor. Test `gpiozero` and sensor separately first.
+- Ensure GPIO pin 23 is wired to your PIR sensor. Test `gpiozero` and sensor separately first.
 - MQTT broker must be reachable at the configured IP address. The UI and trigger script each use their own MQTT client.
 - The trigger sequence timing is important: make small adjustments and test components individually via the UI before running a full sequence.
 - If `gpiozero` is not available, the trigger script will log an error and exit; you can implement a fallback GPIO reader if needed.
