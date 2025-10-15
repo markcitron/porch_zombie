@@ -2,7 +2,7 @@
 This runs on the main trigger Raspberry Pi. It will detect motion and be the MQTT source to trigger the other bots.
 
 ## Files of Interest
-- `mqtt_main_trigger.py` - Main motion-trigger script. Uses a PIR motion sensor on GPIO17 to detect motion and publishes a configurable sequence of MQTT triggers.
+- `mqtt_main_trigger.py` - Main motion-trigger script. Uses a PIR motion sensor on GPIO23 to detect motion and publishes a configurable sequence of MQTT triggers.
 - `trigger_sequence.json` - External JSON config describing the trigger order and per-trigger delays. Edit this to control the timing and order of your props.
 - `trigger_status.log` - Rotating log file containing timestamps and status messages for each published trigger.
 - `ui.py` - Small FastAPI UI to view the last-run sequence, tail the status log and manually trigger individual devices.
@@ -20,7 +20,13 @@ pip install --upgrade pip
 pip install paho-mqtt fastapi uvicorn
 ```
 
-Note: If you prefer to avoid installing the UI dependencies on the trigger Pi, you can run `ui.py` on a separate machine that can reach the MQTT broker.
+If you need to install `uvicorn` later in your venv, activate the venv and run:
+```bash
+source /home/pi/Development/porch_zombie/venv/bin/activate
+pip install uvicorn
+```
+
+Note: If you prefer to avoid installing the UI dependencies on the trigger Pi, you can run `ui.py` on a separate machine that can reach the MQTT broker and the log file.
 
 ## Configuration
 Edit `trigger_sequence.json` to change the order and inter-trigger delays. The file format:
@@ -54,7 +60,7 @@ Or run directly with the venv python:
 
 The script will:
 - Connect to MQTT broker at `10.10.0.175:1883` (configurable inside the script).
-- Start the PIR loop (GPIO17) using `gpiozero.MotionSensor`.
+- Start the PIR loop (GPIO23) using `gpiozero.MotionSensor`.
 - On motion detection, publish the configured trigger sequence and log the events.
 
 ## Running the UI
