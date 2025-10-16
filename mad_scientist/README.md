@@ -6,6 +6,7 @@ This runs on the main trigger Raspberry Pi. It will detect motion and be the MQT
 - `trigger_sequence.json` - External JSON config describing the trigger order and per-trigger delays. Edit this to control the timing and order of your props.
 - `trigger_status.log` - Rotating log file containing timestamps and status messages for each published trigger.
 - `ui.py` - Small FastAPI UI to view the last-run sequence, tail the status log and manually trigger individual devices.
+- `sound_test.py` - Simple script to test sound output (beep or WAV file) on the Mad Scientist Pi.
 
 ## Dependencies
 Install the required Python packages on the main trigger Pi:
@@ -17,7 +18,7 @@ cd /home/pi/Development/porch_zombie
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
-pip install paho-mqtt fastapi uvicorn
+pip install paho-mqtt fastapi uvicorn simpleaudio numpy
 ```
 
 If you need to install `uvicorn` later in your venv, activate the venv and run:
@@ -27,6 +28,23 @@ pip install uvicorn
 ```
 
 Note: If you prefer to avoid installing the UI dependencies on the trigger Pi, you can run `ui.py` on a separate machine that can reach the MQTT broker and the log file.
+
+## Sound Output Test
+To test sound output on your Mad Scientist Pi, use `sound_test.py`:
+
+- To play a 440Hz beep for 1 second:
+  ```bash
+  python3 sound_test.py
+  ```
+- To play a WAV file:
+  ```bash
+  python3 sound_test.py path/to/yourfile.wav
+  ```
+
+If you see an error about `simpleaudio` or `numpy` not being installed, run:
+```bash
+pip install simpleaudio numpy
+```
 
 ## Configuration
 Edit `trigger_sequence.json` to change the order and inter-trigger delays. The file format:
