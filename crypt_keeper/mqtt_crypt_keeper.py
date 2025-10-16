@@ -24,72 +24,71 @@ relay_8 = LED(26)
 # motion = MotionSensor(17)
 
 # Add lock to prevent overlapping switch actions
-motion_lock = threading.Lock()
+relay_locks = [threading.Lock() for _ in range(8)]
 
-# Placeholder functions for linear actuators
-def idle_position():
-	# Set both actuators to idle position
-	print("Setting Switches to off position.")
-	relay_1.off()
-	relay_2.off()
-	relay_3.off()
-	relay_4.off()
-	relay_5.off()
-	relay_6.off()
-	relay_7.off()
-	relay_8.off()
-	return True
+# Individual relay trigger handlers
+def trigger_relay(relay, lock, relay_num):
+    if not lock.acquire(blocking=False):
+        print(f"Relay {relay_num} motion already active, ignoring trigger.")
+        return
+    try:
+        print(f"Triggering relay {relay_num}")
+        relay.on()
+        time.sleep(0.2)
+        relay.off()
+    finally:
+        lock.release()
 
-def someone_is_here():
-	print("Someone is here!")
-	relay_1.on()
-	relay_2.on()
-	relay_3.on()
-	relay_4.on()
-	relay_5.on()
-	relay_6.on()
-	relay_7.on()
-	relay_8.on()
-	time.sleep(.1)
-	return True
-
-def active_motion():
-	if not motion_lock.acquire(blocking=False):
-		print("Motion already active, ignoring trigger.")
-		return
-	try:
-		someone_is_here()
-		time.sleep(5)
-		idle_position()
-	finally:
-		motion_lock.release()
+def trigger_relay_1(): trigger_relay(relay_1, relay_locks[0], 1)
+def trigger_relay_2(): trigger_relay(relay_2, relay_locks[1], 2)
+def trigger_relay_3(): trigger_relay(relay_3, relay_locks[2], 3)
+def trigger_relay_4(): trigger_relay(relay_4, relay_locks[3], 4)
+def trigger_relay_5(): trigger_relay(relay_5, relay_locks[4], 5)
+def trigger_relay_6(): trigger_relay(relay_6, relay_locks[5], 6)
+def trigger_relay_7(): trigger_relay(relay_7, relay_locks[6], 7)
+def trigger_relay_8(): trigger_relay(relay_8, relay_locks[7], 8)
 
 # MQTT callback
 def on_message(client, userdata, msg):
-	payload = msg.payload.decode()
-	print("Received MQTT: {}".format(payload))
-	if payload == TRIGGER_KEYWORD:
-		active_motion()
+    payload = msg.payload.decode()
+    print("Received MQTT: {}".format(payload))
+    if payload == "crypt_keeper_1":
+        trigger_relay_1()
+    elif payload == "crypt_keeper_2":
+        trigger_relay_2()
+    elif payload == "crypt_keeper_3":
+        trigger_relay_3()
+    elif payload == "crypt_keeper_4":
+        trigger_relay_4()
+    elif payload == "crypt_keeper_5":
+        trigger_relay_5()
+    elif payload == "crypt_keeper_6":
+        trigger_relay_6()
+    elif payload == "crypt_keeper_7":
+        trigger_relay_7()
+    elif payload == "crypt_keeper_8":
+        trigger_relay_8()
+    else:
+        print(f"Unknown trigger: {payload}")
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
 
 # Add disconnect handler for auto-reconnect
 def on_disconnect(client, userdata, rc):
-	print("MQTT disconnected with code {}. Attempting reconnect...".format(rc))
-	while rc != 0:
-		try:
-			rc = client.reconnect()
-			if rc == 0:
-				print("MQTT reconnected successfully.")
-		except Exception as e:
-			print("Reconnect failed: {}".format(e))
-		time.sleep(5)
+    print("MQTT disconnected with code {}. Attempting reconnect...".format(rc))
+    while rc != 0:
+        try:
+            rc = client.reconnect()
+            if rc == 0:
+                print("MQTT reconnected successfully.")
+        except Exception as e:
+            print("Reconnect failed: {}".format(e))
+        time.sleep(5)
 client.on_disconnect = on_disconnect
 
 client.connect(MQTT_BROKER, MQTT_PORT, keepalive=120)
 client.subscribe(MQTT_TOPIC)
 
 print("Crypt Keeper MQTT motion listener active. Waiting for trigger...")
-idle_position()
 client.loop_forever()
