@@ -29,10 +29,10 @@ relay_locks = [threading.Lock() for _ in range(8)]
 # Individual relay trigger handlers
 def trigger_relay(relay, lock, relay_num):
     if not lock.acquire(blocking=False):
-        print(f"Relay {relay_num} motion already active, ignoring trigger.")
+        print("Relay {} motion already active, ignoring trigger.".format(relay_num))
         return
     try:
-        print(f"Triggering relay {relay_num}")
+        print("Triggering relay {relay_num}")
         relay.on()
         time.sleep(0.2)
         relay.off()
@@ -69,7 +69,7 @@ def on_message(client, userdata, msg):
     elif payload == "crypt_keeper_8":
         trigger_relay_8()
     else:
-        print(f"Unknown trigger: {payload}")
+        print("Unknown trigger: {}".format(payload))
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_message = on_message
