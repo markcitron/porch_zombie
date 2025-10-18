@@ -27,7 +27,7 @@ except ImportError:
 # ...existing code...
 
 # Path to spooky sound file
-SPOOKY_SOUND_PATH = str(Path(__file__).parent / "sounds/spooky/halloween-effects-with-thunder-121665.mp3")
+SPOOKY_SOUND_PATH = str(Path(__file__).parent / "sounds/spooky-halloween-effects-with-thunder-121665.mp3")
 
 try:
     from gpiozero import MotionSensor
