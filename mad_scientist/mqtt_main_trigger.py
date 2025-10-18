@@ -9,6 +9,7 @@ Usage: run on your main trigger Pi:
   python3 mqtt_main_trigger.py
 
 """
+
 import time
 import threading
 import json
@@ -16,6 +17,17 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import paho.mqtt.client as mqtt
+
+# Sound playback
+try:
+    import pygame
+except ImportError:
+    pygame = None
+# Sequence of triggers with per-trigger delay configuration.
+# ...existing code...
+
+# Path to spooky sound file
+SPOOKY_SOUND_PATH = str(Path(__file__).parent / "sounds/spooky/halloween-effects-with-thunder-121665.mp3")
 
 try:
     from gpiozero import MotionSensor
@@ -133,6 +145,19 @@ def handle_motion():
         last_trigger_time = now
 
     logger.info("Motion detected: starting trigger sequence")
+
+    # Start playing spooky sound
+    if pygame is not None:
+        try:
+            pygame.mixer.init()
+            pygame.mixer.music.load(SPOOKY_SOUND_PATH)
+            pygame.mixer.music.play(-1)  # loop until stopped
+            logger.info(f"Playing spooky sound: {SPOOKY_SOUND_PATH}")
+        except Exception as e:
+            logger.warning(f"Could not play spooky sound: {e}")
+    else:
+        logger.warning("pygame not installed, cannot play spooky sound.")
+
     # Publish triggers in their order, staggered with per-trigger delays
     seq = get_trigger_sequence()
     for device, delay_after in seq:
@@ -140,6 +165,16 @@ def handle_motion():
         if delay_after and delay_after > 0:
             logger.info(f"Waiting {delay_after}s before next trigger")
             time.sleep(delay_after)
+
+    # Stop music after triggers are done
+    if pygame is not None:
+        try:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            pygame.mixer.quit()
+            logger.info("Spooky sound stopped.")
+        except Exception as e:
+            logger.warning(f"Could not stop spooky sound: {e}")
 
     logger.info("Trigger sequence complete. Entering cooldown.")
 

@@ -69,7 +69,7 @@ def read_root():
 				<label style="font-size:1.5em;padding-right:0.5em;">Device:</label>
 				<select name="device" style="font-size:1.3em;padding:0.4em 1em;min-width:160px;">
 					<option value="coffin_skeleton">Skeleton Coffin</option>
-					<option value="creepy_skull">Crypt Keeper</option>
+					<option value="creepy_skull">Creepy Skull</option>
 					<option value="scarecrow">Scarecrow</option>
 					<option value="electro_closet">Electro Closet</option>
 					<option value="tilting_alien">Tilting Alien</option>
