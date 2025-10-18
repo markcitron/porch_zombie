@@ -69,18 +69,18 @@ def read_root():
 				<label style="font-size:1.5em;padding-right:0.5em;">Device:</label>
 				<select name="device" style="font-size:1.3em;padding:0.4em 1em;min-width:160px;">
 					<option value="coffin_skeleton">Skeleton Coffin</option>
-					<option value="crypt_keeper">Crypt Keeper</option>
+					<option value="creepy_skull">Crypt Keeper</option>
 					<option value="scarecrow">Scarecrow</option>
 					<option value="electro_closet">Electro Closet</option>
 					<option value="tilting_alien">Tilting Alien</option>
-					<option value="creepy_skull_1">Creepy Skull 1</option>
-					<option value="creepy_skull_2">Creepy Skull 2</option>
-					<option value="creepy_skull_3">Creepy Skull 3</option>
-					<option value="creepy_skull_4">Creepy Skull 4</option>
-					<option value="creepy_skull_5">Creepy Skull 5</option>
-					<option value="creepy_skull_6">Creepy Skull 6</option>
-					<option value="creepy_skull_7">Creepy Skull 7</option>
-					<option value="creepy_skull_8">Creepy Skull 8</option>
+					<option value="crypt_keeper_1">Crypt Keeper 1</option>
+					<option value="crypt_keeper_2">Crypt Keeper 2</option>
+					<option value="crypt_keeper_3">Crypt Keeper 3</option>
+					<option value="crypt_keeper_4">Crypt Keeper 4</option>
+					<option value="crypt_keeper_5">Crypt Keeper 5</option>
+					<option value="crypt_keeper_6">Crypt Keeper 6</option>
+					<option value="crypt_keeper_7">Crypt Keeper 7</option>
+					<option value="crypt_keeper_8">Crypt Keeper 8</option>
 				</select>
 				<button type="submit">Trigger</button>
 			</form>

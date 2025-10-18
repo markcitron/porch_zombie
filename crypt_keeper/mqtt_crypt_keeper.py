@@ -36,6 +36,7 @@ def trigger_relay(relay, lock, relay_num):
         relay.on()
         time.sleep(0.2)
         relay.off()
+        time.sleep(2)
     finally:
         lock.release()
 

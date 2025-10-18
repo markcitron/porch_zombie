@@ -14,6 +14,9 @@ import sys
 import time
 import os
 
+# Volume setting for playback (1.0 = max)
+VOLUME = 1.0
+
 try:
     import simpleaudio as sa
 except ImportError:
@@ -47,7 +50,8 @@ def play_mp3(mp3_path):
     try:
         pygame.mixer.init()
         pygame.mixer.music.load(mp3_path)
-        print(f"Playing {mp3_path}...")
+        pygame.mixer.music.set_volume(VOLUME)
+        print(f"Playing {mp3_path} at volume {VOLUME}...")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             time.sleep(0.1)
