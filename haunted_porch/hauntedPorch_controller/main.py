@@ -8,7 +8,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # MQTT setup
 
-mqtt_broker = "10.10.0.170"  # Change to your broker address
+# mqtt_broker = "10.10.0.170"  # if running on windows box
+mqtt_broker = "10.10.0.175"  # if running on MadScientist box
 mqtt_port = 1883
 mqtt_topic = "hauntedporch/control"
 client = mqtt.Client()
