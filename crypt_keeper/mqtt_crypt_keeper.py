@@ -34,9 +34,9 @@ def trigger_relay(relay, lock, relay_num):
     try:
         print("Triggering relay {relay_num}")
         relay.on()
-        time.sleep(0.2)
+        time.sleep(1)
         relay.off()
-        time.sleep(2)
+        time.sleep(1)
     finally:
         lock.release()
 
