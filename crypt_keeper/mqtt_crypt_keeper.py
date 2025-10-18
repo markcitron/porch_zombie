@@ -6,8 +6,8 @@ from gpiozero import LED, MotionSensor
 import threading
 
 # MQTT setup
-MQTT_BROKER = "10.10.0.170"  # Change for production
-# MQTT_BROKER = "10.10.0.175  # point to Mad Scientist
+# MQTT_BROKER = "10.10.0.170"  # Change for production
+MQTT_BROKER = "10.10.0.175"  # point to Mad Scientist
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD = "crypt_keeper"

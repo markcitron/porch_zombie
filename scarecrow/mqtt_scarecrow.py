@@ -10,8 +10,8 @@ from relays import *
 motion_lock = threading.Lock()
 
 # MQTT setup
-MQTT_BROKER = "10.10.0.170"  # Change for production
-# MQTT_BROKER = "10.10.0.175"  # Point to Mad Scientist
+# MQTT_BROKER = "10.10.0.170"  # Change for production
+MQTT_BROKER = "10.10.0.175"  # Point to Mad Scientist
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD = "scarecrow"
