@@ -146,17 +146,22 @@ def handle_motion():
 
     logger.info("Motion detected: starting trigger sequence")
 
+
     # Start playing spooky sound
     if pygame is not None:
         try:
             pygame.mixer.init()
             pygame.mixer.music.load(SPOOKY_SOUND_PATH)
+            pygame.mixer.music.set_volume(1.0)
             pygame.mixer.music.play(-1)  # loop until stopped
-            logger.info(f"Playing spooky sound: {SPOOKY_SOUND_PATH}")
+            logger.info(f"Playing spooky sound: {SPOOKY_SOUND_PATH} at volume 1.0")
         except Exception as e:
             logger.warning(f"Could not play spooky sound: {e}")
     else:
         logger.warning("pygame not installed, cannot play spooky sound.")
+
+    # Wait 1 second before starting triggers
+    time.sleep(1)
 
     # Publish triggers in their order, staggered with per-trigger delays
     seq = get_trigger_sequence()
