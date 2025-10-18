@@ -1,10 +1,8 @@
 {
   "sequence": [
-    { "device": "coffin_skeleton", "delay_after": 1.5 },
-    { "device": "creepy_skull", "delay_after": 0.5 },
-    { "device": "crypt_keeper", "delay_after": 1.0 },
     { "device": "scarecrow", "delay_after": 0.8 },
-    { "device": "electro_closet", "delay_after": 1.2 },
-    { "device": "tilting_alien", "delay_after": 0.5 }
+    { "device": "crypt_keeper_1", "delay_after": 1.0 },
+    { "device": "creepy_skull", "delay_after": 1.5 },
+    { "device": "coffin_skeleton", "delay_after": 1.5 }
   ]
 }
