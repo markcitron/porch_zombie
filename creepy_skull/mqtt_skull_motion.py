@@ -8,12 +8,12 @@ import threading
 # Lock to prevent overlapping motions
 motion_lock = threading.Lock()
 
-SERVO_8_INIT = -50
+SERVO_8_INIT = -55
 SERVO_7_INIT = -15
 SERVO_8_ACTIVE = 30
 SERVO_7_ACTIVE = 0
-SERVO_8_SHAKE_LEFT = 35
-SERVO_8_SHAKE_RIGHT = 25
+SERVO_8_SHAKE_LEFT = 30
+SERVO_8_SHAKE_RIGHT = 20
 
 servo_8 = Servo(8)
 servo_7 = Servo(7)
@@ -49,8 +49,8 @@ def active_motion():
         smooth_move(servo_7, SERVO_7_INIT, SERVO_7_ACTIVE, duration=3.0)
         time.sleep(1.5)  # brief pause
 
-        # Slowly shake head between 35 and 25 for 5 cycles
-        for _ in range(5):
+        # Slowly shake head between 30 and 20 for 10 cycles
+        for _ in range(10):
             smooth_move(servo_8, SERVO_8_ACTIVE, SERVO_8_SHAKE_LEFT, duration=1.0)
             time.sleep(0.5)
             smooth_move(servo_8, SERVO_8_SHAKE_LEFT, SERVO_8_SHAKE_RIGHT, duration=1.0)
@@ -58,7 +58,7 @@ def active_motion():
             smooth_move(servo_8, SERVO_8_SHAKE_RIGHT, SERVO_8_ACTIVE, duration=1.0)
             time.sleep(0.5)
 
-        time.sleep(20)  # 20 second pause
+        time.sleep(10)  # 10 second pause
 
         # Return to idle slowly
         smooth_move(servo_8, SERVO_8_ACTIVE, SERVO_8_INIT, duration=3.0)
