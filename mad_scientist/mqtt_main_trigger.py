@@ -39,7 +39,7 @@ MQTT_BROKER = "10.10.0.175"
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 PIR_PIN = 23 
-COOLDOWN_SECONDS = 30  # time to ignore new triggers after a sequence starts
+COOLDOWN_SECONDS = 360  # time to ignore new triggers after a sequence starts
 
 # Sequence of triggers with per-trigger delay configuration.
 # Each entry is a tuple: (device_name, delay_after_seconds)
@@ -54,19 +54,6 @@ TRIGGER_SEQUENCE = [
     ("electro_closet", 3.0)
 ]
 
-def get_trigger_sequence():
-    """Return the trigger sequence. Modify this function or the TRIGGER_SEQUENCE
-    definition above to customize order and delays.
-    """
-    # Try to load from external JSON config first
-    seq = load_trigger_sequence_from_file()
-    if seq:
-        logger.info(f"Loaded trigger sequence from {CONFIG_FILE}")
-        return seq
-    return TRIGGER_SEQUENCE
-
-
-CONFIG_FILE = Path(__file__).parent / "trigger_sequence.json"
 LOG_FILE = Path(__file__).parent / "trigger_status.log"
 
 def setup_logging():
@@ -81,23 +68,6 @@ def setup_logging():
     ch.setFormatter(fmt)
     logger.addHandler(ch)
     return logger
-
-
-def load_trigger_sequence_from_file():
-    if not CONFIG_FILE.exists():
-        return None
-    try:
-        with open(CONFIG_FILE, "r") as fh:
-            cfg = json.load(fh)
-        seq = []
-        for entry in cfg.get("sequence", []):
-            device = entry.get("device")
-            delay = float(entry.get("delay_after", 0))
-            seq.append((device, delay))
-        return seq
-    except Exception as e:
-        print(f"Error loading config {CONFIG_FILE}: {e}")
-        return None
 
 # MQTT client
 client = mqtt.Client(protocol=mqtt.MQTTv311)
@@ -163,13 +133,15 @@ def handle_motion():
     # Wait 1 second before starting triggers
     time.sleep(1)
 
+
     # Publish triggers in their order, staggered with per-trigger delays
-    seq = get_trigger_sequence()
-    for device, delay_after in seq:
+    for device, delay_after in TRIGGER_SEQUENCE:
         publish_trigger(device)
         if delay_after and delay_after > 0:
             logger.info(f"Waiting {delay_after}s before next trigger")
             time.sleep(delay_after)
+
+    time.sleep(60)
 
     # Stop music after triggers are done
     if pygame is not None:
