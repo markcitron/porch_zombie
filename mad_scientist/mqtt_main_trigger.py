@@ -46,10 +46,12 @@ COOLDOWN_SECONDS = 30  # time to ignore new triggers after a sequence starts
 # delay_after_seconds specifies how long to wait AFTER publishing this trigger
 # before publishing the next one.
 TRIGGER_SEQUENCE = [
-    ("scarecrow", 0.8),
+    ("crypt_keeper_2", 1.0),
+    ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
     ("creepy_skull", 1.5),
-    ("coffin_skeleton", 1.0)
+    ("coffin_skeleton", 3.0),
+    ("electro_closet", 3.0)
 ]
 
 def get_trigger_sequence():
