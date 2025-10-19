@@ -39,7 +39,7 @@ MQTT_BROKER = "10.10.0.175"
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 PIR_PIN = 23 
-COOLDOWN_SECONDS = 120 # time to ignore new triggers after a sequence starts
+COOLDOWN_SECONDS = 100 # time to ignore new triggers after a sequence starts
 
 # Sequence of triggers with per-trigger delay configuration.
 # Each entry is a tuple: (device_name, delay_after_seconds)
@@ -49,8 +49,8 @@ TRIGGER_SEQUENCE = [
     ("crypt_keeper_2", 1.0),
     ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
-    ("electro_closet", 3.0),
-    ("creepy_skull", 5),
+    ("creepy_skull", 3),
+    ("electro_closet", 5.0),
     ("coffin_skeleton", 3.0)
 ]
 
