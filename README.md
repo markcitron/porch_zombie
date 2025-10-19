@@ -1,7 +1,4 @@
-# porch_zombie
-Welcome to the **Haunted Porch**
-
-Porch Zombie: Haunted Porch Automation
+# Porch Zombie: Haunted Porch Automation
 Welcome to the Haunted Porch project! This year, we've moved from a Flask-based multi-Raspberry Pi setup to a robust MQTT-driven architecture for controlling all our Halloween bots and effects.
 
 ## Project Overview
@@ -28,26 +25,34 @@ Welcome to the Haunted Porch project! This year, we've moved from a Flask-based 
 
 ## Main Bots
 ### Coffin Skeleton
-- Script: mqtt_cs_and_ec.py
-- Listens for coffin_skeleton and electro_closet MQTT triggers.
+- Script: [mqtt_cs_and_ec.py](./coffin_skeleton/mqtt_cs_and_ex.py)
+- Listens for `coffin_skeleton` and `electro_closet` MQTT triggers.
 - Controls linear actuators via relays.
 - Prevents overlapping actions with threading locks.
 ### Creepy Skull
-- Script: mqtt_skull_motion.py
+- Script: [mqtt_skull_motion.py](./creepy_skull/mqtt_skull_motion.py)
 - Animates skull using servos.
-- Listens for creepy_skull MQTT trigger.
+- Listens for `creepy_skull` MQTT trigger.
 - Can be auto-started via systemd.
 ### Crypt Keeper
-- Script: mqtt_crypt_keeper.py
+- Script: [mqtt_crypt_keeper.py](./crypt_keeper/mqtt_crypt_keeper.py)
 - Controls up to 8 relays for effects.
-- Listens for crypt_keeper MQTT trigger.
+- Listens for `crypt_keeper_#` MQTT trigger, where # is the number of the relay.  Currently:
+  - relay_1 - **Scarecrow voice**
+  - relay_2 - **Talking Jack-o-lantern**
 - Uses GPIO and threading locks for safe relay control.
 ### Mad Scientist (Main Trigger & Control)
-- Script: mqtt_main_trigger.py
+- Script: [mqtt_main_trigger.py](./mad_scientist/mqtt_main_trigger.py)
 - Detects motion (PIR sensor on GPIO23).
 - Publishes a configurable sequence of MQTT triggers to all bots.
 - Plays sound effects during trigger sequence.
 - FastAPI UI (ui.py) for manual control, log viewing, and testing.
+### Scarecrow
+- Script: [mqtt_scarecrow.py](scarecrow/mqtt_scarecrow.py)
+- Controls relay(s) for scarecrow movement or effects.
+- Listens for `scarecrow` MQTT trigger.
+- Uses GPIO and threading locks for safe relay control.
+
 ## Manual Control & Testing
 - **Haunted Porch Controller (main.py)**:
   - FastAPI web UI for manual testing and control.
@@ -85,3 +90,7 @@ Welcome to the Haunted Porch project! This year, we've moved from a Flask-based 
 - Add stepper motors for advanced movement and articulation.
 - Integrate LIDAR and more advanced sensors.
 - Expand OpenCV tracking for more interactive effects.
+
+## Archive
+- Link: [Archive](./archive/)
+- Old work dating back to 2020
