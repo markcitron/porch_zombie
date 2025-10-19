@@ -1,4 +1,4 @@
-#!/home/pi/repos/porch_zombi/venv/bin/python
+#!/home/pi/repos/porch_zombie/venv/bin/python
 """
 Main production day trigger script.
 - Uses a PIR motion sensor on GPIO17 to detect motion.
