@@ -19,8 +19,8 @@ electro_lock = threading.Lock()
 alien_lock = threading.Lock()
 
 # MQTT setup
-MQTT_BROKER = "10.10.0.170"  # Change for production
-# MQTT_BROKER = "10.10.0.175"  # Point to Mad Scientist
+# MQTT_BROKER = "10.10.0.170"  # Change for production
+MQTT_BROKER = "10.10.0.175"  # Point to Mad Scientist
 MQTT_PORT = 1883
 MQTT_TOPIC = "hauntedporch/control"
 TRIGGER_KEYWORD1 = "coffin_skeleton"
@@ -29,8 +29,8 @@ TRIGGER_KEYWORD3 = "tilting_alien"
 
 # set up linear actuator relays
 relay1 = LinAct("Coffin Skeleton", 26)  # Coffin Skeleton
-relay2 = LinAct("Electro Closet", 20)  # Electro Closet - left & right door
-relay3 = LinAct("Tilting Alien", 21)  # Electro Closet - Right door
+relay2 = LinAct("Electro Closet", 20)  # Electro Closet - left door
+relay3 = LinAct("Electro Closed", 21)  # Electro Closet - Right door
 
 def idle_position():
 	# Set actuators to idle position
@@ -64,8 +64,10 @@ def electro_closet():
 	try:
 		print("Electro Closet activated!")
 		relay2.extend()  # Open left door
+		relay3.extend()  # Open rightdoor
 		time.sleep(30)   # Keep doors open for 30 seconds
 		relay2.contract()  # Close left door
+		relay3.contract()  # Close right door
 		time.sleep(30)   # allow time to return to position
 		return True
 	finally:
@@ -77,9 +79,6 @@ def tilting_alien():
 		return False
 	try:
 		print("Tilting Alien activated!")
-		relay3.extend()  # Tilt alien
-		time.sleep(10)   # Keep it tilted for 10 seconds
-		relay3.contract()  # Reset alien
 		return True
 	finally:
 		alien_lock.release()
