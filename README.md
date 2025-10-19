@@ -1,86 +1,96 @@
-# porch_zombie
-Welcome to the **Haunted Porch**
+# Porch Zombie: Haunted Porch Automation
+Welcome to the Haunted Porch project! This year, we've moved from a Flask-based multi-Raspberry Pi setup to a robust MQTT-driven architecture for controlling all our Halloween bots and effects.
 
+## Project Overview
+- Main Bots:
 
-Every year I try to build something cool, funny challenging to celebrate Halloween, just the coolest holiday.  Last year, I built some automated opening and closing creepy crates and a really crappy motion controlled bot on a wire that was supposed to go back and forth across my porch.  I say crappy as stretching string and trying to do fine positioning with micro servos and low grade steppers were my downfall.
+  - **Coffin Skeleton:** Controls a linear actuator to raise/lower a skeleton. MQTT-triggered.
+  - **Creepy Skull:** Animates a skull with servos and motion. MQTT-triggered.
+  - **Crypt Keeper:** Controls multiple relays for lights, effects, and actuators. MQTT-triggered.
+  - **Mad Scientist:** The central trigger and controller bot. Detects motion, runs the main trigger sequence, and provides a FastAPI UI for manual control and status.
+  - **Haunted Porch Controller:** Used for manual control and testing. Not part of the main automated trigger flow.
 
+## 2025 Architecture
+- **MQTT:** All bots now communicate via MQTT messages. Each bot listens for its trigger keyword and executes its effect.
 
+- **Triggers:**
 
-## Porch Players
-#### RPi controlled ghosts, goblins, etc.
-- Skull Picture - tile actuator, rotation (actuator?)
-- Jumping Spider (Spirit of Halloween) - trigger only
-- Tilting Alien - tilt actuator
-- Pumpkin Bench
-- Cherub - trigger only
-- Baby Head Box - trigger, lid actuator
-- Raven - trigger only
-- Ghost Cabinet - door actuators, ghost trigger, strobe/light trigger
-#### Non-controlled elements
-- Haunted Castle
-- Mister (water vapor based)
-- Popup Pumpkin (Sprit of Halloweed) - Can either use the basic motion detection or wire the trigger like we do with the **Jumping Spider**.
+  - Primary: Simple PIR motion detectors.
+  - Secondary: OpenCV with a low-light webcam for advanced tracking (in development).
+  - Future: LIDAR and additional sensors for more precise activation.
+- **Actuators:**
 
-## RPis, how many, who is residing where, etc.
-- Haunted Porch (main controller)
-  - Camera/OpenCV
-  - IR Sensor
+  - **Current:** Servos and linear actuators.
+  - **Next Year:** Stepper motors for improved control and articulation.
 
-## What is running where
-| Device      | Description     |    Player     |
-|-------------|-----------------|---------------|
-| pz_0        | SPST Relay, with Motion Sensor| Motion sensor and simple triggers near Ghost Cabinet: Raven, Cherub, Electricution Box, Gourdo, Ghost |
-| pz_1        | SPST Relay, with Motion Sensor | Motion sensor and simple triggers near Tilting Alien: Jumping Spider, Plague Doctor, Jack-o-lantern |
-| pz_2        | Heavy Relay (3) | Ghost Cabinet Left door, Ghost Cabinet Right door, Baby head in a box|
-| pz_3        | Light Relay (8) | Tilting Alien, Skull Picture|
+## Main Bots
+### Coffin Skeleton
+- Script: [mqtt_cs_and_ec.py](./coffin_skeleton/mqtt_cs_and_ex.py)
+- Listens for `coffin_skeleton` and `electro_closet` MQTT triggers.
+- Controls linear actuators via relays.
+- Prevents overlapping actions with threading locks.
+### Creepy Skull
+- Script: [mqtt_skull_motion.py](./creepy_skull/mqtt_skull_motion.py)
+- Animates skull using servos.
+- Listens for `creepy_skull` MQTT trigger.
+- Can be auto-started via systemd.
+### Crypt Keeper
+- Script: [mqtt_crypt_keeper.py](./crypt_keeper/mqtt_crypt_keeper.py)
+- Controls up to 8 relays for effects.
+- Listens for `crypt_keeper_#` MQTT trigger, where # is the number of the relay.  Currently:
+  - relay_1 - **Scarecrow voice**
+  - relay_2 - **Talking Jack-o-lantern**
+- Uses GPIO and threading locks for safe relay control.
+### Mad Scientist (Main Trigger & Control)
+- Script: [mqtt_main_trigger.py](./mad_scientist/mqtt_main_trigger.py)
+- Detects motion (PIR sensor on GPIO23).
+- Publishes a configurable sequence of MQTT triggers to all bots.
+- Plays sound effects during trigger sequence.
+- FastAPI UI (ui.py) for manual control, log viewing, and testing.
+### Scarecrow
+- Script: [mqtt_scarecrow.py](scarecrow/mqtt_scarecrow.py)
+- Controls relay(s) for scarecrow movement or effects.
+- Listens for `scarecrow` MQTT trigger.
+- Uses GPIO and threading locks for safe relay control.
 
+## Manual Control & Testing
+- **Haunted Porch Controller (main.py)**:
+  - FastAPI web UI for manual testing and control.
+  - Not part of the main automated flow, but useful for setup and diagnostics.
+## Triggers & Sensors
+ - **PIR Motion Detectors:** Main trigger for the sequence.
+  - **OpenCV + Low-Light Camera:** Secondary trigger and porch tracking (in development).
+  - **LIDAR:** Planned for future upgrades.
+## Requirements
+- **Python 3.7+** on all Raspberry Pis.  
+- **MQTT Broker** (e.g., Mosquitto) running on your network.
+- **Python Modules:**
+  - paho-mqtt
+  - gpiozero
+  - fastapi, uvicorn (for UI)
+  - pygame (for sound playback)
+  - simpleaudio, numpy (for sound testing)
+- **System Updates:**
+  - sudo apt update && sudo apt upgrade
+  - sudo apt install python3-venv python3-pip python3-gpiozero
+- **Install Python dependencies (example for Mad Scientist bot):
+```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install paho-mqtt fastapi uvicorn simpleaudio numpy pygame
+```
 
----
-## Required packages
-- RPi.GPIO
-- gpiozero (using LED and Motion Sensor)
-- lib8relind
+## Running the Bots
+- Each bot runs its own script and listens for MQTT triggers.
+- The Mad Scientist bot runs the main trigger sequence and UI.
+- Use systemd services for auto-start on boot (see each bot's README for details).
 
----
-## Motion
-I have triggered motion in the past bye using the Pi Camera and/or USB camera and runniong the motion service and then trailing the application log file and looking for **motion_detected** events.
+## Future Plans
+- Add stepper motors for advanced movement and articulation.
+- Integrate LIDAR and more advanced sensors.
+- Expand OpenCV tracking for more interactive effects.
 
-For this year, just using IR sensor attached to the two SPST relay bots, PZ_0 and Pz_1
-
-## Sequencing
-| Activity | Action | Wait before next call |
-|----------|--------|-----------------------|
-| Skull peak a boo | extend | 2|
-| Skull peak a boo | contract | 5 |
-| Wake the raven | trigger | 2 |
-| Open Baby Box | contract | 1 |
-| Plague Dr. | Relay.on() | 1 |
-| Plague Dr. | Relay.off() | 9 |
-| Close Baby Box | extend | 4 |
-| Hello Pumpkin | on | 1 |
-| Hello Puppkin | off | 1 |
-| Tilt Alien | extend | 1 |
-| Sad Little Skull | contract | 3 |
-| Sad Little Skull | extend | 3 |
-| Tilt Alien Back | contract | 1 |
-| Ghost Cabinet (open) | extend 2 | .5 |
-| Ghost Cabinet (open) | extend 3 | 3 |
-| Wake Ghost | trigger | 15 |
-| Ghost Cabinet (close) | contract 2 | .5 |
-| Ghost Cabinet (close) | contract 3 | 3 |
-| Wake Ghost | trigger | 1 |
-| Wake Raven | trigger | 2 |
-| Tile Alien (hello) | extend | 1 |
-| Sad Little Skull | contract | 3 |
-| Sad Little Skull | extend | 3 |
-| Tile Alien (bye) | contract | 1 |
-| ... Wait to reset ... | ... do nothing ... | 30 |
-
-
----
-## Yearly efforts - archives
-- [Servo based zombie - 2020](./archive/2020) - Simple zombie frame powered by 22kg capactiy servo motor to move the parts around.  Was awesome until it caught fire :-)
-- [Actuators and Steppers - 2021](./archive/2021) - Uses Flask based API for main controller, **Haunted Porch** to control the other raspberry pis
-- [External controller - 2022](./archive/2022)
-- 2023 - a more wholistic approach to building this repo.  No breakdowns by year, just code designed to be easily leveragable.
---- 
+## Archive
+- Link: [Archive](./archive/)
+- Old work dating back to 2020
