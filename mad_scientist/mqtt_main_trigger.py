@@ -162,7 +162,11 @@ def pir_loop():
         return
 
     pir = MotionSensor(PIR_PIN)
-    logger.info(f"PIR sensor initialized on GPIO{PIR_PIN}. Waiting for motion...")
+    logger.info(f"PIR sensor initialized on GPIO{PIR_PIN}. Waiting for sensor to stabilize...")
+    # Startup delay to allow PIR sensor to stabilize
+    STARTUP_DELAY = 30
+    time.sleep(STARTUP_DELAY)
+    logger.info(f"Startup delay of {STARTUP_DELAY} seconds complete. Now waiting for motion...")
     while True:
         pir.wait_for_motion()
         # handle motion in a background thread so sensor loop can continue quickly
