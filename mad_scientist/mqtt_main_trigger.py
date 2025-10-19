@@ -49,9 +49,9 @@ TRIGGER_SEQUENCE = [
     ("crypt_keeper_2", 1.0),
     ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
-    ("creepy_skull", 1.5),
-    ("coffin_skeleton", 3.0),
-    ("electro_closet", 3.0)
+    ("electro_closet", 3.0),
+    ("creepy_skull", 5),
+    ("coffin_skeleton", 3.0)
 ]
 
 LOG_FILE = Path(__file__).parent / "trigger_status.log"
