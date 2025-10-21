@@ -50,9 +50,9 @@ def coffin_skeleton():
 	try:
 		print("Coffin Skeleton activated!")
 		relay1.extend()  # Raise coffin
-		time.sleep(20)   # Keep it up for 20 seconds
+		time.sleep(15)   # Keep it up for 20 seconds
 		relay1.contract()  # Lower coffin
-		time.sleep(20)   # allow time to return to position
+		time.sleep(15)   # allow time to return to position
 		return True
 	finally:
 		coffin_lock.release()
@@ -68,7 +68,7 @@ def electro_closet():
 		time.sleep(20)   # Keep doors open for 25 seconds
 		relay2.contract()  # Close left door
 		relay3.contract()  # Close right door
-		time.sleep(20)   # allow time to return to position
+		time.sleep(10)   # allow time to return to position
 		return True
 	finally:
 		electro_lock.release()

@@ -51,7 +51,7 @@ TRIGGER_SEQUENCE = [
     ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
     ("creepy_skull", 3),
-    ("electro_closet", 5.0),
+    ("electro_closet", 3.0),
     ("coffin_skeleton", 3.0)
 ]
 
