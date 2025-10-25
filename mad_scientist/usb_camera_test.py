@@ -1,4 +1,4 @@
-#!/home/pi/repos/porch_zombie/venv/bin/pyhthon
+#!/home/pi/repos/porch_zombie/venv/bin/python
 
 import cv2
 import numpy as np
