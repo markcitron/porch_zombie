@@ -37,7 +37,8 @@ while ret:
     if motion_detected:
         cv2.putText(frame1, "Motion Detected!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
 
-    cv2.imshow("USB Camera Motion Test", frame1)
+    # comment out below if running headless
+    # cv2.imshow("USB Camera Motion Test", frame1)
     frame1 = frame2
     ret, frame2 = cap.read()
 
