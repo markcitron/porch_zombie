@@ -46,7 +46,7 @@ COOLDOWN_SECONDS = 100 # time to ignore new triggers after a sequence starts
 # delay_after_seconds specifies how long to wait AFTER publishing this trigger
 # before publishing the next one.
 TRIGGER_SEQUENCE = [
-    ("crypt_keeper_3", 1.0),
+    ("crypt_keeper_3", 2.0),
     ("crypt_keeper_2", 1.0),
     ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
