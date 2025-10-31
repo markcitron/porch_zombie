@@ -44,6 +44,8 @@ def active_motion():
         print("Motion already active, ignoring trigger.")
         return
     try:
+        # Start with a little delay, need it for the trigger sequence
+        time.sleep(5)
         # Move to active position slowly and smoothly
         smooth_move(servo_8, SERVO_8_INIT, SERVO_8_ACTIVE, duration=3.0)
         smooth_move(servo_7, SERVO_7_INIT, SERVO_7_ACTIVE, duration=3.0)
@@ -58,7 +60,7 @@ def active_motion():
             smooth_move(servo_8, SERVO_8_SHAKE_RIGHT, SERVO_8_ACTIVE, duration=1.0)
             time.sleep(0.5)
 
-        time.sleep(10)  # 10 second pause
+        time.sleep(4)  # 3 second pause
 
         # Return to idle slowly
         smooth_move(servo_8, SERVO_8_ACTIVE, SERVO_8_INIT, duration=3.0)
