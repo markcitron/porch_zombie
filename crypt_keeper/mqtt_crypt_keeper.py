@@ -32,6 +32,8 @@ def trigger_relay(relay, lock, relay_num):
         print("Relay {} motion already active, ignoring trigger.".format(relay_num))
         return
     try:
+        if relay_num == 3:
+            time.sleep(5)
         print("Triggering relay {relay_num}")
         relay.on()
         time.sleep(1)
