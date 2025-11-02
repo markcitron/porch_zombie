@@ -50,7 +50,12 @@ TRIGGER_SEQUENCE = [
     ("scarecrow", 0.8 ),
     ("crypt_keeper_1", 1.0),
     ("creepy_skull", 3),
+<<<<<<< HEAD
+    ("electro_closet", 3.0),
+    ("crypt_keeper_3", 2.0),
+=======
     ("electro_closet", 5.0),
+>>>>>>> 8c31b29eda0ad6cdcab8273d6ed029af0993864a
     ("coffin_skeleton", 3.0)
 ]
 
