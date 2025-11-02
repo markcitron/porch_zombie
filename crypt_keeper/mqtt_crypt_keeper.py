@@ -33,7 +33,7 @@ def trigger_relay(relay, lock, relay_num):
         return
     try:
         if relay_num == 3:
-            time.sleep(5)
+            time.sleep(10)
         print("Triggering relay {relay_num}")
         relay.on()
         time.sleep(1)
