@@ -17,7 +17,6 @@ def main():
     except Exception as e:
         print("unable to extend actuators: {}".format(e))
 
-    gpio_cleanup()
 
 if __name__ == "__main__":
     main()

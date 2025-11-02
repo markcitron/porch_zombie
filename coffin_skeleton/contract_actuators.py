@@ -8,16 +8,19 @@ relay1 = LinAct("Coffin Skeleton", 26)
 relay2 = LinAct("Electro Closet", 20)
 relay3 = LinAct("Electro Closet", 21)
 
+
 def main():
     try:
-        print("Contracting actuators")
+        print("Contracting actuators") 
         relay1.contract()
+        time.sleep(.1)
         relay2.contract()
+        time.sleep(.1)
         relay3.contract()
+        time.sleep(.1)
     except Exception as e:
         print("unable to extend actuators: {}".format(e))
 
-    gpio_cleanup()
 
 if __name__ == "__main__":
     main()
