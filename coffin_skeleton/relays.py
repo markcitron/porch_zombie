@@ -3,6 +3,10 @@
 import RPi.GPIO as GPIO
 import time
 
+<<<<<<< HEAD
+=======
+GPIO.cleanup()
+>>>>>>> 8c31b29eda0ad6cdcab8273d6ed029af0993864a
 GPIO.setmode(GPIO.BCM)
 
 class LinAct():

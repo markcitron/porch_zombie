@@ -50,7 +50,11 @@ def someone_is_here():
 	relay8.contract()
 	time.sleep(1)
 	relay1.contract()
+<<<<<<< HEAD
 	time.sleep(5)
+=======
+	time.sleep(3)
+>>>>>>> 8c31b29eda0ad6cdcab8273d6ed029af0993864a
 	relay1.extend()
 	return True
 
@@ -60,7 +64,11 @@ def active_motion():
 		return
 	try:
 		someone_is_here()
+<<<<<<< HEAD
 		time.sleep(20)
+=======
+		time.sleep(30)
+>>>>>>> 8c31b29eda0ad6cdcab8273d6ed029af0993864a
 		idle_position()
 	finally:
 		motion_lock.release()
