@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 
 import time
-
 import RPi.GPIO as GPIO
-
 from relays import LinAct, gpio_cleanup
-
 
 PIR_PIN = 5
 PNEUMO_JUMPER_PIN = 26
