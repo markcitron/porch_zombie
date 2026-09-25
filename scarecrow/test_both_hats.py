@@ -68,6 +68,9 @@ def test_all_relays():
 
 def main():
     print("Testing both hats...")
+    test_servo()
+    test_all_relays()
+    print("done :-)")
 
 if __name__ == "__main__":
     main()
