@@ -9,7 +9,7 @@ from relays import *
 
 # load libraries for the robot hat control
 from robot_hat import Servo, ADC
-from robo_hat.utils import reset_mcu
+from robot_hat.utils import reset_mcu
 
 # Setup the robot hat card
 reset_mcu()
