@@ -13,12 +13,12 @@ from robot_hat.utils import reset_mcu
 
 # Setup the robot hat card
 reset_mcu()
-test_servo = 0 # using servo 0 for testing
+test_servo_number = 0 # using servo 0 for testing
 
 # robohat servo test function(s)
 def test_servo():
-    print("Testing servo {}".format(test_servo))
-    which_servo = test_servo
+    print("Testing servo {}".format(test_servo_number))
+    which_servo = test_servo_number
     servo_start = 90
     servo_end = -90
     Servo(int(which_servo)).angle(int(servo_start))
@@ -63,7 +63,7 @@ def test_all_relays():
     relay7.contract()
     relay8.contract()
 
-    return true
+    return True
 
 
 def main():
