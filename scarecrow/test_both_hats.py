@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 # load general utils
+from threading import Thread
 from time import sleep
 
 # load library for the 8relay switch hat
@@ -68,8 +69,16 @@ def test_all_relays():
 
 def main():
     print("Testing both hats...")
-    test_servo()
-    test_all_relays()
+
+    servo_thread = Thread(target=test_servo)
+    relay_thread = Thread(target=test_all_relays)
+
+    servo_thread.start()
+    relay_thread.start()
+
+    servo_thread.join()
+    relay_thread.join()
+
     print("done :-)")
 
 if __name__ == "__main__":
