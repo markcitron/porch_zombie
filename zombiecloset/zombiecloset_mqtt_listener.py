@@ -6,9 +6,8 @@ import threading
 from relays import *
 
 # MQTT Setup
-# MQTT_BROKER = "10.10.0.232" - SneakyImp (hand trigger)
-# MQTT_BROKER = "10.10.0.14" - PneumoJumper (motion trigger)
-MQTT_BROKER = "10.10.0.232"
+# Shared Mosquitto broker
+MQTT_BROKER = "10.10.0.175"
 MQTT_PORT = 1883
 MQTT_TOPIC = "porch_zombie/hauntedporch"
 TRIGGER_KEYWORD1 = "zc_open"
