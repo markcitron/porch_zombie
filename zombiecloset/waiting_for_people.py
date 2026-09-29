@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 from relays import LinAct, gpio_cleanup
 
 PIR_PIN = 5
-PNEUMO_JUMPER_PIN = 26
+ZOMBIE_CLOSET_PIN = 26
 RELAY_2_PIN = 20
 MIN_TRIGGER_TIME = 0.30
 COOLDOWN = 2.0
@@ -15,8 +15,8 @@ RELAY_2_EXTENDED_TIME = 45.0
 RELAY_2_RESET_TIME = 30.0
 
 
-def fire_pneumo_jumper(relay):
-	print("Activating Pneumo Jumper")
+def open_zombie_closet(relay):
+	print("Activating Zombie Closet")
 	relay.contract()
 	try:
 		time.sleep(FIRE_TIME)
@@ -40,13 +40,13 @@ def run_relay_2_sequence(relay, triggered_at):
 
 def main():
 	GPIO.setup(PIR_PIN, GPIO.IN)
-	relay1 = LinAct("Pneumo Jumper", PNEUMO_JUMPER_PIN)
-	relay2 = LinAct("Relay 2", RELAY_2_PIN)
+	relay1 = LinAct("Zombie Closet", ZOMBI_CLOSET_PIN)
+	# relay2 = LinAct("Relay 2", RELAY_2_PIN)
 	relay1.extend()
-	relay2.contract()
+	# relay2.contract()
 	last_trigger = 0.0
 
-	print("Pneumo Jumper motion trigger running...")
+	print("Zombie Closet motion trigger running...")
 
 	try:
 		while True:
@@ -64,7 +64,7 @@ def main():
 
 				if duration >= MIN_TRIGGER_TIME:
 					print(f"Valid motion! Duration: {duration:.2f}s")
-					fire_pneumo_jumper(relay1)
+					open_zombie_closet(relay1)
 					run_relay_2_sequence(relay2, start)
 					last_trigger = time.time()
 				else:
