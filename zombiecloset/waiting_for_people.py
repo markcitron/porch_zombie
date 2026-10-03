@@ -40,7 +40,7 @@ def run_relay_2_sequence(relay, triggered_at):
 
 def main():
 	GPIO.setup(PIR_PIN, GPIO.IN)
-	relay1 = LinAct("Zombie Closet", ZOMBI_CLOSET_PIN)
+	relay1 = LinAct("Zombie Closet", ZOMBIE_CLOSET_PIN)
 	# relay2 = LinAct("Relay 2", RELAY_2_PIN)
 	relay1.extend()
 	# relay2.contract()
