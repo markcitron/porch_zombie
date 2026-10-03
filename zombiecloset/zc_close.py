@@ -8,7 +8,7 @@ relay1 = LinAct("Zombie Closet", 26)
 def main():
     try:
         print("Closing Zombie Closet")
-        relay1.contract()
+        relay1.extend()
         time.sleep(.1)
     except Exception as e:
         print("unable to close: {}".format(e))
