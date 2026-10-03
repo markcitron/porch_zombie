@@ -9,7 +9,7 @@ class LinAct():
     def __init__ (self, name, pin_id):
         self.name = name
         self.pin_id = pin_id
-        GPIO.setup(pin_id, GPIO.OUT)
+        GPIO.setup(pin_id, GPIO.OUT, initial=GPIO.LOW)
 
     def contract(self):
         GPIO.output(self.pin_id, GPIO.HIGH)
@@ -21,4 +21,3 @@ class LinAct():
 def gpio_cleanup():
     GPIO.cleanup()
     return True
-
