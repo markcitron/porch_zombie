@@ -9,6 +9,7 @@ ZOMBIE_CLOSET_PIN = 26
 MIN_TRIGGER_TIME = 0.30
 COOLDOWN = 2.0
 FIRE_TIME = 1.0
+POLL_INTERVAL = 0.05
 
 def open_zombie_closet(relay):
 	print("Activating Zombie Closet")
@@ -24,32 +25,41 @@ def main():
 	GPIO.setup(PIR_PIN, GPIO.IN)
 	relay1 = LinAct("Zombie Closet", ZOMBIE_CLOSET_PIN)
 	relay1.extend()
-	last_trigger = 0.0
+	last_trigger = -COOLDOWN
+	motion_started = None
+	motion_triggered = False
 
 	print("Zombie Closet motion trigger running...")
 
 	try:
 		while True:
-			now = time.time()
+			now = time.monotonic()
+			motion_active = GPIO.input(PIR_PIN) == GPIO.HIGH
 
-			if now - last_trigger < COOLDOWN:
-				time.sleep(0.05)
-				continue
+			if motion_active:
+				if motion_started is None:
+					motion_started = now
+					motion_triggered = False
 
-			if GPIO.input(PIR_PIN):
-				start = time.monotonic()
-				while GPIO.input(PIR_PIN):
-					time.sleep(0.01)
-				duration = time.monotonic() - start
-
-				if duration >= MIN_TRIGGER_TIME:
+				duration = now - motion_started
+				cooldown_complete = now - last_trigger >= COOLDOWN
+				if (
+					not motion_triggered
+					and cooldown_complete
+					and duration >= MIN_TRIGGER_TIME
+				):
 					print(f"Valid motion! Duration: {duration:.2f}s")
 					open_zombie_closet(relay1)
-					last_trigger = time.time()
-				else:
+					last_trigger = time.monotonic()
+					motion_triggered = True
+			elif motion_started is not None:
+				duration = now - motion_started
+				if not motion_triggered and duration < MIN_TRIGGER_TIME:
 					print(f"Ignored small motion ({duration:.2f}s)")
+				motion_started = None
+				motion_triggered = False
 
-			time.sleep(0.05)
+			time.sleep(POLL_INTERVAL)
 	except KeyboardInterrupt:
 		print("Exiting...")
 	finally:

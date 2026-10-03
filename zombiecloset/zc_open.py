@@ -3,7 +3,6 @@
 import time
 from relays import *
 
-# Set up relays as in mqtt_cs_and_ec.py
 relay1 = LinAct("Zombie Closet", 26)
 
 def main():
