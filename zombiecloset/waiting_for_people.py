@@ -4,7 +4,7 @@ import time
 import RPi.GPIO as GPIO
 from relays import LinAct, gpio_cleanup
 
-PIR_PIN = 6
+PIR_PIN = 5
 ZOMBIE_CLOSET_PIN = 26
 MIN_TRIGGER_TIME = 0.30
 COOLDOWN = 2.0
