@@ -5,7 +5,7 @@ import time
 
 import RPi.GPIO as GPIO
 
-PIR_PIN = 5
+PIR_PIN = 6
 POLL_INTERVAL = 1.0
 
 
@@ -15,7 +15,7 @@ def main():
 	GPIO.setup(PIR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 	print(
-		f"Monitoring PIR sensor on BCM {PIR_PIN} (physical pin 29). "
+		f"Monitoring PIR sensor on BCM {PIR_PIN} (physical pin 31). "
 		"Press Ctrl+C to stop."
 	)
 
