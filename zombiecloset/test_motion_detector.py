@@ -12,9 +12,12 @@ POLL_INTERVAL = 1.0
 def main():
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup(PIR_PIN, GPIO.IN)
+	GPIO.setup(PIR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-	print(f"Monitoring PIR sensor on BCM {PIR_PIN}. Press Ctrl+C to stop.")
+	print(
+		f"Monitoring PIR sensor on BCM {PIR_PIN} (physical pin 29). "
+		"Press Ctrl+C to stop."
+	)
 
 	try:
 		while True:

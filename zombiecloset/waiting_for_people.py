@@ -22,7 +22,7 @@ def open_zombie_closet(relay):
 
 def main():
 	GPIO.setwarnings(False)
-	GPIO.setup(PIR_PIN, GPIO.IN)
+	GPIO.setup(PIR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	relay1 = LinAct("Zombie Closet", ZOMBIE_CLOSET_PIN)
 	relay1.extend()
 	last_trigger = -COOLDOWN
