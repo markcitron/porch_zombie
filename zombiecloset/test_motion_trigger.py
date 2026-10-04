@@ -17,7 +17,7 @@ def state_name(state):
 def main():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(PIR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(PIR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     previous_state = GPIO.input(PIR_PIN)
     state_started = time.monotonic()
@@ -28,7 +28,7 @@ def main():
         "(physical pin 29)."
     )
     print("Move in front of the sensor and watch for state changes.")
-    print("Expected behavior: idle HIGH, motion pulse LOW.")
+    print("Expected behavior: idle LOW, motion pulse HIGH.")
     print("Press Ctrl+C to stop.")
     print(f"Initial state: {state_name(previous_state)}", flush=True)
 
