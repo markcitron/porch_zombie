@@ -13,6 +13,26 @@ relay5 = LinAct("", 5)
 relay6 = LinAct("", 6)
 relay7 = LinAct("", 7)
 relay8 = LinAct("", 8)
+relays = [relay1, relay2, relay3, relay4, relay5, relay6, relay7, relay8]
+
+
+def read_relay_state(relay_num):
+    state = lib8relind.get(0, relay_num)
+    state_name = "contract (1)" if state == 1 else "extend (0)"
+    print("Controller readback for relay {}: {}".format(relay_num, state_name))
+    return state
+
+
+def read_all_relay_states():
+    states = [lib8relind.get(0, relay_num) for relay_num in range(1, 9)]
+    print(
+        "Controller readback: "
+        + ", ".join(
+            "{}={}".format(relay_num, state)
+            for relay_num, state in enumerate(states, start=1)
+        )
+    )
+    return states
 
 
 def extend_all_relays():
@@ -24,6 +44,7 @@ def extend_all_relays():
     relay6.extend()
     relay7.extend()
     relay8.extend()
+    read_all_relay_states()
     return True
 
 
@@ -36,18 +57,20 @@ def contract_all_relays():
     relay6.contract()
     relay7.contract()
     relay8.contract()
+    read_all_relay_states()
     return True
 
 # Contract then extend a single relay by number (1-8)
 def contract_then_extend_relay(relay_num, contract_time=1, extend_time=1):
-    relays = [relay1, relay2, relay3, relay4, relay5, relay6, relay7, relay8]
     if 1 <= relay_num <= 8:
         relay = relays[relay_num - 1]
         print("Contracting relay {}...".format(relay_num))
         relay.contract()
+        read_relay_state(relay_num)
         time.sleep(contract_time)
         print("Extending relay {}...".format(relay_num))
         relay.extend()
+        read_relay_state(relay_num)
         time.sleep(extend_time)
         return True
     else:
@@ -61,6 +84,7 @@ def main():
         print("1: Extend all relays")
         print("2: Contract all relays")
         print("3: Contract then extend a single relay")
+        print("4: Read controller state for all relays")
         print("q: Quit")
         choice = str(input("Select test to run: "))
         if choice == '1':
@@ -73,6 +97,8 @@ def main():
                 contract_then_extend_relay(relay_num)
             except ValueError:
                 print("Invalid input. Please enter a number between 1 and 8.")
+        elif choice == '4':
+            read_all_relay_states()
         elif choice == 'q':
             print("Exiting relay test.")
             break
