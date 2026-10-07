@@ -8,11 +8,11 @@ class LinAct():
         self.name = name
         self.relay_id = relay_id;
 
-    def contract(self):
+    def extend(self):
         lib8relind.set(0, self.relay_id, 1)
         return True
 
-    def extend(self):
+    def contract(self):
         lib8relind.set(0, self.relay_id, 0)
         return True
         
