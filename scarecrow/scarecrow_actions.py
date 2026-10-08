@@ -148,6 +148,7 @@ def close_arms() -> bool:
     RELAYS[1].extend()
     RELAYS[3].contract()
     RELAYS[6].contract()
+    RELAYS[5].contract()
     return True
 
 
@@ -157,6 +158,7 @@ def open_arms() -> bool:
     RELAYS[1].contract()
     RELAYS[3].extend()
     RELAYS[6].extend()
+    RELAYS[5].extend()
     return True
 
 
