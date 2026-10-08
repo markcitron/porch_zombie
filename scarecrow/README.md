@@ -35,6 +35,19 @@ pip3 install paho-mqtt
    ```
 3. Send MQTT messages to the topic `hauntedporch/control` with payload `scarecrow` to trigger the scarecrow relay(s).
 
+### Testing combined actions
+
+The arm and hand controls are shared by `scarecrow_actions.py`. Use
+`test_actions.py` to run either combined action:
+
+```bash
+python3 test_actions.py grab
+python3 test_actions.py let go
+```
+
+`grab` closes the arms, waits 0.5 seconds, and closes both hands. `let go`
+opens the arms, waits 0.5 seconds, and opens both hands.
+
 ## Systemd Service (Optional)
 To run the bot automatically on boot, create a systemd service:
 ```ini
