@@ -60,6 +60,26 @@ def contract_all_relays():
     read_all_relay_states()
     return True
 
+def open_arms():
+    # Implement the logic to open the arms using the appropriate relays
+    print("Opening arms...")
+    # opening arms includes extending the shoulder relays and contracting the arm relays
+    relay1.extend()  # lt shoulder relay
+    relay2.extend()  # rt shoulder relay
+    relay4.contract()  # rt arm relay
+    relay7.contract()  # lt arm relay
+    return True
+
+def close_arms():
+    # Implement the logic to close the arms using the appropriate relays
+    print("Closing arms...")
+    # opening arms includes extending the shoulder relays and contracting the arm relays
+    relay1.contract()  # lt shoulder relay
+    relay2.contract()  # rt shoulder relay
+    relay4.extend()  # rt arm relay
+    relay7.extend()  # lt arm relay
+    return True
+
 # Contract then extend a single relay by number (1-8)
 def contract_then_extend_relay(relay_num, contract_time=1, extend_time=1):
     if 1 <= relay_num <= 8:
@@ -85,6 +105,8 @@ def main():
         print("2: Contract all relays")
         print("3: Contract then extend a single relay")
         print("4: Read controller state for all relays")
+        print("5: Open arms")
+        print("6: Close arms")
         print("q: Quit")
         choice = str(input("Select test to run: "))
         if choice == '1':
@@ -99,6 +121,10 @@ def main():
                 print("Invalid input. Please enter a number between 1 and 8.")
         elif choice == '4':
             read_all_relay_states()
+        elif choice == '5':
+            open_arms()
+        elif choice == '6':
+            close_arms()
         elif choice == 'q':
             print("Exiting relay test.")
             break
