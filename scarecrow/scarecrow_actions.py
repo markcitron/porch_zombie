@@ -60,6 +60,13 @@ HAND_CONFIG: Dict[HandName, HandConfig] = {
 
 RELAYS: List[LinAct] = [LinAct("", relay_id) for relay_id in range(1, 9)]
 
+LEFT_SHOULDER_RELAY = RELAYS[0]  # Relay 1
+RIGHT_SHOULDER_RELAY = RELAYS[1]  # Relay 2
+RIGHT_ARM_RELAY = RELAYS[3]  # Relay 4
+JAW_CONTROL_RELAY = RELAYS[4]  # Relay 5
+BASE_MOVER_RELAY = RELAYS[5]  # Relay 6
+LEFT_ARM_RELAY = RELAYS[6]  # Relay 7
+
 
 def initialize_hardware() -> None:
     """Reset the controller before creating or moving any servos."""
@@ -144,21 +151,21 @@ def contract_all_relays() -> bool:
 
 def close_arms() -> bool:
     print("Closing arms...")
-    RELAYS[1].extend()
-    RELAYS[2].extend()
-    RELAYS[4].contract()
-    RELAYS[7].contract()
-    RELAYS[5].extend()
+    LEFT_SHOULDER_RELAY.extend()
+    RIGHT_SHOULDER_RELAY.extend()
+    RIGHT_ARM_RELAY.contract()
+    LEFT_ARM_RELAY.contract()
+    JAW_CONTROL_RELAY.extend()
     return True
 
 
 def open_arms() -> bool:
     print("Opening arms...")
-    RELAYS[1].contract()
-    RELAYS[2].contract()
-    RELAYS[4].extend()
-    RELAYS[7].extend()
-    RELAYS[5].contract()
+    LEFT_SHOULDER_RELAY.contract()
+    RIGHT_SHOULDER_RELAY.contract()
+    RIGHT_ARM_RELAY.extend()
+    LEFT_ARM_RELAY.extend()
+    JAW_CONTROL_RELAY.contract()
     return True
 
 
