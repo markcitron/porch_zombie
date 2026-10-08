@@ -144,21 +144,21 @@ def contract_all_relays() -> bool:
 
 def close_arms() -> bool:
     print("Closing arms...")
-    RELAYS[0].extend()
     RELAYS[1].extend()
-    RELAYS[3].contract()
-    RELAYS[6].contract()
-    RELAYS[5].contract()
+    RELAYS[2].extend()
+    RELAYS[4].contract()
+    RELAYS[7].contract()
+    RELAYS[5].extend()
     return True
 
 
 def open_arms() -> bool:
     print("Opening arms...")
-    RELAYS[0].contract()
     RELAYS[1].contract()
-    RELAYS[3].extend()
-    RELAYS[6].extend()
-    RELAYS[5].extend()
+    RELAYS[2].contract()
+    RELAYS[4].extend()
+    RELAYS[7].extend()
+    RELAYS[5].contract()
     return True
 
 
