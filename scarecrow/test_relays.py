@@ -60,8 +60,8 @@ def contract_all_relays():
     read_all_relay_states()
     return True
 
-def open_arms():
-    # Implement the logic to open the arms using the appropriate relays
+def close_arms():
+    # Implement the logic to close the arms using the appropriate relays
     print("Opening arms...")
     # opening arms includes extending the shoulder relays and contracting the arm relays
     relay1.extend()  # lt shoulder relay
@@ -70,8 +70,8 @@ def open_arms():
     relay7.contract()  # lt arm relay
     return True
 
-def close_arms():
-    # Implement the logic to close the arms using the appropriate relays
+def open_arms():
+    # Implement the logic to open the arms using the appropriate relays
     print("Closing arms...")
     # opening arms includes extending the shoulder relays and contracting the arm relays
     relay1.contract()  # lt shoulder relay
