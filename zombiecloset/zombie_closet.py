@@ -6,9 +6,11 @@ import time
 from relays import LinAct
 
 ZOMBIE_CLOSET_PIN = 26
-ACTIVATION_TIME = 10.0
+ZC_ACTIVATION_TIME = 10.0
 
-SIDEKICK_PIN = 27
+SIDEKICK_PIN = 20
+SIDEKICK_ACTIVATION_TIME = 10.0
+
 
 _closet_relay = LinAct("Zombie Closet", ZOMBIE_CLOSET_PIN)
 _sidekick_relay = LinAct("Sidekick", SIDEKICK_PIN)
@@ -30,7 +32,7 @@ def activate_zc():
     """Open the Zombie Closet for ten seconds, then close it."""
     open_closet()
     try:
-        time.sleep(ACTIVATION_TIME)
+        time.sleep(ZC_ACTIVATION_TIME)
     finally:
         close_closet()
 
@@ -39,6 +41,8 @@ def activate_sidekick():
     print("Activating Sidekick")
     _sidekick_relay.extend()
     try:
-        time.sleep(ACTIVATION_TIME)
+        time.sleep(SIDEKICK_ACTIVATION_TIME)
+    except Exception as e:
+        print(f"Error occurred while activating Sidekick: {e}")
     finally:
         _sidekick_relay.contract()
