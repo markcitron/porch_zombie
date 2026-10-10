@@ -39,10 +39,10 @@ def activate_zc():
 def activate_sidekick():
     """Activate the Sidekick solenoid for ten seconds."""
     print("Activating Sidekick")
-    _sidekick_relay.extend()
+    _sidekick_relay.contract()
     try:
         time.sleep(SIDEKICK_ACTIVATION_TIME)
     except Exception as e:
         print(f"Error occurred while activating Sidekick: {e}")
     finally:
-        _sidekick_relay.contract()
+        _sidekick_relay.extend()
