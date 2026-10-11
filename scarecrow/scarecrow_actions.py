@@ -59,6 +59,8 @@ class WristConfig:
 
 HandConfig = Dict[FingerName, FingerConfig]
 ServoFactory = Callable[[int], Servo]
+FINGER_MOVE_DELAY_SECONDS = 0.1
+BETWEEN_HANDS_DELAY_SECONDS = 0.5
 
 HAND_CONFIG: Dict[HandName, HandConfig] = {
     HandName.LEFT: {
@@ -109,7 +111,12 @@ def initialize_hardware() -> None:
 
 
 class HandController:
-    def __init__(self, servo_factory: ServoFactory = Servo) -> None:
+    def __init__(
+        self,
+        servo_factory: ServoFactory = Servo,
+        finger_delay: float = FINGER_MOVE_DELAY_SECONDS,
+    ) -> None:
+        self._finger_delay = finger_delay
         self._servos: Dict[HandName, Dict[FingerName, Servo]] = {
             hand: {
                 finger: servo_factory(config.channel)
@@ -123,13 +130,16 @@ class HandController:
         action = "Opening" if pose is HandPose.OPEN else "Closing"
         print(f"{action} {hand.value} hand...")
 
-        for finger, config in HAND_CONFIG[hand].items():
+        fingers = list(HAND_CONFIG[hand].items())
+        for index, (finger, config) in enumerate(fingers):
             angle = (
                 config.open_angle
                 if pose is HandPose.OPEN
                 else config.closed_angle
             )
             self._servos[hand][finger].angle(angle)
+            if index < len(fingers) - 1:
+                time.sleep(self._finger_delay)
 
 
 class WristController:
@@ -159,14 +169,26 @@ def close_hand(controller: HandController, hand: HandName) -> None:
     controller.set_pose(hand, HandPose.CLOSED)
 
 
-def open_hands(controller: HandController) -> None:
-    for hand in HandName:
+def open_hands(
+    controller: HandController,
+    hand_delay: float = BETWEEN_HANDS_DELAY_SECONDS,
+) -> None:
+    hands = list(HandName)
+    for index, hand in enumerate(hands):
         open_hand(controller, hand)
+        if index < len(hands) - 1:
+            time.sleep(hand_delay)
 
 
-def close_hands(controller: HandController) -> None:
-    for hand in HandName:
+def close_hands(
+    controller: HandController,
+    hand_delay: float = BETWEEN_HANDS_DELAY_SECONDS,
+) -> None:
+    hands = list(HandName)
+    for index, hand in enumerate(hands):
         close_hand(controller, hand)
+        if index < len(hands) - 1:
+            time.sleep(hand_delay)
 
 
 def set_wrist_pose(
