@@ -7,11 +7,15 @@ from typing import List, Optional
 
 from scarecrow_actions import (
     HandController,
+    WristController,
+    WristName,
+    WristPose,
     close_arms,
     close_hands,
     initialize_hardware,
     open_arms,
     open_hands,
+    set_wrist_pose,
 )
 
 HAND_DELAY_SECONDS = 0.5
@@ -23,6 +27,9 @@ def grab(
 ) -> None:
     close_arms()
     time.sleep(hand_delay)
+    set_wrist_pose(controller, WristName.LEFT, WristPose.PALM_FORWARD)
+    set_wrist_pose(controller, WristName.RIGHT, WristPose.PALM_FORWARD)
+    time.sleep(hand_delay)
     close_hands(controller)
 
 
@@ -31,6 +38,9 @@ def let_go(
     hand_delay: float = HAND_DELAY_SECONDS,
 ) -> None:
     open_arms()
+    time.sleep(hand_delay)
+    set_wrist_pose(controller, WristName.LEFT, WristPose.PALM_UP)
+    set_wrist_pose(controller, WristName.RIGHT, WristPose.PALM_UP)
     time.sleep(hand_delay)
     open_hands(controller)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Shared controls for the scarecrow's arms and articulated hands."""
+"""Shared controls for the scarecrow's arms, wrists, and articulated hands."""
 
 import time
 from dataclasses import dataclass
@@ -23,6 +23,17 @@ class HandPose(str, Enum):
     CLOSED = "closed"
 
 
+class WristName(str, Enum):
+    LEFT = "left"
+    RIGHT = "right"
+
+
+class WristPose(str, Enum):
+    PALM_UP = "palm up"
+    PALM_FORWARD = "palm forward"
+    PALM_DOWN = "palm down"
+
+
 class FingerName(str, Enum):
     THUMB = "thumb"
     INDEX = "index"
@@ -36,6 +47,14 @@ class FingerConfig:
     channel: int
     open_angle: int
     closed_angle: int
+
+
+@dataclass(frozen=True)
+class WristConfig:
+    channel: int
+    palm_up_angle: int
+    palm_forward_angle: int
+    palm_down_angle: int
 
 
 HandConfig = Dict[FingerName, FingerConfig]
@@ -56,6 +75,21 @@ HAND_CONFIG: Dict[HandName, HandConfig] = {
         FingerName.RING: FingerConfig(1, 90, -90),
         FingerName.PINKIE: FingerConfig(4, 90, -90),
     },
+}
+
+WRIST_CONFIG: Dict[WristName, WristConfig] = {
+    WristName.LEFT: WristConfig(
+        channel=11,
+        palm_up_angle=15,
+        palm_forward_angle=70,
+        palm_down_angle=-90,
+    ),
+    WristName.RIGHT: WristConfig(
+        channel=5,
+        palm_up_angle=-15,
+        palm_forward_angle=-70,
+        palm_down_angle=90,
+    ),
 }
 
 RELAYS: List[LinAct] = [LinAct("", relay_id) for relay_id in range(1, 9)]
@@ -98,6 +132,25 @@ class HandController:
             self._servos[hand][finger].angle(angle)
 
 
+class WristController:
+    def __init__(self, servo_factory: ServoFactory = Servo) -> None:
+        self._servos: Dict[WristName, Servo] = {
+            wrist: servo_factory(config.channel)
+            for wrist, config in WRIST_CONFIG.items()
+        }
+
+    def set_pose(self, wrist: WristName, pose: WristPose) -> None:
+        """Rotate a wrist to the requested palm orientation."""
+        config = WRIST_CONFIG[wrist]
+        angles = {
+            WristPose.PALM_UP: config.palm_up_angle,
+            WristPose.PALM_FORWARD: config.palm_forward_angle,
+            WristPose.PALM_DOWN: config.palm_down_angle,
+        }
+        print(f"Moving {wrist.value} wrist {pose.value}...")
+        self._servos[wrist].angle(angles[pose])
+
+
 def open_hand(controller: HandController, hand: HandName) -> None:
     controller.set_pose(hand, HandPose.OPEN)
 
@@ -114,6 +167,22 @@ def open_hands(controller: HandController) -> None:
 def close_hands(controller: HandController) -> None:
     for hand in HandName:
         close_hand(controller, hand)
+
+
+def set_wrist_pose(
+    controller: WristController,
+    wrist: WristName,
+    pose: WristPose,
+) -> None:
+    controller.set_pose(wrist, pose)
+
+
+def set_wrists_pose(
+    controller: WristController,
+    pose: WristPose,
+) -> None:
+    for wrist in WristName:
+        set_wrist_pose(controller, wrist, pose)
 
 
 def read_relay_state(relay_num: int) -> int:
