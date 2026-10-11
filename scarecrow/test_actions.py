@@ -28,6 +28,7 @@ def grab(
 ) -> None:
     close_arms()
     time.sleep(hand_delay)
+    """
     set_wrist_pose(
         wrist_controller,
         WristName.LEFT,
@@ -39,6 +40,7 @@ def grab(
         WristPose.PALM_FORWARD,
     )
     time.sleep(hand_delay)
+    """
     close_hands(hand_controller)
 
 
@@ -49,9 +51,11 @@ def let_go(
 ) -> None:
     open_arms()
     time.sleep(hand_delay)
+    """
     set_wrist_pose(wrist_controller, WristName.LEFT, WristPose.PALM_DOWN)
     set_wrist_pose(wrist_controller, WristName.RIGHT, WristPose.PALM_DOWN)
     time.sleep(hand_delay)
+    """
     open_hands(hand_controller)
 
 
