@@ -59,7 +59,7 @@ class WristConfig:
 
 HandConfig = Dict[FingerName, FingerConfig]
 ServoFactory = Callable[[int], Servo]
-FINGER_MOVE_DELAY_SECONDS = 0.1
+FINGER_MOVE_DELAY_SECONDS = 0.2
 BETWEEN_HANDS_DELAY_SECONDS = 0.5
 
 HAND_CONFIG: Dict[HandName, HandConfig] = {
