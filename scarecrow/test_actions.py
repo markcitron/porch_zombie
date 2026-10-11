@@ -49,8 +49,8 @@ def let_go(
 ) -> None:
     open_arms()
     time.sleep(hand_delay)
-    set_wrist_pose(wrist_controller, WristName.LEFT, WristPose.PALM_UP)
-    set_wrist_pose(wrist_controller, WristName.RIGHT, WristPose.PALM_UP)
+    set_wrist_pose(wrist_controller, WristName.LEFT, WristPose.PALM_DOWN)
+    set_wrist_pose(wrist_controller, WristName.RIGHT, WristPose.PALM_DOWN)
     time.sleep(hand_delay)
     open_hands(hand_controller)
 
