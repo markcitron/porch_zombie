@@ -22,27 +22,37 @@ HAND_DELAY_SECONDS = 0.5
 
 
 def grab(
-    controller: HandController,
+    hand_controller: HandController,
+    wrist_controller: WristController,
     hand_delay: float = HAND_DELAY_SECONDS,
 ) -> None:
     close_arms()
     time.sleep(hand_delay)
-    set_wrist_pose(controller, WristName.LEFT, WristPose.PALM_FORWARD)
-    set_wrist_pose(controller, WristName.RIGHT, WristPose.PALM_FORWARD)
+    set_wrist_pose(
+        wrist_controller,
+        WristName.LEFT,
+        WristPose.PALM_FORWARD,
+    )
+    set_wrist_pose(
+        wrist_controller,
+        WristName.RIGHT,
+        WristPose.PALM_FORWARD,
+    )
     time.sleep(hand_delay)
-    close_hands(controller)
+    close_hands(hand_controller)
 
 
 def let_go(
-    controller: HandController,
+    hand_controller: HandController,
+    wrist_controller: WristController,
     hand_delay: float = HAND_DELAY_SECONDS,
 ) -> None:
     open_arms()
     time.sleep(hand_delay)
-    set_wrist_pose(controller, WristName.LEFT, WristPose.PALM_UP)
-    set_wrist_pose(controller, WristName.RIGHT, WristPose.PALM_UP)
+    set_wrist_pose(wrist_controller, WristName.LEFT, WristPose.PALM_UP)
+    set_wrist_pose(wrist_controller, WristName.RIGHT, WristPose.PALM_UP)
     time.sleep(hand_delay)
-    open_hands(controller)
+    open_hands(hand_controller)
 
 
 def parse_action(arguments: Optional[List[str]] = None) -> str:
@@ -64,12 +74,13 @@ def parse_action(arguments: Optional[List[str]] = None) -> str:
 def main() -> None:
     action = parse_action()
     initialize_hardware()
-    controller = HandController()
+    hand_controller = HandController()
+    wrist_controller = WristController()
 
     if action == "grab":
-        grab(controller)
+        grab(hand_controller, wrist_controller)
     else:
-        let_go(controller)
+        let_go(hand_controller, wrist_controller)
 
 
 if __name__ == "__main__":
