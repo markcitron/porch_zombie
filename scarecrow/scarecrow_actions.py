@@ -61,6 +61,8 @@ HandConfig = Dict[FingerName, FingerConfig]
 ServoFactory = Callable[[int], Servo]
 FINGER_MOVE_DELAY_SECONDS = 0.2
 BETWEEN_HANDS_DELAY_SECONDS = 0.5
+SOUND_TRIGGER_RELAY = 3
+SOUND_TRIGGER_PAUSE_SECONDS = 0.5
 
 HAND_CONFIG: Dict[HandName, HandConfig] = {
     HandName.LEFT: {
@@ -189,6 +191,14 @@ def close_hands(
         close_hand(controller, hand)
         if index < len(hands) - 1:
             time.sleep(hand_delay)
+
+
+def trigger_sound() -> None:
+    """Send the speaker's required 0-to-1 trigger on relay 3."""
+    # LinAct's movement-oriented names map to the opposite numeric states.
+    lib8relind.set(0, SOUND_TRIGGER_RELAY, 0)
+    time.sleep(SOUND_TRIGGER_PAUSE_SECONDS)
+    lib8relind.set(0, SOUND_TRIGGER_RELAY, 1)
 
 
 def set_wrist_pose(

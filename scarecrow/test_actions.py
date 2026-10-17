@@ -3,6 +3,7 @@
 
 import argparse
 import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional
 
 from scarecrow_actions import (
@@ -16,9 +17,17 @@ from scarecrow_actions import (
     open_arms,
     open_hands,
     set_wrist_pose,
+    trigger_sound,
 )
 
 HAND_DELAY_SECONDS = 0.5
+SOUND_START_DELAY_SECONDS = 1.0
+
+
+def _trigger_grab_sound(started_at: float) -> None:
+    delay = started_at + SOUND_START_DELAY_SECONDS - time.monotonic()
+    time.sleep(max(0.0, delay))
+    trigger_sound()
 
 
 def grab(
@@ -26,22 +35,29 @@ def grab(
     wrist_controller: WristController,
     hand_delay: float = HAND_DELAY_SECONDS,
 ) -> None:
-    close_arms()
-    time.sleep(hand_delay)
-    """
-    set_wrist_pose(
-        wrist_controller,
-        WristName.LEFT,
-        WristPose.PALM_FORWARD,
-    )
-    set_wrist_pose(
-        wrist_controller,
-        WristName.RIGHT,
-        WristPose.PALM_FORWARD,
-    )
-    time.sleep(hand_delay)
-    """
-    close_hands(hand_controller)
+    started_at = time.monotonic()
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        sound = executor.submit(_trigger_grab_sound, started_at)
+        try:
+            close_arms()
+            time.sleep(hand_delay)
+            """
+            set_wrist_pose(
+                wrist_controller,
+                WristName.LEFT,
+                WristPose.PALM_FORWARD,
+            )
+            set_wrist_pose(
+                wrist_controller,
+                WristName.RIGHT,
+                WristPose.PALM_FORWARD,
+            )
+            time.sleep(hand_delay)
+            """
+            close_hands(hand_controller)
+        finally:
+            # Finish the trigger and surface worker errors before returning.
+            sound.result()
 
 
 def let_go(

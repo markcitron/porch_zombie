@@ -48,6 +48,15 @@ python3 test_actions.py let go
 `grab` closes the arms, waits 0.5 seconds, and closes both hands. `let go`
 opens the arms, waits 0.5 seconds, and opens both hands.
 
+Each `grab` also triggers the external sound speaker on relay **3** in
+parallel with the arm/hand movement: relay 3 is set to **0** at one second
+after grab starts, then to **1** after another **0.5 seconds** (1.5 seconds
+after grab starts). These are explicit controller values, independent of the
+movement helpers' extend/contract naming. Timing is subject to normal OS and
+hardware scheduling delays. `grab` waits for both movement and the sound
+trigger to finish, and reports any sound-trigger error. `let_go` does not
+trigger sound. This applies to both manual actions and distance-triggered mode.
+
 ### Distance-triggered waiting mode
 
 Run on the Raspberry Pi from the `scarecrow` directory:
@@ -79,7 +88,7 @@ Test with the movement area clear before allowing visitors near the prop.
 The automated waiting-mode tests use mocked hardware:
 
 ```bash
-python3 -m unittest discover -s tests -p test_scarecrow_waiting.py
+python3 -m unittest discover -s tests -p "test_*.py"
 ```
 
 ## Systemd Service (Optional)
