@@ -84,13 +84,13 @@ WRIST_CONFIG: Dict[WristName, WristConfig] = {
         channel=11,
         palm_up_angle=15,
         palm_forward_angle=70,
-        palm_down_angle=-90,
+        palm_down_angle=90,
     ),
     WristName.RIGHT: WristConfig(
         channel=5,
         palm_up_angle=-15,
         palm_forward_angle=-70,
-        palm_down_angle=90,
+        palm_down_angle=-90,
     ),
 }
 

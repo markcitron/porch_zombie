@@ -48,6 +48,40 @@ python3 test_actions.py let go
 `grab` closes the arms, waits 0.5 seconds, and closes both hands. `let go`
 opens the arms, waits 0.5 seconds, and opens both hands.
 
+### Distance-triggered waiting mode
+
+Run on the Raspberry Pi from the `scarecrow` directory:
+
+```bash
+python3 scarecrow_waiting.py
+```
+
+This uses the same `robot_hat` and `lib8relind` hardware libraries and
+configuration as `test_actions.py`, `test_relays.py`, and
+`test_distance_ultra.py`. The ultrasonic sensor uses TRIG `D2` and ECHO `D3`.
+No MQTT connection is required for this mode.
+
+- Waits 15 seconds after hardware initialization before checking distances.
+- Grabs at **50 cm or closer**, only while relay **6** reads **1**.
+- Holds for five seconds after `grab` finishes, then calls `let_go`.
+- Requires a valid reading **beyond 50 cm** before another grab is allowed.
+  Sensor timeouts and invalid distances neither trigger nor re-arm it.
+- Monitors relay 6 every 0.2 seconds, including during startup, actions, and
+  the hold. Any observed **0** latches shutdown even if the relay turns on
+  again: a running action finishes, the remaining hold is skipped, and
+  `let_go` runs before exit. Relay-off during startup also releases and exits.
+- Ctrl+C or a sensor/controller error also attempts `let_go` before exit;
+  hardware errors are surfaced rather than ignored.
+
+Polling cannot detect an off/on pulse shorter than the polling/read interval.
+Test with the movement area clear before allowing visitors near the prop.
+
+The automated waiting-mode tests use mocked hardware:
+
+```bash
+python3 -m unittest discover -s tests -p test_scarecrow_waiting.py
+```
+
 ## Systemd Service (Optional)
 To run the bot automatically on boot, create a systemd service:
 ```ini
