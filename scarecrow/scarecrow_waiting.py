@@ -17,7 +17,7 @@ from test_actions import grab, let_go
 from test_distance_ultra import ECHO_PIN, READ_INTERVAL, TRIGGER_PIN
 
 BASE_RELAY = 6
-TRIGGER_DISTANCE_CM = 50.0
+TRIGGER_DISTANCE_CM = 80.0
 STARTUP_DELAY_SECONDS = 15.0
 HOLD_SECONDS = 5.0
 
