@@ -1,17 +1,21 @@
 # Scarecrow Bot
 
 The Scarecrow bot controls relay(s) for movement or effects in your haunted porch setup.
-The MQTT listener below controls only relay 6, which rotates the base.
+The main MQTT listener coordinates base rotation, ultrasonic distance checks,
+and the arm/hand grab action in one process.
 
 ## Features
 - Listens for MQTT messages on the topic `hauntedporch/control`.
-- Extends relay 6 (1) on `HP_new_visitor` and contracts it (0) on `HP_theyre_gone`.
-- Starts with relay 6 contracted (0) and contracts it again on normal shutdown
-  or a Python exception.
-- Handles MQTT messages sequentially and re-subscribes after reconnection.
+- Extends relay 6 (1) on `HP_new_visitor` and enables distance-triggered grabs.
+- Grabs at 80 cm or closer, holds five seconds after grab completes, and releases.
+- On `HP_theyre_gone`, finishes any running grab, skips any remaining hold,
+  releases, then contracts relay 6 (0) and waits for the next group.
+- Starts and shuts down released with relay 6 contracted (0).
+- Keeps MQTT responsive during actions, queues commands in arrival order,
+  and re-subscribes after reconnection.
 
 ## Main Script
-- `scarecrow_listening_mqtt.py`: Visitor-event listener for the base relay.
+- `scarecrow_listening_mqtt.py`: Combined visitor-event and distance controller.
 
 ## Requirements
 - Python 3.7+
@@ -19,7 +23,7 @@ The MQTT listener below controls only relay 6, which rotates the base.
 - Python modules:
   - `paho-mqtt` 2.x
   - `lib8relind` (the same relay-controller library used by `test_relays.py`)
-- Other action/distance scripts also require the existing `robot_hat` library.
+  - `robot_hat` (the same sensor/servo library used by the action/distance tests)
 - MQTT broker (e.g., Mosquitto) running on your network
 
 Use the Pi environment in which the relay tests already work. If a new virtual
@@ -45,16 +49,53 @@ instead. Do not use `sudo pip` or `--break-system-packages`.
    ```
 3. Wait for `Listening for visitor events on hauntedporch/control`.
 4. Run `waiting_for_visitors_MQTT.py` on the Mad Scientist Pi. After its PIR
-   warm-up, motion sends `HP_new_visitor`, setting relay 6 to 1. The listener
-   holds that state until `HP_theyre_gone` sets it to 0. Repeated copies of
-   either message simply set the same relay value again.
+   warm-up, motion sends `HP_new_visitor`, setting relay 6 to 1 and enabling
+   distance-triggered grabs. `HP_theyre_gone` releases before returning the
+   base to 0. Repeated arrivals do not restart the hold, re-arm the distance
+   trigger, or restart the base settling delay.
 
-The listener uses `relays.LinAct` directly; it does not reset the servo
-controller, move the arms/hands, trigger sound, or start `scarecrow_waiting.py`.
-For this base-only test, stop other scripts that can change relay 6.
+**Run only this combined controller on the Scarecrow Pi. Do not also run
+`scarecrow_waiting.py`, relay tests, or manual action scripts.** It reuses their
+libraries and helpers without launching a second hardware-control process.
+
+### Combined motion sequence and configuration
+
+- Initializes the Robot HAT once, contracts the base, and releases the hands
+  and arms on startup.
+- Accepts MQTT commands immediately after initialization, but allows no grabs
+  during the 15-second startup grace period.
+- While the base is extended, reads the ultrasonic sensor on TRIG `D2` /
+  ECHO `D3`. A valid distance of **80 cm or closer** triggers the existing
+  `grab`, including its timed relay 3 sound trigger.
+- Holds for five seconds after `grab` finishes, then calls `let_go`. A valid
+  distance **beyond 80 cm** is required before another grab in that session.
+  Invalid readings/timeouts neither trigger nor re-arm a grab.
+- A departure received during a grab is queued: the grab finishes, the
+  remaining hold is skipped, `let_go` completes, and only then does the base
+  contract. A departure during the hold also releases before returning the
+  base. MQTT remains responsive during these actions.
+- Remains running with the base contracted until the next arrival. A new
+  session re-arms the distance trigger. Departures and subsequent arrivals
+  are processed in order, not merged.
+
+The combined controller imports `TRIGGER_DISTANCE_CM` (currently `80.0`),
+`STARTUP_DELAY_SECONDS` (`15.0`), and `HOLD_SECONDS` (`5.0`) from
+`scarecrow_waiting.py`, so these settings remain shared. It uses
+`READ_INTERVAL` (`0.2` seconds) from `test_distance_ultra.py`.
+`BASE_SETTLE_SECONDS` is configured in `scarecrow_listening_mqtt.py` and
+defaults to **0.0**, as requested. Increase it if the base needs time to
+finish rotating before grabs are allowed. Neither the relay command nor a
+fixed delay is physical position feedback.
+
+MQTT callbacks only enqueue events; the main control thread owns base and
+arm/hand sequencing. The existing sound trigger still runs alongside grab.
+Relay reads/writes, including sound, share an in-process lock in `relays.py`
+to serialize controller transactions. The lock is not held during movement
+delays and does not protect against separately launched processes.
 
 As requested, **loss of the MQTT connection leaves relay 6 unchanged** while
-the network loop reconnects. Reconnection does not reset it. These are
+the network loop reconnects; distance-triggered grabs remain enabled if the
+base was extended. Reconnection does not reset it. These are
 non-retained events, not synchronized state: events sent while disconnected
 or before the listener subscribes may be missed. If a departure is missed,
 relay 6 can remain at 1 until a new departure command or script shutdown.
@@ -62,10 +103,12 @@ Start the listener before the PIR publisher for testing. Initial connection
 failure or a rejected connection/subscription surfaces as an error and exits.
 
 Unrelated payloads, invalid UTF-8, and retained messages are logged and ignored,
-so an old retained arrival cannot move the base on startup. Only relay 6 is
-written. Ctrl+C, or an error that unwinds the main loop, attempts to contract
-it before disconnecting. Power loss or a forced process kill cannot run this
-cleanup.
+so an old retained arrival cannot move the base on startup. Network-worker
+errors are surfaced to the main thread rather than silently killing MQTT
+reception. Ctrl+C, or an error that unwinds the controller, stops MQTT and
+attempts release before contracting the base. A base reset and disconnect
+are still attempted if release fails. Power loss or a forced process kill
+cannot run this cleanup.
 
 ### Manual MQTT test
 
@@ -109,6 +152,10 @@ trigger sound. This applies to both manual actions and distance-triggered mode.
 
 ### Distance-triggered waiting mode
 
+This is the legacy standalone mode, not a companion to the combined MQTT
+controller. It still exits when relay 6 reads 0. For repeated MQTT visitor
+sessions, use only `scarecrow_listening_mqtt.py` instead.
+
 Run on the Raspberry Pi from the `scarecrow` directory:
 
 ```bash
@@ -121,9 +168,9 @@ configuration as `test_actions.py`, `test_relays.py`, and
 No MQTT connection is required for this mode.
 
 - Waits 15 seconds after hardware initialization before checking distances.
-- Grabs at **50 cm or closer**, only while relay **6** reads **1**.
+- Grabs at **80 cm or closer**, only while relay **6** reads **1**.
 - Holds for five seconds after `grab` finishes, then calls `let_go`.
-- Requires a valid reading **beyond 50 cm** before another grab is allowed.
+- Requires a valid reading **beyond 80 cm** before another grab is allowed.
   Sensor timeouts and invalid distances neither trigger nor re-arm it.
 - Monitors relay 6 every 0.2 seconds, including during startup, actions, and
   the hold. Any observed **0** latches shutdown even if the relay turns on
@@ -145,7 +192,7 @@ python3 -m unittest discover -s tests -p "test_*.py"
 To run the bot automatically on boot, create a systemd service:
 ```ini
 [Unit]
-Description=Scarecrow Visitor MQTT Base Relay
+Description=Scarecrow MQTT and Distance Controller
 After=network.target
 
 [Service]

@@ -6,11 +6,10 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Dict, List
 
-import lib8relind
 from robot_hat import Servo
 from robot_hat.utils import reset_mcu
 
-from relays import LinAct
+from relays import LinAct, get_relay_state, set_relay_state
 
 
 class HandName(str, Enum):
@@ -196,9 +195,9 @@ def close_hands(
 def trigger_sound() -> None:
     """Send the speaker's required 0-to-1 trigger on relay 3."""
     # LinAct's movement-oriented names map to the opposite numeric states.
-    lib8relind.set(0, SOUND_TRIGGER_RELAY, 0)
+    set_relay_state(SOUND_TRIGGER_RELAY, 0)
     time.sleep(SOUND_TRIGGER_PAUSE_SECONDS)
-    lib8relind.set(0, SOUND_TRIGGER_RELAY, 1)
+    set_relay_state(SOUND_TRIGGER_RELAY, 1)
 
 
 def set_wrist_pose(
@@ -218,14 +217,14 @@ def set_wrists_pose(
 
 
 def read_relay_state(relay_num: int) -> int:
-    state = lib8relind.get(0, relay_num)
+    state = get_relay_state(relay_num)
     state_name = "contract (1)" if state == 1 else "extend (0)"
     print(f"Controller readback for relay {relay_num}: {state_name}")
     return state
 
 
 def read_all_relay_states() -> List[int]:
-    states = [lib8relind.get(0, relay_num) for relay_num in range(1, 9)]
+    states = [get_relay_state(relay_num) for relay_num in range(1, 9)]
     print(
         "Controller readback: "
         + ", ".join(

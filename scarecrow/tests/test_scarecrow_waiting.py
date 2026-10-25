@@ -94,7 +94,8 @@ class WaitingTests(unittest.TestCase):
         self.sensor.read.side_effect = read
 
     def test_threshold_hold_and_rearming(self):
-        self.distances([50.01, 50, 49, 51, 0])
+        threshold = self.runner.TRIGGER_DISTANCE_CM
+        self.distances([threshold + 0.01, threshold, threshold - 1, threshold + 1, 0])
         self.runner.main()
         self.assertEqual(self.runner.grab.call_count, 2)
         self.assertEqual(self.stop.waits[0], 15)
