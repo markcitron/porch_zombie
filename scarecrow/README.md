@@ -1,39 +1,89 @@
 # Scarecrow Bot
 
-The Scarecrow bot controls relay(s) for movement or effects in your haunted porch setup. It listens for MQTT triggers and activates the relay(s) when commanded.
+The Scarecrow bot controls relay(s) for movement or effects in your haunted porch setup.
+The MQTT listener below controls only relay 6, which rotates the base.
 
 ## Features
 - Listens for MQTT messages on the topic `hauntedporch/control`.
-- Controls relay(s) for scarecrow movement or effects.
-- Prevents overlapping relay actions using threading locks.
-- Can be triggered manually or as part of an automated sequence.
+- Extends relay 6 (1) on `HP_new_visitor` and contracts it (0) on `HP_theyre_gone`.
+- Starts with relay 6 contracted (0) and contracts it again on normal shutdown
+  or a Python exception.
+- Handles MQTT messages sequentially and re-subscribes after reconnection.
 
 ## Main Script
-- `mqtt_scarecrow.py`: Main MQTT listener and relay controller.
+- `scarecrow_listening_mqtt.py`: Visitor-event listener for the base relay.
 
 ## Requirements
 - Python 3.7+
-- Raspberry Pi with GPIO pins connected to relays
+- Raspberry Pi with the existing relay controller connected
 - Python modules:
-  - `paho-mqtt`
-  - `gpiozero`
-  - `threading` (standard library)
+  - `paho-mqtt` 2.x
+  - `lib8relind` (the same relay-controller library used by `test_relays.py`)
+- Other action/distance scripts also require the existing `robot_hat` library.
 - MQTT broker (e.g., Mosquitto) running on your network
 
-Install dependencies:
+Use the Pi environment in which the relay tests already work. If a new virtual
+environment is needed, run from the `scarecrow` directory:
+
 ```bash
 sudo apt update
-sudo apt install python3-pip python3-gpiozero
-pip3 install paho-mqtt
+sudo apt install python3-venv
+python3 -m venv --system-site-packages .venv
+.venv/bin/python -m pip install --upgrade "paho-mqtt>=2,<3"
 ```
 
+The system-site-packages option exposes system-installed hardware libraries;
+if `lib8relind` is installed in a different environment, use that environment
+instead. Do not use `sudo pip` or `--break-system-packages`.
+
 ## Usage
-1. Edit `mqtt_scarecrow.py` to set the correct `MQTT_BROKER` IP address for your network.
-2. Run the script on your Raspberry Pi:
+1. The listener defaults to broker `10.10.0.175:1883` and topic
+   `hauntedporch/control`, matching `madscientist/waiting_for_visitors_MQTT.py`.
+2. Start the listener on the Scarecrow Pi:
    ```bash
-   python3 mqtt_scarecrow.py
+   .venv/bin/python scarecrow_listening_mqtt.py
    ```
-3. Send MQTT messages to the topic `hauntedporch/control` with payload `scarecrow` to trigger the scarecrow relay(s).
+3. Wait for `Listening for visitor events on hauntedporch/control`.
+4. Run `waiting_for_visitors_MQTT.py` on the Mad Scientist Pi. After its PIR
+   warm-up, motion sends `HP_new_visitor`, setting relay 6 to 1. The listener
+   holds that state until `HP_theyre_gone` sets it to 0. Repeated copies of
+   either message simply set the same relay value again.
+
+The listener uses `relays.LinAct` directly; it does not reset the servo
+controller, move the arms/hands, trigger sound, or start `scarecrow_waiting.py`.
+For this base-only test, stop other scripts that can change relay 6.
+
+As requested, **loss of the MQTT connection leaves relay 6 unchanged** while
+the network loop reconnects. Reconnection does not reset it. These are
+non-retained events, not synchronized state: events sent while disconnected
+or before the listener subscribes may be missed. If a departure is missed,
+relay 6 can remain at 1 until a new departure command or script shutdown.
+Start the listener before the PIR publisher for testing. Initial connection
+failure or a rejected connection/subscription surfaces as an error and exits.
+
+Unrelated payloads, invalid UTF-8, and retained messages are logged and ignored,
+so an old retained arrival cannot move the base on startup. Only relay 6 is
+written. Ctrl+C, or an error that unwinds the main loop, attempts to contract
+it before disconnecting. Power loss or a forced process kill cannot run this
+cleanup.
+
+### Manual MQTT test
+
+If `mosquitto_pub` is available, send these from a machine that can reach the
+broker. Do not add `-r` (retain):
+
+```bash
+mosquitto_pub -h 10.10.0.175 -t hauntedporch/control -q 1 -m HP_new_visitor
+mosquitto_pub -h 10.10.0.175 -t hauntedporch/control -q 1 -m HP_theyre_gone
+```
+
+Keep the movement area clear during testing.
+
+Hardware-free listener tests:
+
+```bash
+python3 -m unittest discover -s tests -p test_scarecrow_listening_mqtt.py
+```
 
 ### Testing combined actions
 
@@ -95,12 +145,12 @@ python3 -m unittest discover -s tests -p "test_*.py"
 To run the bot automatically on boot, create a systemd service:
 ```ini
 [Unit]
-Description=Scarecrow MQTT Relay Controller
+Description=Scarecrow Visitor MQTT Base Relay
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/porch_zombie/scarecrow/mqtt_scarecrow.py
-WorkingDirectory=/home/pi/porch_zombie/scarecrow
+ExecStart=/home/pi/repos/porch_zombie/scarecrow/.venv/bin/python /home/pi/repos/porch_zombie/scarecrow/scarecrow_listening_mqtt.py
+WorkingDirectory=/home/pi/repos/porch_zombie/scarecrow
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
@@ -117,7 +167,7 @@ sudo systemctl start scarecrow
 ```
 
 ## Troubleshooting
-- Ensure your relays are wired correctly to the GPIO pins specified in the script.
+- Ensure the relay controller is connected as for the existing relay tests.
 - Check that your MQTT broker is running and reachable from the Pi.
 - Use `systemctl status scarecrow` to check the service status if running as a service.
 

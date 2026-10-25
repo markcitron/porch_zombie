@@ -49,12 +49,27 @@ Scientist Pi at `10.10.0.175` and connects to the existing MQTT broker at
 `10.10.0.175:1883`. A broker such as Mosquitto must already be running there;
 this script is an MQTT publisher, not a broker.
 
-Run in the Pi's Python environment with `RPi.GPIO` and `paho-mqtt` available.
-If Paho is missing, install it into that environment:
+Raspberry Pi OS protects its system Python and may reject a system-wide
+`pip install` with `externally-managed-environment`. Use a project virtual
+environment instead. From the `madscientist` directory on the Pi:
 
 ```bash
-python3 -m pip install paho-mqtt
-python3 waiting_for_visitors_MQTT.py
+sudo apt update
+sudo apt install python3-venv
+python3 -m venv --system-site-packages .venv
+.venv/bin/python -m pip install --upgrade "paho-mqtt>=2,<3"
+.venv/bin/python waiting_for_visitors_MQTT.py
+```
+
+`--system-site-packages` lets the environment use the system-installed GPIO
+library that already runs `test_pir.py`, while Paho is installed separately
+inside `.venv`. Do not use `sudo pip` or `--break-system-packages`.
+
+For subsequent runs, only the last command is needed; activation is not
+required when calling `.venv/bin/python` directly. Check both imports with:
+
+```bash
+.venv/bin/python -c "import RPi.GPIO; import paho.mqtt.client; print('GPIO and MQTT imports OK')"
 ```
 
 Configuration constants are at the top of the script:
