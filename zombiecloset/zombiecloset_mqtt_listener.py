@@ -13,7 +13,7 @@ from typing import Deque, List, Optional, Tuple
 import paho.mqtt.client as mqtt
 
 from relays import gpio_cleanup
-from zombie_closet import activate_sidekick, close_closet
+from zombie_closet import activate_sidekick, activate_zc, close_closet
 
 MQTT_BROKER = "10.10.0.175"
 MQTT_PORT = 1883
@@ -102,7 +102,10 @@ def on_message(
 
 def run_visitor_sequence() -> None:
     activate_sidekick()
-    # TODO: Add the remaining Zombie Closet sequence steps here.
+    time.sleep(5)
+    activate_zc()
+    time.sleep(30)
+    activate_sidekick()
 
 
 class VisitorController:
