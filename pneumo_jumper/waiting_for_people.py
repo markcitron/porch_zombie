@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 import time
+from pathlib import Path
+
+import pygame
 import RPi.GPIO as GPIO
 from relays import LinAct, gpio_cleanup
 
@@ -13,6 +16,11 @@ FIRE_TIME = 1.0
 RELAY_2_START_DELAY = 30.0
 RELAY_2_EXTENDED_TIME = 45.0
 RELAY_2_RESET_TIME = 30.0
+SOUND_PATH = (
+	Path(__file__).resolve().parent
+	/ "sounds"
+	/ "spooky-halloween-effects-with-thunder-121665.mp3"
+)
 
 
 def fire_pneumo_jumper(relay):
@@ -38,6 +46,15 @@ def run_relay_2_sequence(relay, triggered_at):
 	time.sleep(RELAY_2_RESET_TIME)
 
 
+def run_motion_sequence(relay1, relay2, triggered_at):
+	try:
+		pygame.mixer.music.play(loops=-1)
+		fire_pneumo_jumper(relay1)
+		run_relay_2_sequence(relay2, triggered_at)
+	finally:
+		pygame.mixer.music.stop()
+
+
 def main():
 	GPIO.setup(PIR_PIN, GPIO.IN)
 	relay1 = LinAct("Pneumo Jumper", PNEUMO_JUMPER_PIN)
@@ -49,6 +66,8 @@ def main():
 	print("Pneumo Jumper motion trigger running...")
 
 	try:
+		pygame.mixer.init()
+		pygame.mixer.music.load(str(SOUND_PATH))
 		while True:
 			now = time.time()
 
@@ -64,8 +83,7 @@ def main():
 
 				if duration >= MIN_TRIGGER_TIME:
 					print(f"Valid motion! Duration: {duration:.2f}s")
-					fire_pneumo_jumper(relay1)
-					run_relay_2_sequence(relay2, start)
+					run_motion_sequence(relay1, relay2, start)
 					last_trigger = time.time()
 				else:
 					print(f"Ignored small motion ({duration:.2f}s)")
@@ -74,9 +92,20 @@ def main():
 	except KeyboardInterrupt:
 		print("Exiting...")
 	finally:
-		relay1.extend()
-		relay2.contract()
-		gpio_cleanup()
+		try:
+			relay1.extend()
+		finally:
+			try:
+				relay2.contract()
+			finally:
+				try:
+					gpio_cleanup()
+				finally:
+					try:
+						if pygame.mixer.get_init() is not None:
+							pygame.mixer.music.stop()
+					finally:
+						pygame.mixer.quit()
 
 
 if __name__ == "__main__":
