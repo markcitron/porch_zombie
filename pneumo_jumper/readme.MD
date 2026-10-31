@@ -55,3 +55,26 @@ Hardware-free tests:
 ```bash
 python3 -m unittest discover -s tests -p test_waiting_for_people_audio.py
 ```
+
+## Standalone speaker test
+
+Run `test_sound.py` on the Pi to loop the same thunder sound continuously
+while configuring the external speaker:
+
+```bash
+cd pneumo_jumper
+python3 test_sound.py
+```
+
+If already in this directory, skip the `cd` command. This uses the same
+Pygame setup described above, sets playback volume to 100%, and does not
+initialize GPIO or move any actuators. Start with a low speaker/system
+volume and adjust the Pi's audio output settings while it runs. Press
+Ctrl+C to stop playback and release the mixer. Audio/device errors are
+reported rather than ignored.
+
+Hardware-free loop tests:
+
+```bash
+python3 -m unittest discover -s tests -p test_sound_loop.py
+```
